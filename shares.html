@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Unlisted & Pre-IPO Shares | SECRET LIST</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+        <div class="logo-wrap">SL</div>
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-weight:700; letter-spacing:0.5px; font-size: 20px;">SECRET LIST</span>
+            <span style="font-size:11px; font-weight:500; opacity:0.8; color: var(--primary);">from the house of TRMY</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="shares.html" style="color: var(--primary);">All Shares</a>
+        <a href="index.html#drhp">DRHP Filed</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#screener">Screener</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      
+      <div class="header-actions">
+        <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        <button class="btn btn-ghost hide-sm">Sign In</button>
+        <button class="btn btn-primary hide-sm">Open Account</button>
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="shares-hero">
+      <div class="wrap">
+        <div class="hero-eyebrow">Price List</div>
+        <h1>All <em>unlisted</em> & pre-IPO shares</h1>
+        <p class="text-muted" style="max-width: 600px; margin: 0 auto;">Browse indicative prices, historical trends, and financials for India's largest collection of unlisted companies.</p>
+        
+        <div class="search-bar">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <input type="text" id="shares-search" placeholder="Search by company name (e.g. NSE India)...">
+        </div>
+      </div>
+    </section>
+
+    <section class="section pt-0">
+      <div class="wrap">
+        
+        <div class="filter-chips" id="filter-chips">
+          <button class="chip-btn active" data-sector="all">All Sectors</button>
+          <!-- JS will populate remaining sectors based on data -->
+        </div>
+        
+        <div style="margin-bottom: 24px; font-weight: 500; font-size: 15px;">
+          Showing <span id="shares-count" style="color: var(--primary);">0</span> shares
+        </div>
+        
+        <div class="grid-4" id="shares-grid">
+          <!-- JS will populate -->
+        </div>
+        
+        <div class="pagination" id="shares-pagination">
+          <!-- JS will populate -->
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- App Promo -->
+    <section class="section app-promo">
+      <!-- Same as index.html app promo -->
+      <div class="wrap app-band">
+        <div class="reveal">
+          <div class="hero-eyebrow">On the go</div>
+          <h2 style="margin-bottom: 24px;">Your watchlist, in the <em>SECRET LIST app</em>.</h2>
+          <p class="text-muted" style="font-size: 18px; margin-bottom: 32px;">Track prices in real-time, get instant alerts on new listings, and manage your portfolio directly from your phone.</p>
+          <div style="display: flex; gap: 16px;">
+            <div class="stat-item">
+              <div class="num">255+</div>
+              <div class="label" style="font-size: 12px;">Shares Tracked</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">Live</div>
+              <div class="label" style="font-size: 12px;">Price Alerts</div>
+            </div>
+          </div>
+          <div class="store-badges">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store">
+          </div>
+        </div>
+        <div class="phone-mockup-wrap reveal reveal-delay-2">
+          <div class="phone" style="height: 400px; transform: translateY(0);">
+            <div class="notch"></div>
+            <div class="phone-screen">
+              <div style="font-weight: 700; font-size: 20px; margin-bottom: 24px; text-align: center;">My Watchlist</div>
+              <div style="background: var(--bg-card); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <div style="width: 36px; height: 36px; background: #2563eb; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">NI</div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 14px;">NSE India</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 700;">₹2,095</div>
+                  <div style="font-size: 11px; color: var(--primary);">+12.4%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="ftop">
+        <div class="fbrand">
+          <div class="fmono-img">SL</div>
+          <div>
+            <div class="fbn">SECRET LIST</div>
+            <div style="font-size:12px; font-weight:500; color:var(--primary); margin-top:4px;">from the house of TRMY</div>
+            <div class="ftag">India's home for unlisted & pre-IPO shares</div>
+          </div>
+        </div>
+        <div class="fcta">
+          <button class="btn btn-ghost">Sign In</button>
+          <button class="btn btn-primary">Open Account</button>
+        </div>
+      </div>
+      
+      <div class="footer-cols">
+        <div>
+          <p class="ab">SECRET LIST is India's fastest-growing platform for unlisted shares, pre-IPO shares, and ESOPs. We bring transparency and liquidity to the private markets.</p>
+          <div class="fl">Registered Office</div>
+          <div class="faddr">
+            <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Lucknow, Uttar Pradesh</span>
+          </div>
+        </div>
+        
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="shares.html">All Shares</a></li>
+            <li><a href="index.html#sectors">Sectors</a></li>
+            <li><a href="index.html#drhp">DRHP Filed</a></li>
+            <li><a href="index.html#events">Events</a></li>
+            <li><a href="index.html#research">Research & Insights</a></li>
+            <li><a href="index.html#screener">Screener</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#partners">Partners</a></li>
+            <li><a href="index.html#banking">Banking Details</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="index.html#disclaimer">Disclaimer</a></li>
+            <li><a href="index.html#terms">Terms & Conditions</a></li>
+            <li><a href="index.html#privacy">Privacy Policy</a></li>
+            <li><a href="index.html#refund">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> SECRET LIST is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI) under the Securities Contracts (Regulation) Act, 1956. SECRET LIST does not facilitate any online trades or automated order matching. All prices mentioned on the website are purely indicative and subject to change based on market demand and supply. Investments in unlisted shares are subject to market risks, liquidity risks, and lack of regulatory oversight. Investors are advised to do their own due diligence and consult their financial advisors before making any investment decisions.
+      </div>
+      
+      <div class="fbottom">
+        <div>&copy; 2026 SECRET LIST. All rights reserved.</div>
+        <div>Information platform &middot; Not a SEBI-recognised exchange</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp FAB -->
+  <a href="https://wa.me/919876543210" class="wa-fab" target="_blank" aria-label="Contact on WhatsApp">
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+  </a>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <div class="search-input-wrap">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="search-input" placeholder="Search for shares (e.g. NSE India, Swiggy)..." autocomplete="off">
+        <div class="search-hint">ESC to close</div>
+      </div>
+      <div id="search-results">
+        <!-- JS will populate -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/shares-data.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

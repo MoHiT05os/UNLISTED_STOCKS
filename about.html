@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | SECRET LIST</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+        <div class="logo-wrap">SL</div>
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-weight:700; letter-spacing:0.5px; font-size: 20px;">SECRET LIST</span>
+            <span style="font-size:11px; font-weight:500; opacity:0.8; color: var(--primary);">from the house of TRMY</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="shares.html">All Shares</a>
+        <a href="index.html#drhp">DRHP Filed</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#screener">Screener</a>
+        <a href="about.html" style="color: var(--primary);">About</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      
+      <div class="header-actions">
+        <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        <button class="btn btn-ghost hide-sm">Sign In</button>
+        <button class="btn btn-primary hide-sm">Open Account</button>
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="about-hero" style="padding: 100px 0; text-align: center;">
+      <div class="wrap reveal">
+        <div class="hero-eyebrow">Who we are</div>
+        <h1 style="max-width: 800px; margin: 0 auto 32px;">We put India's private market <em>in plain sight</em>.</h1>
+        <p class="text-muted" style="max-width: 600px; margin: 0 auto 64px; font-size: 18px;">SECRET LIST is building the most transparent, research-driven information platform for unlisted and pre-IPO shares in India.</p>
+        
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <div class="chip" style="background: rgba(16,185,129,0.1); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-weight: 600;">Founded in 2018</div>
+          <div class="chip" style="background: var(--bg-card); padding: 8px 16px; border-radius: 20px;">30L+ Total Visitors</div>
+          <div class="chip" style="background: var(--bg-card); padding: 8px 16px; border-radius: 20px;">3L+ Monthly Active</div>
+          <div class="chip" style="background: var(--bg-card); padding: 8px 16px; border-radius: 20px;">500+ Shares Tracked</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission -->
+    <section class="section tint">
+      <div class="wrap reveal">
+        <h2 class="about-mission" style="font-size: clamp(32px, 4vw, 48px); max-width: 900px; margin: 0 auto; text-align: center; line-height: 1.4;">
+          "Our mission is to democratize access to the private markets by providing <em>institutional-grade research</em> and <em>transparent pricing</em> to retail investors."
+        </h2>
+      </div>
+    </section>
+
+    <!-- Story Timeline -->
+    <section class="section">
+      <div class="wrap">
+        <div class="story-row reveal">
+          <div class="story-text">
+            <span class="story-year">2018</span>
+            <h3>The <em>Origins</em></h3>
+            <p>Back in 2018, the unlisted space was largely opaque. Pricing was discovered through personal WhatsApp networks, and retail investors had no reliable way to verify broker quotes or research financials of pre-IPO companies.</p>
+            <p>We started SECRET LIST as a simple blog to share indicative prices and basic research reports on upcoming IPOs and private companies, aiming to bring light to this dark market.</p>
+          </div>
+          <div class="story-vis" style="background: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800') center/cover;">
+          </div>
+        </div>
+        
+        <div class="story-row rev reveal">
+          <div class="story-text">
+            <span class="story-year">2021</span>
+            <h3>What we <em>Built</em></h3>
+            <p>As retail interest in startups surged, so did the traffic to SECRET LIST. We scaled our operations, bringing in full-time SEBI-registered research analysts to provide deep dives into company DRHPs, annual reports, and unit economics.</p>
+            <p>We launched the first comprehensive Screener for unlisted stocks, allowing investors to filter companies by sector, revenue, and valuation multiples.</p>
+          </div>
+          <div class="story-vis" style="background: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800') center/cover;">
+          </div>
+        </div>
+        
+        <div class="story-row reveal">
+          <div class="story-text">
+            <span class="story-year">Today</span>
+            <h3>The <em>Future</em></h3>
+            <p>Today, SECRET LIST is India's most trusted information platform for the private market, serving over 1,00,000 investors and tracking 255+ companies daily.</p>
+            <p>We continue to innovate with features like Live Price Alerts, ESOP monetization tools, and comprehensive Video Research, making the journey from unlisted to IPO seamless for our users.</p>
+          </div>
+          <div class="story-vis" style="background: url('https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800') center/cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founders -->
+    <section class="section tint">
+      <div class="wrap">
+        <div class="section-header reveal text-center" style="align-items: center; justify-content: center; flex-direction: column;">
+          <span class="pill">Leadership</span>
+          <h2>Meet the <em>Founders</em></h2>
+        </div>
+        
+        <div class="grid-3 about-founders">
+          <div class="founder-card reveal">
+            <div class="founder-img" style="background: url('https://i.pravatar.cc/300?img=11') center/cover;"></div>
+            <h3 style="margin-bottom: 4px;">Umesh Paliwal</h3>
+            <div style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">Co-founder</div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Ex-Banker with 15+ years of experience in wealth management and private equity.</p>
+            <a href="#" style="color: var(--text-muted);"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+          </div>
+          
+          <div class="founder-card reveal reveal-delay-1">
+            <div class="founder-img" style="background: url('https://i.pravatar.cc/300?img=12') center/cover;"></div>
+            <h3 style="margin-bottom: 4px;">Santosh Singh</h3>
+            <div style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">Co-founder</div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Technology enthusiast who built the first version of the platform in 2018.</p>
+            <a href="#" style="color: var(--text-muted);"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+          </div>
+          
+          <div class="founder-card reveal reveal-delay-2">
+            <div class="founder-img" style="background: url('https://i.pravatar.cc/300?img=14') center/cover;"></div>
+            <h3 style="margin-bottom: 4px;">Dinesh Gupta</h3>
+            <div style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">Co-founder</div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Chartered Accountant driving research and financial analysis.</p>
+            <a href="#" style="color: var(--text-muted);"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values Grid -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header reveal">
+          <div class="l">
+            <span class="pill">Core Values</span>
+            <h2>What drives <em>us</em></h2>
+          </div>
+        </div>
+        
+        <div class="grid-2">
+          <div class="review-card reveal" style="padding: 40px;">
+            <div style="width: 48px; height: 48px; background: rgba(16,185,129,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3 style="margin-bottom: 16px; font-size: 24px;">Transparent</h3>
+            <p style="color: var(--text-muted); font-size: 16px;">We believe in absolute clarity regarding pricing, lot sizes, and risks associated with unlisted investments.</p>
+          </div>
+          <div class="review-card reveal reveal-delay-1" style="padding: 40px;">
+            <div style="width: 48px; height: 48px; background: rgba(16,185,129,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3 style="margin-bottom: 16px; font-size: 24px;">Research-driven</h3>
+            <p style="color: var(--text-muted); font-size: 16px;">Every company listed on our platform comes with detailed financial analysis and valuation metrics.</p>
+          </div>
+          <div class="review-card reveal reveal-delay-2" style="padding: 40px;">
+            <div style="width: 48px; height: 48px; background: rgba(16,185,129,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>
+            </div>
+            <h3 style="margin-bottom: 16px; font-size: 24px;">Trusted at scale</h3>
+            <p style="color: var(--text-muted); font-size: 16px;">With over 1 lakh investors relying on our data, we prioritize trust and security in every interaction.</p>
+          </div>
+          <div class="review-card reveal reveal-delay-3" style="padding: 40px;">
+            <div style="width: 48px; height: 48px; background: rgba(16,185,129,0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <h3 style="margin-bottom: 16px; font-size: 24px;">Technology-first</h3>
+            <p style="color: var(--text-muted); font-size: 16px;">We leverage tech to provide real-time indicative prices, powerful screeners, and seamless mobile apps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Press -->
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap reveal">
+        <p class="text-center text-muted" style="margin-bottom: 32px; font-weight: 500;">AS FEATURED IN</p>
+        <div style="display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; opacity: 0.5;">
+          <h3 style="font-family: var(--font-serif); font-size: 24px;">The Economic Times</h3>
+          <h3 style="font-family: var(--font-serif); font-size: 24px;">Financial Express</h3>
+          <h3 style="font-family: var(--font-serif); font-size: 24px;">Business Standard</h3>
+          <h3 style="font-family: var(--font-serif); font-size: 24px;">Mint</h3>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" style="text-align: center;">
+      <div class="wrap reveal">
+        <a href="shares.html" class="btn btn-primary" style="padding: 16px 32px; font-size: 18px;">Explore all shares &rarr;</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="ftop">
+        <div class="fbrand">
+          <div class="fmono-img">SL</div>
+          <div>
+            <div class="fbn">SECRET LIST</div>
+            <div style="font-size:12px; font-weight:500; color:var(--primary); margin-top:4px;">from the house of TRMY</div>
+            <div class="ftag">India's home for unlisted & pre-IPO shares</div>
+          </div>
+        </div>
+        <div class="fcta">
+          <button class="btn btn-ghost">Sign In</button>
+          <button class="btn btn-primary">Open Account</button>
+        </div>
+      </div>
+      
+      <div class="footer-cols">
+        <div>
+          <p class="ab">SECRET LIST is India's fastest-growing platform for unlisted shares, pre-IPO shares, and ESOPs. We bring transparency and liquidity to the private markets.</p>
+          <div class="fl">Registered Office</div>
+          <div class="faddr">
+            <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Lucknow, Uttar Pradesh</span>
+          </div>
+        </div>
+        
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="shares.html">All Shares</a></li>
+            <li><a href="index.html#sectors">Sectors</a></li>
+            <li><a href="index.html#drhp">DRHP Filed</a></li>
+            <li><a href="index.html#events">Events</a></li>
+            <li><a href="index.html#research">Research & Insights</a></li>
+            <li><a href="index.html#screener">Screener</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#partners">Partners</a></li>
+            <li><a href="index.html#banking">Banking Details</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="index.html#disclaimer">Disclaimer</a></li>
+            <li><a href="index.html#terms">Terms & Conditions</a></li>
+            <li><a href="index.html#privacy">Privacy Policy</a></li>
+            <li><a href="index.html#refund">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> SECRET LIST is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI) under the Securities Contracts (Regulation) Act, 1956. SECRET LIST does not facilitate any online trades or automated order matching. All prices mentioned on the website are purely indicative and subject to change based on market demand and supply. Investments in unlisted shares are subject to market risks, liquidity risks, and lack of regulatory oversight. Investors are advised to do their own due diligence and consult their financial advisors before making any investment decisions.
+      </div>
+      
+      <div class="fbottom">
+        <div>&copy; 2026 SECRET LIST. All rights reserved.</div>
+        <div>Information platform &middot; Not a SEBI-recognised exchange</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <div class="search-input-wrap">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="search-input" placeholder="Search for shares (e.g. NSE India, Swiggy)..." autocomplete="off">
+        <div class="search-hint">ESC to close</div>
+      </div>
+      <div id="search-results">
+        <!-- JS will populate -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/shares-data.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
