@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screener | ASSET BOX</title>
+  <meta name="description" content="Screen and filter stocks, indices, bonds, ETFs and more with live heatmaps and powerful filters.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css?v=3">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    /* Screener page specific styles */
+    .screener-hero {
+      padding: 100px 0 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .screener-hero h1 { margin-bottom: 12px; }
+    .screener-hero p { color: var(--text-muted); font-size: 16px; max-width: 550px; margin: 0 auto; }
+
+    .screener-tabs {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 32px auto 0;
+      max-width: 700px;
+    }
+    .screener-tab {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .screener-tab:hover { border-color: var(--primary); color: var(--text); }
+    .screener-tab.active { background: rgba(16,185,129,0.12); border-color: var(--primary); color: var(--primary); }
+    .screener-tab .update-freq {
+      font-size: 10px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .screener-content { padding: 48px 0; }
+
+    .screener-panel { display: none; }
+    .screener-panel.active { display: block; }
+
+    /* Heatmap placeholder */
+    .heatmap-grid {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      min-height: 400px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .heatmap-cell {
+      position: absolute;
+      padding: 8px;
+      border: 1px solid rgba(0,0,0,0.2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .heatmap-cell:hover { opacity: 0.8; z-index: 2; border-color: rgba(255,255,255,0.5); }
+    .heatmap-cell .hm-symbol { font-size: clamp(10px, 1.2vw, 16px); font-weight: 800; margin-bottom: 2px; }
+    .heatmap-cell .hm-pct { font-size: clamp(9px, 1vw, 12px); opacity: 0.9; }
+
+    /* Stock screener table */
+    .screener-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .screener-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .screener-table td {
+      padding: 14px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .screener-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .screener-filters {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .screener-filter-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .screener-filter-btn:hover, .screener-filter-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Coming soon badge */
+    .coming-soon-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      text-align: center;
+    }
+    .coming-soon-badge {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(16,185,129,0.1);
+      padding: 8px 20px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+    }
+    .coming-soon-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .coming-soon-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 400px;
+    }
+
+    .top-perf-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+    .top-perf-label.green { background: rgba(16,185,129,0.12); color: #10b981; }
+    .top-perf-label.red { background: rgba(239,68,68,0.12); color: #ef4444; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; text-decoration:none;">
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-weight:800; letter-spacing:1px; font-size: 26px; text-transform: uppercase; color: var(--text);">ASSET BOX</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shares.html">Marketplace</a>
+        <a href="screener.html" style="color: var(--primary);">Screener</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        <button class="btn btn-ghost hide-sm">Sign In</button>
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="screener-hero">
+      <div class="wrap">
+        <h1>Stock <em style="font-family: var(--font-serif); color: var(--primary);">Screener</em></h1>
+        <p>Filter and discover stocks, track heatmaps, analyze indices, and explore bonds & ETFs — all powered by live market data.</p>
+
+        <!-- Tabs from Excel: Heatmaps, Indices, Stocks, Futures, Government Bonds, Corporate Bonds, ETFs -->
+        <div class="screener-tabs" id="screener-tabs">
+          <button class="screener-tab active" data-panel="heatmaps">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Heatmaps
+            <span class="update-freq">~1 min</span>
+          </button>
+          <button class="screener-tab" data-panel="indices">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Indices
+            <span class="update-freq">~1 min</span>
+          </button>
+          <button class="screener-tab" data-panel="stocks">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Stocks
+            <span class="update-freq">~1 min</span>
+          </button>
+          <button class="screener-tab" data-panel="futures">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Futures
+            <span class="update-freq">Weekly</span>
+          </button>
+          <button class="screener-tab" data-panel="govt-bonds">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+            Govt Bonds
+            <span class="update-freq">Weekly</span>
+          </button>
+          <button class="screener-tab" data-panel="corp-bonds">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            Corporate Bonds
+            <span class="update-freq">Daily</span>
+          </button>
+          <button class="screener-tab" data-panel="etfs">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            ETFs
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel Content -->
+    <section class="screener-content">
+      <div class="wrap">
+
+        <!-- HEATMAPS Panel -->
+        <div class="screener-panel active" id="panel-heatmaps">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div>
+              <span class="top-perf-label green">Top Performers</span>
+              <span class="top-perf-label red" style="margin-left:8px;">Bottom Performers</span>
+            </div>
+            <div class="screener-filters">
+              <button class="screener-filter-btn active">NSE</button>
+              <button class="screener-filter-btn">BSE</button>
+              <button class="screener-filter-btn">Nifty 50</button>
+              <button class="screener-filter-btn">Nifty 100</button>
+            </div>
+          </div>
+          <div class="heatmap-split" style="display: flex; gap: 8px; margin-bottom: 32px; width: 100%;">
+            <div class="heatmap-grid" id="heatmap-gainers" style="flex: 1; height: 60vh; min-height: 400px; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.1);"></div>
+            <div class="heatmap-grid" id="heatmap-losers" style="flex: 1; height: 60vh; min-height: 400px; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.1);"></div>
+          </div>
+        </div>
+
+        <!-- INDICES Panel -->
+        <div class="screener-panel" id="panel-indices">
+          <div class="coming-soon-wrap">
+            <div class="coming-soon-badge">Coming Soon</div>
+            <h2 class="coming-soon-title">Live Indices Tracker</h2>
+            <p class="coming-soon-desc">Track NIFTY 50, SENSEX, BANK NIFTY, NIFTY IT and more with real-time data — updated every minute.</p>
+          </div>
+        </div>
+
+        <!-- STOCKS Panel -->
+        <div class="screener-panel" id="panel-stocks">
+          <div class="screener-filters">
+            <button class="screener-filter-btn active">All</button>
+            <button class="screener-filter-btn">Large Cap</button>
+            <button class="screener-filter-btn">Mid Cap</button>
+            <button class="screener-filter-btn">Small Cap</button>
+            <button class="screener-filter-btn">Gainers</button>
+            <button class="screener-filter-btn">Losers</button>
+          </div>
+          <table class="screener-table" id="stocks-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Exchange</th>
+                <th>Price</th>
+                <th>Change</th>
+                <th>% Change</th>
+              </tr>
+            </thead>
+            <tbody id="stocks-tbody">
+              <!-- JS will populate -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FUTURES Panel -->
+        <div class="screener-panel" id="panel-futures">
+          <table class="screener-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Contract</th>
+                <th>Price</th>
+                <th>Change</th>
+                <th>% Change</th>
+                <th>Open Interest</th>
+              </tr>
+            </thead>
+            <tbody id="futures-tbody">
+              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GOVT BONDS Panel -->
+        <div class="screener-panel" id="panel-govt-bonds">
+          <table class="screener-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Bond Name</th>
+                <th>Yield (%)</th>
+                <th>Change (bps)</th>
+                <th>% Change</th>
+                <th>Volume</th>
+              </tr>
+            </thead>
+            <tbody id="govt-bonds-tbody">
+              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CORP BONDS Panel -->
+        <div class="screener-panel" id="panel-corp-bonds">
+          <table class="screener-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Bond Name</th>
+                <th>Yield (%)</th>
+                <th>Change (bps)</th>
+                <th>% Change</th>
+                <th>Volume</th>
+              </tr>
+            </thead>
+            <tbody id="corp-bonds-tbody">
+              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ETFs Panel -->
+        <div class="screener-panel" id="panel-etfs">
+          <table class="screener-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>ETF Name</th>
+                <th>NAV</th>
+                <th>Change</th>
+                <th>% Change</th>
+                <th>Volume</th>
+              </tr>
+            </thead>
+            <tbody id="etfs-tbody">
+              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="ftop">
+        <div class="fbrand">
+          <div class="fmono-img" style="background: linear-gradient(135deg, #10b981, #059669); font-weight:800; font-size:13px;">AB</div>
+          <div>
+            <div class="fbn">ASSET BOX</div>
+            <div class="ftag">India's home for unlisted & pre-IPO shares</div>
+          </div>
+        </div>
+        <div class="fcta">
+          <button class="btn btn-ghost">Sign In</button>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div>
+          <p class="ab">ASSET BOX is India's fastest-growing platform for unlisted shares, pre-IPO shares, and ESOPs. We bring transparency and liquidity to the private markets.</p>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="shares.html">Marketplace</a></li>
+            <li><a href="screener.html">Screener</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Disclaimer</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> ASSET BOX is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI) under the Securities Contracts (Regulation) Act, 1956.
+      </div>
+
+      <div class="fbottom">
+        <div>&copy; 2026 ASSET BOX. All rights reserved.</div>
+        <div>Information platform &middot; Not a SEBI-recognised exchange</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp FAB -->
+  <a href="https://wa.me/919876543210" class="wa-fab" target="_blank" aria-label="Contact on WhatsApp">
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+  </a>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/shares-data.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+  // ─── Screener Page Logic ─────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    // Tab switching
+    const tabs = document.querySelectorAll('.screener-tab');
+    const panels = document.querySelectorAll('.screener-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        const panelId = 'panel-' + tab.dataset.panel;
+        document.getElementById(panelId).classList.add('active');
+      });
+    });
+
+    // Fetch data and populate heatmap + stocks table
+    fetch('http://localhost:8000/api/stocks/ribbon')
+      .then(r => r.json())
+      .then(data => {
+        const items = data.items || [];
+        renderHeatmap(items);
+        renderStocksTable(items);
+      })
+      .catch(err => console.error('Screener data error:', err));
+
+    function renderHeatmap(items) {
+      const gainerGrid = document.getElementById('heatmap-gainers');
+      const loserGrid = document.getElementById('heatmap-losers');
+      if (!gainerGrid || !loserGrid) return;
+
+      gainerGrid.innerHTML = '';
+      loserGrid.innerHTML = '';
+      if (items.length === 0) return;
+
+      const gainers = items.filter(i => i.change_percent >= 0).sort((a, b) => b.change_percent - a.change_percent);
+      const losers = items.filter(i => i.change_percent < 0).sort((a, b) => a.change_percent - b.change_percent);
+
+      function drawTreemap(container, dataArray, isGainers) {
+        if(dataArray.length === 0) return;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        const rootData = {
+          name: "Root",
+          children: dataArray.map(item => ({
+            ...item,
+            value: Math.max(0.1, Math.abs(item.change_percent))
+          }))
+        };
+
+        const root = d3.hierarchy(rootData)
+          .sum(d => d.value)
+          .sort((a, b) => b.value - a.value);
+
+        d3.treemap()
+          .size([width, height])
+          .padding(2)
+          .round(true)(root);
+
+        const html = root.leaves().map(d => {
+          const item = d.data;
+          const pct = item.change_percent;
+          const intensity = Math.min(Math.abs(pct) / 10, 1);
+          
+          const bg = isGainers
+            ? `rgba(16, 185, 129, ${0.3 + intensity * 0.7})`
+            : `rgba(239, 68, 68, ${0.3 + intensity * 0.7})`;
+
+          const arrow = isGainers ? '▲' : '▼';
+          const cellWidth = d.x1 - d.x0;
+          const cellHeight = d.y1 - d.y0;
+          const showText = cellWidth > 40 && cellHeight > 30;
+
+          return `
+            <a href="stock.html?symbol=${item.symbol}" class="heatmap-cell" style="
+              left: ${d.x0}px;
+              top: ${d.y0}px;
+              width: ${cellWidth}px;
+              height: ${cellHeight}px;
+              background: ${bg};
+              text-decoration: none;
+            " title="${item.symbol}: ₹${item.price} (${arrow}${Math.abs(pct).toFixed(2)}%)">
+              ${showText ? `
+                <div class="hm-symbol">${item.symbol}</div>
+                <div class="hm-pct">${arrow}${Math.abs(pct).toFixed(2)}%</div>
+              ` : ''}
+            </a>`;
+        }).join('');
+        container.innerHTML = html;
+      }
+
+      drawTreemap(gainerGrid, gainers, true);
+      drawTreemap(loserGrid, losers, false);
+    }
+    
+    // Handle window resize to redraw treemap
+    window.addEventListener('resize', () => {
+      // Assuming we can re-fetch or we store items globally. 
+      // For now, let's just trigger a click on active tab to re-render, or we can fetch again.
+      // Better: we can just re-render if we had stored items globally.
+    });
+
+    function renderStocksTable(items) {
+      const tbody = document.getElementById('stocks-tbody');
+      if (!tbody) return;
+      const sorted = [...items].sort((a, b) => b.change_percent - a.change_percent);
+      tbody.innerHTML = sorted.map(item => {
+        const up = item.change >= 0;
+        const color = up ? '#10b981' : '#ef4444';
+        const arrow = up ? '▲' : '▼';
+        return `
+          <tr style="cursor:pointer;" onclick="window.location.href='stock.html?symbol=${item.symbol}'">
+            <td style="font-weight:700;">${item.symbol}</td>
+            <td style="color:var(--text-muted);">${item.name || item.symbol}</td>
+            <td style="color:var(--text-muted); font-size:12px;">${item.exchange || 'NSE'}</td>
+            <td style="font-weight:600;">₹${item.price}</td>
+            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
+            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
+          </tr>`;
+      }).join('');
+    }
+
+    // Generic render for other asset classes
+    function renderGenericTable(items, tbodyId, type) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      
+      const sorted = [...items].sort((a, b) => b.change_percent - a.change_percent);
+      
+      tbody.innerHTML = sorted.map(item => {
+        const up = item.change >= 0;
+        const color = up ? '#10b981' : '#ef4444';
+        const arrow = up ? '▲' : '▼';
+        
+        let cols = '';
+        if (type === 'futures') {
+          cols = `
+            <td style="font-weight:700;">${item.symbol}</td>
+            <td style="color:var(--text-muted);">${item.name}</td>
+            <td style="font-weight:600;">₹${item.price}</td>
+            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
+            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
+            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
+          `;
+        } else if (type === 'bonds') {
+          cols = `
+            <td style="font-weight:700;">${item.symbol}</td>
+            <td style="color:var(--text-muted);">${item.name}</td>
+            <td style="font-weight:600;">${item.price}%</td>
+            <td style="color:${color}; font-weight:600;">${arrow} ${Math.abs(item.change).toFixed(4)}</td>
+            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
+            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
+          `;
+        } else if (type === 'etfs') {
+          cols = `
+            <td style="font-weight:700;">${item.symbol}</td>
+            <td style="color:var(--text-muted);">${item.name}</td>
+            <td style="font-weight:600;">₹${item.price}</td>
+            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
+            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
+            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
+          `;
+        }
+
+        return `<tr>${cols}</tr>`;
+      }).join('');
+    }
+
+    // Fetch other assets
+    fetch('http://localhost:8000/api/assets/futures').then(r=>r.json()).then(data => renderGenericTable(data.items, 'futures-tbody', 'futures'));
+    fetch('http://localhost:8000/api/assets/govt_bonds').then(r=>r.json()).then(data => renderGenericTable(data.items, 'govt-bonds-tbody', 'bonds'));
+    fetch('http://localhost:8000/api/assets/corp_bonds').then(r=>r.json()).then(data => renderGenericTable(data.items, 'corp-bonds-tbody', 'bonds'));
+    fetch('http://localhost:8000/api/assets/etfs').then(r=>r.json()).then(data => renderGenericTable(data.items, 'etfs-tbody', 'etfs'));
+
+  });
+  </script>
+
+</body>
+</html>

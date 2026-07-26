@@ -1,0 +1,728 @@
+# IPO GMP Website - Project Memory & Architecture
+Author: Mohit Kumar Yadav
+Date: July 2026
+
+---
+
+# Project Vision
+
+Build a professional Indian IPO & Grey Market Premium (GMP) platform similar to:
+
+- Chittorgarh
+- InvestorGain
+- IPOWatch
+
+with additional AI-powered insights and better UI/UX.
+
+The platform should contain:
+
+- Live IPO GMP
+- Upcoming IPOs
+- SME IPOs
+- Listed IPO Performance
+- Live Subscription Data
+- Company Fundamentals
+- Search over all NSE & BSE companies
+- Historical GMP
+- AI Generated IPO Analysis
+- Market Dashboard
+
+---
+
+# Primary Requirement
+
+Need stock data for approximately 7000+ listed companies.
+
+Desired update frequency:
+
+- Every 1 hour
+
+NOT tick-by-tick live.
+
+Hourly refresh is sufficient.
+
+---
+
+# Actual Number of Stocks
+
+Approximate values:
+
+NSE:
+~2900 Companies
+
+BSE:
+~5600 Companies
+
+Unique Listed Companies:
+~6500-7000
+
+Some companies are listed on both exchanges.
+
+---
+
+# Data Required
+
+## Companies
+
+- Company Name
+- Symbol
+- ISIN
+- Exchange
+- Sector
+- Industry
+- Listing Date
+
+Update:
+Daily
+
+---
+
+## Stock Prices
+
+Need:
+
+- Last Price
+- Open
+- High
+- Low
+- Previous Close
+- Volume
+- Market Cap
+- 52 Week High
+- 52 Week Low
+- Updated Timestamp
+
+Update:
+Every Hour
+
+---
+
+## IPO Data
+
+Need:
+
+- IPO Name
+- Issue Price
+- Listing Date
+- Issue Size
+- Lot Size
+- Subscription
+- Estimated Listing Price
+- GMP
+- Kostak
+- Subject To Sauda
+
+---
+
+## Historical GMP
+
+Need:
+
+Date
+GMP
+
+to build charts.
+
+---
+
+# GMP Source
+
+Important:
+
+Grey Market Premium is NOT published by:
+
+- NSE
+- BSE
+- SEBI
+
+There is NO official API.
+
+It comes from:
+
+- Dealer Networks
+- Grey Market Traders
+- Manual Collection
+
+Hence eventually an Admin Panel is required.
+
+---
+
+# Technology Stack
+
+Frontend
+
+Next.js
+
+Tailwind CSS
+
+React
+
+---
+
+Backend
+
+FastAPI (Python)
+
+---
+
+Database
+
+PostgreSQL
+
+---
+
+Caching
+
+Redis
+
+---
+
+Task Scheduler
+
+Cron Jobs
+
+or
+
+Celery + Redis
+
+---
+
+Hosting
+
+Frontend
+
+Vercel
+
+Backend
+
+AWS / DigitalOcean
+
+Database
+
+Managed PostgreSQL
+
+---
+
+# Suggested Architecture
+
+                    Website
+
+                        │
+
+                        ▼
+
+                  FastAPI Backend
+
+                        │
+
+          PostgreSQL Database
+
+                        ▲
+
+                        │
+
+        Hourly Background Scheduler
+
+                        ▲
+
+                        │
+
+               Market Data Provider
+
+                        ▲
+
+                        │
+
+               NSE / BSE / APIs
+
+---
+
+# Database Design
+
+## companies
+
+id
+
+symbol
+
+company_name
+
+isin
+
+sector
+
+industry
+
+exchange
+
+listing_date
+
+---
+
+## stock_prices
+
+company_id
+
+price
+
+change
+
+change_percent
+
+open
+
+high
+
+low
+
+volume
+
+market_cap
+
+updated_at
+
+---
+
+## ipo
+
+company
+
+issue_price
+
+listing_date
+
+issue_size
+
+lot_size
+
+subscription
+
+gmp
+
+estimated_listing_price
+
+---
+
+## ipo_gmp_history
+
+ipo_id
+
+date
+
+gmp
+
+---
+
+# Data Refresh Strategy
+
+Company Master
+
+Daily
+
+Stock Prices
+
+Every Hour
+
+IPO Data
+
+Daily
+
+GMP
+
+Every 15-30 Minutes (Manual/Admin)
+
+---
+
+# Why Not Tick-by-Tick?
+
+Website users mainly require:
+
+Approximate market movement
+
+rather than
+
+1-second latency.
+
+Hourly updates reduce:
+
+- Cost
+- API usage
+- Infrastructure load
+
+while remaining useful.
+
+---
+
+# Dhan API Notes
+
+Initially explored Dhan APIs.
+
+Observed:
+
+Old
+
+https://dhanhq.co
+
+redirects to
+
+Dhan Algos.
+
+Correct flow:
+
+Profile
+
+↓
+
+Get Trading & Data APIs
+
+↓
+
+Generate Access Token
+
+↓
+
+Data APIs
+
+↓
+
+Documentation
+
+---
+
+# Access Token
+
+During generation:
+
+Application Name
+
+Example:
+
+IPO GMP Website
+
+Token Validity
+
+24 Hours
+
+(or other available duration)
+
+Postback URL
+
+Leave blank initially.
+
+---
+
+# Important Understanding
+
+Access Token
+
+≠
+
+Permanent Key
+
+Access Tokens expire.
+
+Depending on provider:
+
+- Manual regeneration
+
+or
+
+- Refresh mechanism
+
+No broker generally gives a lifetime access token for security reasons.
+
+Never hardcode token inside frontend.
+
+Always store on backend.
+
+Example:
+
+.env
+
+DHAN_CLIENT_ID=
+
+DHAN_ACCESS_TOKEN=
+
+---
+
+# Concern With Broker APIs
+
+Broker APIs are designed mainly for:
+
+Trading Applications
+
+Potential issues:
+
+- Rate Limits
+- Authentication expiry
+- Licensing restrictions
+- Public redistribution limitations
+
+Therefore:
+
+Avoid making Dhan the single dependency.
+
+---
+
+# Better Long-Term Strategy
+
+Use Hybrid Architecture
+
+Daily:
+
+NSE/BSE master data
+
++
+
+Hourly:
+
+Market Data API
+
++
+
+Own PostgreSQL
+
++
+
+Own Backend APIs
+
+This decouples website from provider.
+
+If provider changes:
+
+Only backend changes.
+
+Frontend remains untouched.
+
+---
+
+# Website Modules
+
+Home
+
+Upcoming IPOs
+
+Live GMP
+
+Estimated Listing Price
+
+Subscription
+
+Market Dashboard
+
+Top Gainers
+
+Top Losers
+
+Recently Listed IPOs
+
+SME IPOs
+
+IPO Calendar
+
+---
+
+IPO Details Page
+
+Company Info
+
+Financials
+
+Peer Comparison
+
+Anchor Investors
+
+Subscription
+
+Timeline
+
+DRHP
+
+RHP
+
+Historical GMP
+
+AI Summary
+
+---
+
+Company Page
+
+Live Price
+
+Financial Ratios
+
+Market Cap
+
+Sector
+
+Charts
+
+Related IPOs
+
+---
+
+Search
+
+Search across all listed companies.
+
+---
+
+Admin Panel
+
+Manage:
+
+IPO
+
+GMP
+
+Subscription
+
+News
+
+Announcements
+
+Historical Data
+
+---
+
+Future Features
+
+IPO Allotment Checker
+
+IPO Review
+
+Broker Reviews
+
+Historical Performance
+
+Watchlist
+
+Notifications
+
+Email Alerts
+
+WhatsApp Alerts
+
+Premium Membership
+
+AI Recommendations
+
+---
+
+# Backend Flow
+
+Scheduler
+
+↓
+
+Fetch Market Data
+
+↓
+
+Store in PostgreSQL
+
+↓
+
+Invalidate Cache
+
+↓
+
+Website Reads Database
+
+Never directly call APIs from frontend.
+
+---
+
+# Security
+
+Keep API keys on server.
+
+Never expose tokens.
+
+Use .env
+
+Rotate expired tokens.
+
+Use HTTPS.
+
+---
+
+# Recommended Development Phases
+
+Phase 1
+
+- Database
+- Backend
+- IPO Module
+- Company Search
+- Hourly Price Updates
+
+---
+
+Phase 2
+
+- Historical Charts
+- Company Pages
+- News
+- Subscription Tracker
+- SME IPOs
+
+---
+
+Phase 3
+
+- AI Analysis
+- Premium Membership
+- Alerts
+- Mobile App
+- Analytics Dashboard
+
+---
+
+# Current Next Steps
+
+1.
+Generate Dhan Access Token.
+
+2.
+Explore Data API.
+
+3.
+Create PostgreSQL schema.
+
+4.
+Import all NSE/BSE companies.
+
+5.
+Develop hourly scheduler.
+
+6.
+Build FastAPI backend.
+
+7.
+Develop Next.js frontend.
+
+8.
+Create Admin Panel.
+
+9.
+Integrate IPO + GMP.
+
+10.
+Deploy MVP.
+
+---
+
+# Final Goal
+
+Create one of India's best IPO & Grey Market Premium platforms that offers:
+
+- Fast performance
+- Clean UI
+- Hourly market updates
+- Rich IPO analytics
+- AI-powered insights
+- Complete database of listed companies
+- Historical GMP tracking
+- Professional-grade architecture

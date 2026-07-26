@@ -36,7 +36,7 @@
 /* Header */
 .header {
   position: sticky;
-  top: 36px;
+  top: 0;
   z-index: 1000;
   height: 72px;
   background: var(--bg);

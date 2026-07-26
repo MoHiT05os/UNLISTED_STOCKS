@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Details | ASSET BOX</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    .stock-header {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stock-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .stock-symbol { font-size: 14px; font-weight: 700; color: var(--primary); letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    .stock-name { font-size: 40px; font-weight: 800; line-height: 1.1; margin: 0; }
+    .stock-price-block { text-align: right; }
+    .stock-price { font-size: 48px; font-weight: 700; line-height: 1; margin-bottom: 8px; }
+    .stock-change { font-size: 18px; font-weight: 600; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+    .stock-change.positive { color: #10b981; }
+    .stock-change.negative { color: #ef4444; }
+    
+    .chart-container {
+      width: 100%;
+      height: 450px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 40px 0;
+      overflow: hidden;
+      padding: 1px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 16px;
+    }
+    .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .stat-val { font-size: 24px; font-weight: 700; color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" style="top:0;">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; text-decoration:none;">
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+            <span style="font-weight:800; letter-spacing:1px; font-size: 26px; text-transform: uppercase; color: var(--text);">ASSET BOX</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shares.html">Marketplace</a>
+        <a href="screener.html">Screener</a>
+        <a href="about.html">About</a>
+      </nav>
+      
+      <div class="header-actions">
+        <button class="btn btn-ghost hide-sm">Sign In</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="stock-header">
+      <div class="wrap">
+        <div class="stock-title-row" id="stock-header-content">
+          <div class="l">
+            <span class="stock-symbol" id="display-symbol">Loading...</span>
+            <h1 class="stock-name" id="display-name">Loading...</h1>
+          </div>
+          <div class="stock-price-block">
+            <div class="stock-price" id="display-price">₹0.00</div>
+            <div class="stock-change" id="display-change">0.00 (0.00%)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="chart-container" id="tv-chart"></div>
+        
+        <div class="grid-2" style="margin-top: 60px;">
+          <div>
+            <h3>About <span id="about-name">the company</span></h3>
+            <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px; margin-top: 16px;" id="about-desc">
+              Detailed information about this stock will be loaded here. This data can be fetched from the backend API directly via Dhan integration or a database.
+            </p>
+          </div>
+          <div>
+            <h3>Key Statistics</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Market Cap</div>
+                <div class="stat-val" id="stat-mcap">-</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">52W High</div>
+                <div class="stat-val" id="stat-high">-</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">52W Low</div>
+                <div class="stat-val" id="stat-low">-</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">P/E Ratio</div>
+                <div class="stat-val" id="stat-pe">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script src="js/stock.js"></script>
+</body>
+</html>
