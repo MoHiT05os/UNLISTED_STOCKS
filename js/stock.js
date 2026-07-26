@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Update UI placeholders
     document.getElementById('display-symbol').textContent = symbol;
     document.title = `${symbol} | ASSET BOX`;
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
     
     // Fetch data from backend
     try {
-        const response = await fetch(`http://localhost:8000/api/stocks/quote/${symbol}`);
+        const response = await fetch(`${API_BASE}/stocks/quote/${symbol}`);
         if (!response.ok) throw new Error('Failed to fetch stock data');
         const data = await response.json();
 

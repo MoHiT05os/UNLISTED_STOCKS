@@ -486,8 +486,10 @@
       });
     });
 
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
+
     // Fetch data and populate heatmap + stocks table
-    fetch('http://localhost:8000/api/stocks/ribbon')
+    fetch(`${API_BASE}/stocks/ribbon`)
       .then(r => r.json())
       .then(data => {
         const items = data.items || [];
@@ -640,10 +642,10 @@
     }
 
     // Fetch other assets
-    fetch('http://localhost:8000/api/assets/futures').then(r=>r.json()).then(data => renderGenericTable(data.items, 'futures-tbody', 'futures'));
-    fetch('http://localhost:8000/api/assets/govt_bonds').then(r=>r.json()).then(data => renderGenericTable(data.items, 'govt-bonds-tbody', 'bonds'));
-    fetch('http://localhost:8000/api/assets/corp_bonds').then(r=>r.json()).then(data => renderGenericTable(data.items, 'corp-bonds-tbody', 'bonds'));
-    fetch('http://localhost:8000/api/assets/etfs').then(r=>r.json()).then(data => renderGenericTable(data.items, 'etfs-tbody', 'etfs'));
+    fetch(`${API_BASE}/assets/futures`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'futures-tbody', 'futures'));
+    fetch(`${API_BASE}/assets/govt_bonds`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'govt-bonds-tbody', 'bonds'));
+    fetch(`${API_BASE}/assets/corp_bonds`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'corp-bonds-tbody', 'bonds'));
+    fetch(`${API_BASE}/assets/etfs`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'etfs-tbody', 'etfs'));
 
   });
   </script>

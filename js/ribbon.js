@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allItems = [];
 
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
+
     // ─── Data Fetch ────────────────────────────────────────────
     async function fetchRibbonData() {
         try {
-            const response = await fetch('http://localhost:8000/api/stocks/ribbon');
+            const response = await fetch(`${API_BASE}/stocks/ribbon`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             allItems = data.items || [];
