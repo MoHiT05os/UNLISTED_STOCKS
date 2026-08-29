@@ -63,14 +63,33 @@
     const sparkSVG = getSparkline(stock);
 
     const badges = [];
-    if (stock.hot) {
-      badges.push('<span class="badge badge-hot">🔥 Hot</span>');
-    }
-    if (stock.isNew) {
-      badges.push('<span class="badge badge-new">✨ New</span>');
-    }
+    if (stock.hot) badges.push('<span class="badge badge-hot">🔥 Hot</span>');
+    if (stock.isNew) badges.push('<span class="badge badge-new">✨ New</span>');
+    if (stock.expectedIpoWindow) badges.push('<span class="badge badge-ipo" style="background:rgba(212,175,55,0.12);color:#D4AF37;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;">🚀 IPO</span>');
 
     const change = changeHTML(stock.price, stock.prevPrice);
+
+    // ── 13 Excel metrics (Sheet 1: "To be there in the outside page") ──
+    const founded    = stock.foundedYear       ? stock.foundedYear            : '—';
+    const size       = stock.companySize       ? stock.companySize            : '—';
+    const revGrowth  = stock.annualRevenueGrowth != null ? `${stock.annualRevenueGrowth}%` : '—';
+    const ebitda     = stock.ebitda            ? `₹${stock.ebitda}Cr`        : '—';
+    const ebitdaMgn  = stock.ebitdaMargin      != null ? `${stock.ebitdaMargin}%` : '—';
+    const ipoWin     = stock.expectedIpoWindow || (stock.expectedIpoDate ? stock.expectedIpoDate : '—');
+    const riskScore  = stock.financialRiskScore != null ? stock.financialRiskScore : null;
+    const riskColor  = riskScore != null
+      ? (riskScore <= 3 ? '#10b981' : riskScore <= 6 ? '#f59e0b' : '#ef4444')
+      : 'var(--text-muted)';
+
+    const metricsHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin:10px 0 14px;padding:10px 12px;background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px;font-size:11px;">
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">Founded</span><strong style="color:var(--text)">${founded}</strong></div>
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">EBITDA</span><strong style="color:var(--text)">${ebitda}</strong></div>
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">Rev. Growth</span><strong style="color:#10b981">${revGrowth}</strong></div>
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">EBITDA Margin</span><strong style="color:var(--text)">${ebitdaMgn}</strong></div>
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">IPO Window</span><strong style="color:#D4AF37">${ipoWin}</strong></div>
+        <div><span style="color:var(--text-muted);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;">Risk Score</span><strong style="color:${riskColor}">${riskScore != null ? riskScore + '/10' : '—'}</strong></div>
+      </div>`;
 
     return `
     <div class="share-card reveal" data-slug="${slug}">
@@ -96,6 +115,8 @@
         </div>
         <span class="tag-indicative">Indicative Price</span>
       </div>
+
+      ${metricsHTML}
 
       <div class="card-actions">
         <a href="https://wa.me/919354082477?text=Hi%2C%20I%20am%20interested%20in%20${encodeURIComponent(fullName)}" 

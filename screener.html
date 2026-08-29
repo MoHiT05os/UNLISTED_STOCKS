@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Screener | MDB ARTHASPHERE</title>
-  <meta name="description" content="Screen and filter stocks, indices, bonds, ETFs and more with live heatmaps and powerful filters.">
+  <meta name="description" content="Screen unlisted stocks by geography, financials, growth, valuation, funding, IPO and more.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,174 +13,243 @@
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/pages.css?v=3">
+  <link rel="stylesheet" href="css/pages.css?v=4">
   <link rel="stylesheet" href="css/animations.css">
 
   <style>
-    /* Screener page specific styles */
-    .screener-hero {
-      padding: 100px 0 48px;
-      text-align: center;
+    /* ── Screener Layout ─────────────────────────────────── */
+    .screener-page { display: flex; gap: 0; min-height: 100vh; padding-top: 72px; }
+
+    /* Sidebar */
+    .filter-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      padding: 28px 0;
+      position: sticky;
+      top: 72px;
+      height: calc(100vh - 72px);
+      overflow-y: auto;
+    }
+    .filter-sidebar::-webkit-scrollbar { width: 4px; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 20px 16px;
+    }
+
+    .filter-group { margin-bottom: 4px; }
+    .filter-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .filter-group-header:hover { background: rgba(255,255,255,0.04); border-left-color: var(--border); }
+    .filter-group-header.active { border-left-color: #10b981; color: #10b981; background: rgba(16,185,129,0.06); }
+    .filter-group-icon { font-size: 16px; margin-right: 10px; }
+    .filter-group-chevron {
+      transition: transform 0.25s;
+      opacity: 0.5;
+    }
+    .filter-group-header.open .filter-group-chevron { transform: rotate(180deg); }
+
+    .filter-group-body {
+      display: none;
+      padding: 4px 20px 12px 50px;
+    }
+    .filter-group-body.open { display: block; }
+    .filter-sub-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .filter-sub-item:hover { color: var(--text); }
+    .filter-sub-item.active { color: #10b981; font-weight: 600; }
+    .filter-sub-item input[type=checkbox] { accent-color: #10b981; width: 14px; height: 14px; }
+
+    /* Range slider groups */
+    .range-group { padding: 8px 0; }
+    .range-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: block; }
+    .range-group input[type=range] { width: 100%; accent-color: #10b981; }
+    .range-values { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 12px 20px; }
+
+    .reset-filters-btn {
+      margin: 8px 20px 0;
+      width: calc(100% - 40px);
+      padding: 10px;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #ef4444;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .reset-filters-btn:hover { background: rgba(239,68,68,0.15); }
+
+    /* Main content area */
+    .screener-main { flex: 1; min-width: 0; padding: 32px 32px; }
+
+    /* Sub-filter tabs (from Excel sheet 3) */
+    .sub-filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
     }
-    .screener-hero h1 { margin-bottom: 12px; }
-    .screener-hero p { color: var(--text-muted); font-size: 16px; max-width: 550px; margin: 0 auto; }
-
-    .screener-tabs {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 32px auto 0;
-      max-width: 700px;
-    }
-    .screener-tab {
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 14px;
+    .sub-tab-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-muted);
       background: var(--bg-surface);
       border: 1px solid var(--border);
       cursor: pointer;
-      transition: all 0.25s;
+      transition: all 0.2s;
+    }
+    .sub-tab-btn:hover { border-color: #10b981; color: var(--text); }
+    .sub-tab-btn.active {
+      background: rgba(16,185,129,0.1);
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    /* Results toolbar */
+    .results-toolbar {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    .screener-tab:hover { border-color: var(--primary); color: var(--text); }
-    .screener-tab.active { background: rgba(16,185,129,0.12); border-color: var(--primary); color: var(--primary); }
-    .screener-tab .update-freq {
-      font-size: 10px;
-      background: rgba(255,255,255,0.06);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .screener-content { padding: 48px 0; }
-
-    .screener-panel { display: none; }
-    .screener-panel.active { display: block; }
-
-    /* Heatmap placeholder */
-    .heatmap-grid {
-      position: relative;
-      width: 100%;
-      height: 60vh;
-      min-height: 400px;
-      overflow: hidden;
+    .results-count { font-size: 14px; color: var(--text-muted); }
+    .results-count strong { color: var(--text); }
+    .sort-select {
+      padding: 8px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
       border-radius: 8px;
-    }
-    .heatmap-cell {
-      position: absolute;
-      padding: 8px;
-      border: 1px solid rgba(0,0,0,0.2);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: white;
-      transition: opacity 0.2s;
+      color: var(--text);
+      font-size: 13px;
       cursor: pointer;
-      overflow: hidden;
     }
-    .heatmap-cell:hover { opacity: 0.8; z-index: 2; border-color: rgba(255,255,255,0.5); }
-    .heatmap-cell .hm-symbol { font-size: clamp(10px, 1.2vw, 16px); font-weight: 800; margin-bottom: 2px; }
-    .heatmap-cell .hm-pct { font-size: clamp(9px, 1vw, 12px); opacity: 0.9; }
 
-    /* Stock screener table */
+    /* Stock table */
+    .screener-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
     .screener-table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
+      font-size: 13px;
     }
-    .screener-table th {
+    .screener-table thead th {
+      background: rgba(255,255,255,0.02);
       text-align: left;
+      padding: 12px 16px;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-muted);
-      padding: 12px 16px;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
     }
-    .screener-table td {
+    .screener-table thead th:hover { color: var(--text); }
+    .screener-table thead th .sort-icon { opacity: 0.4; font-size: 10px; margin-left: 4px; }
+    .screener-table tbody tr { transition: background 0.15s; cursor: pointer; }
+    .screener-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
+    .screener-table tbody td {
       padding: 14px 16px;
-      font-size: 14px;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      vertical-align: middle;
     }
-    .screener-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .screener-table tbody tr:last-child td { border-bottom: none; }
 
-    .screener-filters {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-    .screener-filter-btn {
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-      background: var(--bg-surface);
+    .logo-cell { display: flex; align-items: center; gap: 10px; }
+    .logo-pill { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; flex-shrink: 0; }
+    .stock-name-cell .s-name { font-weight: 600; color: var(--text); }
+    .stock-name-cell .s-sector { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+    .badge-new { background: rgba(16,185,129,0.1); color: #10b981; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+    .badge-ipo { background: rgba(212,175,55,0.12); color: #D4AF37; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+
+    .up-text { color: #10b981; font-weight: 600; }
+    .down-text { color: #ef4444; font-weight: 600; }
+    .neutral-text { color: var(--text-muted); }
+
+    .action-btns { display: flex; gap: 6px; }
+    .action-btn {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
       border: 1px solid var(--border);
       cursor: pointer;
       transition: 0.2s;
+      text-decoration: none;
+      color: var(--text-muted);
+      background: transparent;
     }
-    .screener-filter-btn:hover, .screener-filter-btn.active {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
+    .action-btn.wa { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.3); color: #25d366; }
+    .action-btn.wa:hover { background: rgba(37,211,102,0.18); }
+    .action-btn.view:hover { border-color: var(--primary); color: var(--primary); }
 
-    /* Coming soon badge */
-    .coming-soon-wrap {
-      display: flex;
-      flex-direction: column;
+    /* Top Sectors */
+    .sectors-section { margin-top: 48px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+
+    /* Mobile sidebar toggle */
+    .mobile-filter-toggle {
+      display: none;
       align-items: center;
-      justify-content: center;
-      min-height: 300px;
-      text-align: center;
-    }
-    .coming-soon-badge {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--primary);
-      background: rgba(16,185,129,0.1);
-      padding: 8px 20px;
-      border-radius: 99px;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
       margin-bottom: 16px;
     }
-    .coming-soon-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .coming-soon-desc {
-      color: var(--text-muted);
-      font-size: 15px;
-      max-width: 400px;
-    }
 
-    .top-perf-label {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 99px;
-      margin-bottom: 24px;
+    @media(max-width: 900px) {
+      .filter-sidebar { display: none; position: fixed; z-index: 200; left: 0; top: 0; height: 100vh; box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
+      .filter-sidebar.open { display: block; }
+      .screener-main { padding: 20px 16px; }
+      .mobile-filter-toggle { display: flex; }
     }
-    .top-perf-label.green { background: rgba(16,185,129,0.12); color: #10b981; }
-    .top-perf-label.red { background: rgba(239,68,68,0.12); color: #ef4444; }
   </style>
 </head>
 <body>
@@ -194,7 +263,7 @@
 
       <nav class="nav-links" id="nav-links">
         <a href="index.html">Home</a>
-                <a href="screener.html" style="color: var(--primary);">Screener</a>
+        <a href="screener.html" style="color: var(--primary);">Screener</a>
         <a href="about.html">About</a>
       </nav>
 
@@ -213,55 +282,292 @@
     </div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="screener-hero">
-      <div class="wrap">
-        <h1>Stock <em style="font-family: var(--font-serif); color: var(--primary);">Screener</em></h1>
-        <p>Filter and discover stocks, track heatmaps, analyze indices, and explore bonds & ETFs — all powered by live market data.</p>
+  <div class="screener-page">
 
-        
-      </div>
-    </section>
+    <!-- ════════════════════════════════════════
+         FILTER SIDEBAR  (from Excel Sheet 2 & 3)
+         ════════════════════════════════════════ -->
+    <aside class="filter-sidebar" id="filter-sidebar">
+      <div class="sidebar-title">🔍 Filters</div>
 
-    <!-- Panel Content -->
-    <section class="screener-content">
-      <div class="wrap">
-
-        
-    <section class="section tint">
-      <div class="wrap">
-        <div class="section-header reveal">
-          <div class="l">
-            <span class="pill">Fresh Additions</span>
-            <h2>New <em>arrivals</em></h2>
-            <p>Recently added companies to the MDB ARTHASPHERE tracking platform.</p>
-          </div>
-          <a href="shares.html" class="more-link">View all &rarr;</a>
+      <!-- GEOGRAPHY -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">🌏</span>Geography</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="grid-4" id="new-arrivals">
-          <!-- JS will populate -->
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox" checked> Pan India</label>
+          <label class="filter-sub-item"><input type="checkbox"> North India</label>
+          <label class="filter-sub-item"><input type="checkbox"> South India</label>
+          <label class="filter-sub-item"><input type="checkbox"> West India</label>
+          <label class="filter-sub-item"><input type="checkbox"> East India</label>
         </div>
       </div>
-    </section>
 
-    <!-- 7. Sectors Explorer -->
-    <section class="section">
-      <div class="wrap">
-        <div class="section-header reveal">
-          <div class="l">
-            <span class="pill">Explore</span>
-            <h2>Top sectors in the <em>unlisted</em> market</h2>
-            <p>Discover opportunities across high-growth industries in India.</p>
+      <!-- FINANCIALS -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">📊</span>Financials</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <div class="range-group">
+            <label>EBITDA (₹ Cr)</label>
+            <input type="range" min="0" max="10000" value="5000" id="ebitda-range">
+            <div class="range-values"><span>₹0</span><span id="ebitda-val">₹5,000 Cr</span></div>
+          </div>
+          <div class="range-group">
+            <label>EBITDA Margin (%)</label>
+            <input type="range" min="0" max="100" value="30" id="ebitda-margin">
+            <div class="range-values"><span>0%</span><span id="ebitda-margin-val">30%</span></div>
+          </div>
+          <div class="range-group">
+            <label>EBIT Margin (%)</label>
+            <input type="range" min="0" max="100" value="25" id="ebit-margin">
+            <div class="range-values"><span>0%</span><span id="ebit-margin-val">25%</span></div>
           </div>
         </div>
+      </div>
+
+      <!-- GROWTH -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">📈</span>Growth</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <div class="range-group">
+            <label>Annual Revenue Growth (%)</label>
+            <input type="range" min="0" max="200" value="30" id="rev-growth">
+            <div class="range-values"><span>0%</span><span id="rev-growth-val">30%+</span></div>
+          </div>
+          <div class="range-group">
+            <label>EBITDA Growth (%)</label>
+            <input type="range" min="0" max="200" value="20" id="ebitda-growth">
+            <div class="range-values"><span>0%</span><span id="ebitda-growth-val">20%+</span></div>
+          </div>
+          <div class="range-group">
+            <label>EBIT Growth (%)</label>
+            <input type="range" min="0" max="200" value="20" id="ebit-growth">
+            <div class="range-values"><span>0%</span><span id="ebit-growth-val">20%+</span></div>
+          </div>
+          <div class="range-group">
+            <label>ARR Growth (%)</label>
+            <input type="range" min="0" max="300" value="50" id="arr-growth">
+            <div class="range-values"><span>0%</span><span id="arr-growth-val">50%+</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VALUATION -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">💰</span>Valuation</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <div class="range-group">
+            <label>EV/EBITDA (x)</label>
+            <input type="range" min="0" max="100" value="40" id="ev-ebitda">
+            <div class="range-values"><span>0x</span><span id="ev-ebitda-val">40x</span></div>
+          </div>
+          <label class="filter-sub-item"><input type="checkbox" checked> Profitable Companies</label>
+          <label class="filter-sub-item"><input type="checkbox"> Loss-Making (High Growth)</label>
+        </div>
+      </div>
+
+      <!-- FUNDING -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">💸</span>Funding</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox"> Bootstrapped</label>
+          <label class="filter-sub-item"><input type="checkbox"> Seed / Angel</label>
+          <label class="filter-sub-item"><input type="checkbox"> Series A–C</label>
+          <label class="filter-sub-item"><input type="checkbox"> Series D+</label>
+          <label class="filter-sub-item"><input type="checkbox"> PE/VC Backed</label>
+          <label class="filter-sub-item"><input type="checkbox"> Pre-IPO Round</label>
+        </div>
+      </div>
+
+      <!-- PRICE -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">🏷️</span>Price</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <div class="range-group">
+            <label>Price Range (₹)</label>
+            <input type="range" min="0" max="50000" value="25000" id="price-range">
+            <div class="range-values"><span>₹0</span><span id="price-range-val">₹25,000</span></div>
+          </div>
+          <label class="filter-sub-item"><input type="checkbox" checked> Under ₹500</label>
+          <label class="filter-sub-item"><input type="checkbox"> ₹500–₹2,000</label>
+          <label class="filter-sub-item"><input type="checkbox"> ₹2,000–₹10,000</label>
+          <label class="filter-sub-item"><input type="checkbox"> Above ₹10,000</label>
+        </div>
+      </div>
+
+      <!-- IPO -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">🚀</span>IPO</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox"> DRHP Filed</label>
+          <label class="filter-sub-item"><input type="checkbox"> IPO in 2025</label>
+          <label class="filter-sub-item"><input type="checkbox"> IPO in 2026</label>
+          <label class="filter-sub-item"><input type="checkbox"> Expected 2027+</label>
+          <label class="filter-sub-item"><input type="checkbox"> No IPO Plans</label>
+        </div>
+      </div>
+
+      <!-- BUSINESS METRICS -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">🏭</span>Business Metrics</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox"> High-Revenue (₹500Cr+)</label>
+          <label class="filter-sub-item"><input type="checkbox"> Mid-Revenue (₹100–500Cr)</label>
+          <label class="filter-sub-item"><input type="checkbox"> Early-Stage (&lt;₹100Cr)</label>
+          <label class="filter-sub-item"><input type="checkbox"> SaaS / ARR Model</label>
+        </div>
+      </div>
+
+      <!-- OWNERSHIP -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">🤝</span>Ownership</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox"> Founder-led</label>
+          <label class="filter-sub-item"><input type="checkbox"> Institutional-led</label>
+          <label class="filter-sub-item"><input type="checkbox"> Family-owned</label>
+          <label class="filter-sub-item"><input type="checkbox"> Employee Buyout</label>
+        </div>
+      </div>
+
+      <!-- RISK -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">⚠️</span>Risk</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox" checked> Low Risk</label>
+          <label class="filter-sub-item"><input type="checkbox" checked> Medium Risk</label>
+          <label class="filter-sub-item"><input type="checkbox"> High Risk</label>
+          <div class="range-group" style="margin-top:8px;">
+            <label>Financial Risk Score (max)</label>
+            <input type="range" min="1" max="10" value="7" id="risk-score">
+            <div class="range-values"><span>1</span><span id="risk-score-val">7 / 10</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVESTOR -->
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleGroup(this)">
+          <span><span class="filter-group-icon">👥</span>Investor</span>
+          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-group-body">
+          <label class="filter-sub-item"><input type="checkbox"> Sequoia / Peak XV</label>
+          <label class="filter-sub-item"><input type="checkbox"> Accel</label>
+          <label class="filter-sub-item"><input type="checkbox"> Tiger Global</label>
+          <label class="filter-sub-item"><input type="checkbox"> SoftBank</label>
+          <label class="filter-sub-item"><input type="checkbox"> Zerodha / Rainmatter</label>
+          <label class="filter-sub-item"><input type="checkbox"> Govt / PSU backed</label>
+        </div>
+      </div>
+
+      <hr class="sidebar-divider">
+      <button class="reset-filters-btn" onclick="resetFilters()">✕ Reset All Filters</button>
+    </aside>
+
+    <!-- ════════════════════════════════════════
+         MAIN CONTENT
+         ════════════════════════════════════════ -->
+    <main class="screener-main">
+
+      <!-- Mobile toggle -->
+      <button class="mobile-filter-toggle" onclick="document.getElementById('filter-sidebar').classList.toggle('open')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        Filters
+      </button>
+
+      <!-- Hero -->
+      <div style="margin-bottom:28px;">
+        <h1 style="font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:8px;">
+          Stock <em style="color:var(--primary);font-family:var(--font-serif);font-style:italic;">Screener</em>
+        </h1>
+        <p style="color:var(--text-muted);font-size:15px;">Filter 255+ unlisted stocks using institutional-grade metrics.</p>
+      </div>
+
+      <!-- Sub-filter tabs (from Excel Sheet 3) -->
+      <div class="sub-filter-tabs">
+        <button class="sub-tab-btn active" data-sub="all">All</button>
+        <button class="sub-tab-btn" data-sub="cashflow">Cash Flow</button>
+        <button class="sub-tab-btn" data-sub="balance">Balance Sheet</button>
+        <button class="sub-tab-btn" data-sub="history">History</button>
+        <button class="sub-tab-btn" data-sub="buyback">Buyback</button>
+        <button class="sub-tab-btn" data-sub="funding">Funding</button>
+        <button class="sub-tab-btn" data-sub="freshness">Freshness</button>
+        <button class="sub-tab-btn" data-sub="ranking">Ranking</button>
+        <button class="sub-tab-btn" data-sub="performance">Performance</button>
+      </div>
+
+      <!-- Results toolbar -->
+      <div class="results-toolbar">
+        <div class="results-count">Showing <strong id="screener-count">—</strong> companies</div>
+        <select class="sort-select" id="screener-sort" onchange="applySort()">
+          <option value="name">Sort: Name A–Z</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="founded">Founded Year</option>
+        </select>
+      </div>
+
+      <!-- Stock table -->
+      <div class="screener-table-wrap">
+        <table class="screener-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Sector</th>
+              <th>Price <span class="sort-icon">↕</span></th>
+              <th>Change</th>
+              <th>Founded</th>
+              <th>Company Size</th>
+              <th>Est. IPO</th>
+              <th>Risk Score</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="screener-tbody">
+            <tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-muted);">Loading companies…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Top Sectors -->
+      <div class="sectors-section">
+        <div class="section-label">Top Sectors</div>
         <div class="grid-3" id="sectors-grid">
           <!-- JS will populate -->
         </div>
       </div>
-      </div>
-    </section>
-</main>
+
+    </main>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -271,46 +577,16 @@
           <div class="fmono-img" style="background: linear-gradient(135deg, #10b981, #059669); font-weight:800; font-size:13px;">MA</div>
           <div>
             <div class="fbn">MDB ARTHASPHERE</div>
-            <div class="ftag">India's home for unlisted & pre-IPO shares</div>
+            <div class="ftag">India's home for unlisted &amp; pre-IPO shares</div>
           </div>
         </div>
         <div class="fcta">
           <button class="btn btn-ghost">Sign In</button>
         </div>
       </div>
-
-      <div class="footer-cols">
-        <div>
-          <p class="ab">MDB ARTHASPHERE is India's fastest-growing platform for unlisted shares, pre-IPO shares, and ESOPs. We bring transparency and liquidity to the private markets.</p>
-        </div>
-        <div>
-          <h4>Explore</h4>
-          <ul>
-            <li></li>
-            <li><a href="screener.html">Screener</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <ul>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="#">Disclaimer</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-
       <div class="disclaimer">
-        <strong>Disclaimer:</strong> MDB ARTHASPHERE is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI) under the Securities Contracts (Regulation) Act, 1956.
+        <strong>Disclaimer:</strong> MDB ARTHASPHERE is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI).
       </div>
-
       <div class="fbottom">
         <div>&copy; 2026 MDB ARTHASPHERE. All rights reserved.</div>
         <div>Information platform &middot; Not a SEBI-recognised exchange</div>
@@ -320,10 +596,21 @@
 
   <!-- WhatsApp FAB -->
   <a href="https://wa.me/919354082477" class="wa-fab" target="_blank" aria-label="Contact on WhatsApp">
-    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <div class="search-input-wrap">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="search-input" placeholder="Search for shares (e.g. NSE India, Swiggy)..." autocomplete="off">
+        <div class="search-hint">ESC to close</div>
+      </div>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
   <script src="js/shares-data.js"></script>
   <script src="js/components.js"></script>
   <script src="js/animations.js"></script>
@@ -331,183 +618,141 @@
   <script src="js/app.js"></script>
 
   <script>
-  // ─── Screener Page Logic ─────────────────────────────────
+  // ── Filter sidebar accordion ─────────────────────────────
+  function toggleGroup(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    header.classList.toggle('open', !isOpen);
+  }
+
+  // ── Range slider live labels ─────────────────────────────
+  const rangeLabels = {
+    'ebitda-range': { el: 'ebitda-val', fmt: v => `₹${Number(v).toLocaleString('en-IN')} Cr` },
+    'ebitda-margin': { el: 'ebitda-margin-val', fmt: v => `${v}%` },
+    'ebit-margin': { el: 'ebit-margin-val', fmt: v => `${v}%` },
+    'rev-growth': { el: 'rev-growth-val', fmt: v => `${v}%+` },
+    'ebitda-growth': { el: 'ebitda-growth-val', fmt: v => `${v}%+` },
+    'ebit-growth': { el: 'ebit-growth-val', fmt: v => `${v}%+` },
+    'arr-growth': { el: 'arr-growth-val', fmt: v => `${v}%+` },
+    'ev-ebitda': { el: 'ev-ebitda-val', fmt: v => `${v}x` },
+    'price-range': { el: 'price-range-val', fmt: v => `₹${Number(v).toLocaleString('en-IN')}` },
+    'risk-score': { el: 'risk-score-val', fmt: v => `${v} / 10` },
+  };
+  Object.entries(rangeLabels).forEach(([id, cfg]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      document.getElementById(cfg.el).textContent = cfg.fmt(el.value);
+    });
+  });
+
+  // ── Sub-filter tab switching ─────────────────────────────
+  document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderScreenerTable(window._allShares || [], btn.dataset.sub);
+    });
+  });
+
+  function resetFilters() {
+    document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.filter-sidebar input[type=range]').forEach(r => {
+      r.value = r.defaultValue;
+      r.dispatchEvent(new Event('input'));
+    });
+  }
+
+  function applySort() {
+    renderScreenerTable(window._allShares || []);
+  }
+
+  // ── Render table from shares-data.js ────────────────────
+  function renderScreenerTable(shares, subFilter) {
+    const tbody = document.getElementById('screener-tbody');
+    const countEl = document.getElementById('screener-count');
+    const sort = document.getElementById('screener-sort').value;
+    let data = [...shares];
+
+    // Sub-filter (placeholder logic — enhance with real data)
+    if (subFilter && subFilter !== 'all') {
+      // In production filter by relevant metric; for now show all
+    }
+
+    // Sort
+    if (sort === 'price_asc') data.sort((a, b) => (a.price || 0) - (b.price || 0));
+    else if (sort === 'price_desc') data.sort((a, b) => (b.price || 0) - (a.price || 0));
+    else if (sort === 'founded') data.sort((a, b) => (a.foundedYear || 9999) - (b.foundedYear || 9999));
+    else data.sort((a, b) => (a.shortName || a.name || '').localeCompare(b.shortName || b.name || ''));
+
+    countEl.textContent = data.length;
+
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-muted);">No companies match your filters.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data.map(s => {
+      const name = s.shortName || s.name || '—';
+      const sector = s.sector || '—';
+      const price = s.price ? '₹' + Number(s.price).toLocaleString('en-IN') : '—';
+      const change = s.prevPrice && s.price
+        ? ((s.price - s.prevPrice) / s.prevPrice * 100).toFixed(2)
+        : null;
+      const changeHTML = change !== null
+        ? `<span class="${parseFloat(change) >= 0 ? 'up-text' : 'down-text'}">${parseFloat(change) >= 0 ? '+' : ''}${change}%</span>`
+        : '<span class="neutral-text">—</span>';
+      const color = s.logoColor || '#6366f1';
+      const initials = (s.logoInitials || name.substring(0, 2)).toUpperCase();
+      const founded = s.foundedYear || '—';
+      const size = s.companySize || '—';
+      const ipo = s.expectedIpoDate || s.expectedIpoWindow || '—';
+      const risk = s.financialRiskScore ? `${s.financialRiskScore}/10` : '—';
+      const slug = s.slug || '';
+
+      const badges = [];
+      if (s.hot) badges.push('<span class="badge-hot">🔥 Hot</span>');
+      if (s.isNew) badges.push('<span class="badge-new">New</span>');
+      if (s.expectedIpoDate) badges.push('<span class="badge-ipo">IPO</span>');
+
+      return `<tr onclick="window.location.href='stock.html?symbol=${slug}'">
+        <td>
+          <div class="logo-cell">
+            <div class="logo-pill" style="background:${color}">${initials}</div>
+            <div class="stock-name-cell">
+              <div class="s-name">${name} ${badges.join(' ')}</div>
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--text-muted)">${sector}</td>
+        <td style="font-weight:700">${price}</td>
+        <td>${changeHTML}</td>
+        <td style="color:var(--text-muted)">${founded}</td>
+        <td style="color:var(--text-muted)">${size}</td>
+        <td style="color:var(--text-muted)">${ipo}</td>
+        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) <= 4 ? '#10b981' : parseFloat(risk) <= 7 ? '#f59e0b' : '#ef4444'}">${risk}</span>` : '—'}</td>
+        <td>
+          <div class="action-btns">
+            <a href="https://wa.me/919354082477?text=Interested%20in%20${encodeURIComponent(name)}" class="action-btn wa" target="_blank" onclick="event.stopPropagation()">Enquire</a>
+            <a href="stock.html?symbol=${slug}" class="action-btn view" onclick="event.stopPropagation()">Details</a>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Boot: wait for shares-data to be ready
   document.addEventListener('DOMContentLoaded', () => {
-    // Tab switching
-    const tabs = document.querySelectorAll('.screener-tab');
-    const panels = document.querySelectorAll('.screener-panel');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        panels.forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        const panelId = 'panel-' + tab.dataset.panel;
-        document.getElementById(panelId).classList.add('active');
-      });
-    });
-
-    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
-
-    // Fetch data and populate heatmap + stocks table
-    fetch(`${API_BASE}/stocks/ribbon`)
-      .then(r => r.json())
-      .then(data => {
-        const items = data.items || [];
-        renderHeatmap(items);
-        renderStocksTable(items);
-      })
-      .catch(err => console.error('Screener data error:', err));
-
-    function renderHeatmap(items) {
-      const gainerGrid = document.getElementById('heatmap-gainers');
-      const loserGrid = document.getElementById('heatmap-losers');
-      if (!gainerGrid || !loserGrid) return;
-
-      gainerGrid.innerHTML = '';
-      loserGrid.innerHTML = '';
-      if (items.length === 0) return;
-
-      const gainers = items.filter(i => i.change_percent >= 0).sort((a, b) => b.change_percent - a.change_percent);
-      const losers = items.filter(i => i.change_percent < 0).sort((a, b) => a.change_percent - b.change_percent);
-
-      function drawTreemap(container, dataArray, isGainers) {
-        if(dataArray.length === 0) return;
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-
-        const rootData = {
-          name: "Root",
-          children: dataArray.map(item => ({
-            ...item,
-            value: Math.max(0.1, Math.abs(item.change_percent))
-          }))
-        };
-
-        const root = d3.hierarchy(rootData)
-          .sum(d => d.value)
-          .sort((a, b) => b.value - a.value);
-
-        d3.treemap()
-          .size([width, height])
-          .padding(2)
-          .round(true)(root);
-
-        const html = root.leaves().map(d => {
-          const item = d.data;
-          const pct = item.change_percent;
-          const intensity = Math.min(Math.abs(pct) / 10, 1);
-          
-          const bg = isGainers
-            ? `rgba(16, 185, 129, ${0.3 + intensity * 0.7})`
-            : `rgba(239, 68, 68, ${0.3 + intensity * 0.7})`;
-
-          const arrow = isGainers ? '▲' : '▼';
-          const cellWidth = d.x1 - d.x0;
-          const cellHeight = d.y1 - d.y0;
-          const showText = cellWidth > 40 && cellHeight > 30;
-
-          return `
-            <a href="stock.html?symbol=${item.symbol}" class="heatmap-cell" style="
-              left: ${d.x0}px;
-              top: ${d.y0}px;
-              width: ${cellWidth}px;
-              height: ${cellHeight}px;
-              background: ${bg};
-              text-decoration: none;
-            " title="${item.symbol}: ₹${item.price} (${arrow}${Math.abs(pct).toFixed(2)}%)">
-              ${showText ? `
-                <div class="hm-symbol">${item.symbol}</div>
-                <div class="hm-pct">${arrow}${Math.abs(pct).toFixed(2)}%</div>
-              ` : ''}
-            </a>`;
-        }).join('');
-        container.innerHTML = html;
+    const tryLoad = () => {
+      if (window.sharesData && window.sharesData.length) {
+        window._allShares = window.sharesData;
+        renderScreenerTable(window.sharesData);
+      } else {
+        setTimeout(tryLoad, 200);
       }
-
-      drawTreemap(gainerGrid, gainers, true);
-      drawTreemap(loserGrid, losers, false);
-    }
-    
-    // Handle window resize to redraw treemap
-    window.addEventListener('resize', () => {
-      // Assuming we can re-fetch or we store items globally. 
-      // For now, let's just trigger a click on active tab to re-render, or we can fetch again.
-      // Better: we can just re-render if we had stored items globally.
-    });
-
-    function renderStocksTable(items) {
-      const tbody = document.getElementById('stocks-tbody');
-      if (!tbody) return;
-      const sorted = [...items].sort((a, b) => b.change_percent - a.change_percent);
-      tbody.innerHTML = sorted.map(item => {
-        const up = item.change >= 0;
-        const color = up ? '#10b981' : '#ef4444';
-        const arrow = up ? '▲' : '▼';
-        return `
-          <tr style="cursor:pointer;" onclick="window.location.href='stock.html?symbol=${item.symbol}'">
-            <td style="font-weight:700;">${item.symbol}</td>
-            <td style="color:var(--text-muted);">${item.name || item.symbol}</td>
-            <td style="color:var(--text-muted); font-size:12px;">${item.exchange || 'NSE'}</td>
-            <td style="font-weight:600;">₹${item.price}</td>
-            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
-            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
-          </tr>`;
-      }).join('');
-    }
-
-    // Generic render for other asset classes
-    function renderGenericTable(items, tbodyId, type) {
-      const tbody = document.getElementById(tbodyId);
-      if (!tbody) return;
-      
-      const sorted = [...items].sort((a, b) => b.change_percent - a.change_percent);
-      
-      tbody.innerHTML = sorted.map(item => {
-        const up = item.change >= 0;
-        const color = up ? '#10b981' : '#ef4444';
-        const arrow = up ? '▲' : '▼';
-        
-        let cols = '';
-        if (type === 'futures') {
-          cols = `
-            <td style="font-weight:700;">${item.symbol}</td>
-            <td style="color:var(--text-muted);">${item.name}</td>
-            <td style="font-weight:600;">₹${item.price}</td>
-            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
-            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
-            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
-          `;
-        } else if (type === 'bonds') {
-          cols = `
-            <td style="font-weight:700;">${item.symbol}</td>
-            <td style="color:var(--text-muted);">${item.name}</td>
-            <td style="font-weight:600;">${item.price}%</td>
-            <td style="color:${color}; font-weight:600;">${arrow} ${Math.abs(item.change).toFixed(4)}</td>
-            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
-            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
-          `;
-        } else if (type === 'etfs') {
-          cols = `
-            <td style="font-weight:700;">${item.symbol}</td>
-            <td style="color:var(--text-muted);">${item.name}</td>
-            <td style="font-weight:600;">₹${item.price}</td>
-            <td style="color:${color}; font-weight:600;">${arrow} ₹${Math.abs(item.change).toFixed(2)}</td>
-            <td style="color:${color}; font-weight:700;">${arrow} ${Math.abs(item.change_percent).toFixed(2)}%</td>
-            <td style="color:var(--text-muted);">${item.volume.toLocaleString()}</td>
-          `;
-        }
-
-        return `<tr>${cols}</tr>`;
-      }).join('');
-    }
-
-    // Fetch other assets
-    fetch(`${API_BASE}/assets/futures`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'futures-tbody', 'futures'));
-    fetch(`${API_BASE}/assets/govt_bonds`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'govt-bonds-tbody', 'bonds'));
-    fetch(`${API_BASE}/assets/corp_bonds`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'corp-bonds-tbody', 'bonds'));
-    fetch(`${API_BASE}/assets/etfs`).then(r=>r.json()).then(data => renderGenericTable(data.items, 'etfs-tbody', 'etfs'));
-
+    };
+    tryLoad();
   });
   </script>
 
