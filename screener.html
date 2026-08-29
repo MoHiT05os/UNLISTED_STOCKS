@@ -196,8 +196,7 @@
 
       <nav class="nav-links" id="nav-links">
         <a href="index.html">Home</a>
-        <a href="shares.html">Marketplace</a>
-        <a href="screener.html" style="color: var(--primary);">Screener</a>
+                <a href="screener.html" style="color: var(--primary);">Screener</a>
         <a href="about.html">About</a>
       </nav>
 
@@ -223,43 +222,7 @@
         <h1>Stock <em style="font-family: var(--font-serif); color: var(--primary);">Screener</em></h1>
         <p>Filter and discover stocks, track heatmaps, analyze indices, and explore bonds & ETFs — all powered by live market data.</p>
 
-        <!-- Tabs from Excel: Heatmaps, Indices, Stocks, Futures, Government Bonds, Corporate Bonds, ETFs -->
-        <div class="screener-tabs" id="screener-tabs">
-          <button class="screener-tab active" data-panel="heatmaps">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            Heatmaps
-            <span class="update-freq">~1 min</span>
-          </button>
-          <button class="screener-tab" data-panel="indices">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            Indices
-            <span class="update-freq">~1 min</span>
-          </button>
-          <button class="screener-tab" data-panel="stocks">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            Stocks
-            <span class="update-freq">~1 min</span>
-          </button>
-          <button class="screener-tab" data-panel="futures">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Futures
-            <span class="update-freq">Weekly</span>
-          </button>
-          <button class="screener-tab" data-panel="govt-bonds">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
-            Govt Bonds
-            <span class="update-freq">Weekly</span>
-          </button>
-          <button class="screener-tab" data-panel="corp-bonds">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-            Corporate Bonds
-            <span class="update-freq">Daily</span>
-          </button>
-          <button class="screener-tab" data-panel="etfs">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            ETFs
-          </button>
-        </div>
+        
       </div>
     </section>
 
@@ -267,141 +230,40 @@
     <section class="screener-content">
       <div class="wrap">
 
-        <!-- HEATMAPS Panel -->
-        <div class="screener-panel active" id="panel-heatmaps">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <div>
-              <span class="top-perf-label green">Top Performers</span>
-              <span class="top-perf-label red" style="margin-left:8px;">Bottom Performers</span>
-            </div>
-            <div class="screener-filters">
-              <button class="screener-filter-btn active">NSE</button>
-              <button class="screener-filter-btn">BSE</button>
-              <button class="screener-filter-btn">Nifty 50</button>
-              <button class="screener-filter-btn">Nifty 100</button>
-            </div>
+        
+    <section class="section tint">
+      <div class="wrap">
+        <div class="section-header reveal">
+          <div class="l">
+            <span class="pill">Fresh Additions</span>
+            <h2>New <em>arrivals</em></h2>
+            <p>Recently added companies to the ASSET BOX tracking platform.</p>
           </div>
-          <div class="heatmap-split" style="display: flex; gap: 8px; margin-bottom: 32px; width: 100%;">
-            <div class="heatmap-grid" id="heatmap-gainers" style="flex: 1; height: 60vh; min-height: 400px; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.1);"></div>
-            <div class="heatmap-grid" id="heatmap-losers" style="flex: 1; height: 60vh; min-height: 400px; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.1);"></div>
-          </div>
+          <a href="shares.html" class="more-link">View all &rarr;</a>
         </div>
-
-        <!-- INDICES Panel -->
-        <div class="screener-panel" id="panel-indices">
-          <div class="coming-soon-wrap">
-            <div class="coming-soon-badge">Coming Soon</div>
-            <h2 class="coming-soon-title">Live Indices Tracker</h2>
-            <p class="coming-soon-desc">Track NIFTY 50, SENSEX, BANK NIFTY, NIFTY IT and more with real-time data — updated every minute.</p>
-          </div>
+        <div class="grid-4" id="new-arrivals">
+          <!-- JS will populate -->
         </div>
-
-        <!-- STOCKS Panel -->
-        <div class="screener-panel" id="panel-stocks">
-          <div class="screener-filters">
-            <button class="screener-filter-btn active">All</button>
-            <button class="screener-filter-btn">Large Cap</button>
-            <button class="screener-filter-btn">Mid Cap</button>
-            <button class="screener-filter-btn">Small Cap</button>
-            <button class="screener-filter-btn">Gainers</button>
-            <button class="screener-filter-btn">Losers</button>
-          </div>
-          <table class="screener-table" id="stocks-table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Exchange</th>
-                <th>Price</th>
-                <th>Change</th>
-                <th>% Change</th>
-              </tr>
-            </thead>
-            <tbody id="stocks-tbody">
-              <!-- JS will populate -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- FUTURES Panel -->
-        <div class="screener-panel" id="panel-futures">
-          <table class="screener-table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Contract</th>
-                <th>Price</th>
-                <th>Change</th>
-                <th>% Change</th>
-                <th>Open Interest</th>
-              </tr>
-            </thead>
-            <tbody id="futures-tbody">
-              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- GOVT BONDS Panel -->
-        <div class="screener-panel" id="panel-govt-bonds">
-          <table class="screener-table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Bond Name</th>
-                <th>Yield (%)</th>
-                <th>Change (bps)</th>
-                <th>% Change</th>
-                <th>Volume</th>
-              </tr>
-            </thead>
-            <tbody id="govt-bonds-tbody">
-              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- CORP BONDS Panel -->
-        <div class="screener-panel" id="panel-corp-bonds">
-          <table class="screener-table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Bond Name</th>
-                <th>Yield (%)</th>
-                <th>Change (bps)</th>
-                <th>% Change</th>
-                <th>Volume</th>
-              </tr>
-            </thead>
-            <tbody id="corp-bonds-tbody">
-              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ETFs Panel -->
-        <div class="screener-panel" id="panel-etfs">
-          <table class="screener-table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>ETF Name</th>
-                <th>NAV</th>
-                <th>Change</th>
-                <th>% Change</th>
-                <th>Volume</th>
-              </tr>
-            </thead>
-            <tbody id="etfs-tbody">
-              <tr><td colspan="6" style="text-align:center; padding: 32px;">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
       </div>
     </section>
-  </main>
+
+    <!-- 7. Sectors Explorer -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header reveal">
+          <div class="l">
+            <span class="pill">Explore</span>
+            <h2>Top sectors in the <em>unlisted</em> market</h2>
+            <p>Discover opportunities across high-growth industries in India.</p>
+          </div>
+        </div>
+        <div class="grid-3" id="sectors-grid">
+          <!-- JS will populate -->
+        </div>
+      </div>
+      </div>
+    </section>
+</main>
 
   <!-- Footer -->
   <footer>
@@ -426,7 +288,7 @@
         <div>
           <h4>Explore</h4>
           <ul>
-            <li><a href="shares.html">Marketplace</a></li>
+            <li></li>
             <li><a href="screener.html">Screener</a></li>
           </ul>
         </div>
@@ -465,6 +327,7 @@
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="js/shares-data.js"></script>
+  <script src="js/components.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/search.js"></script>
   <script src="js/app.js"></script>
