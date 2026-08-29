@@ -490,3 +490,18 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 });
+
+/* ── Anti-Copy & Security ──────────────────────────────── */
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => {
+  e.preventDefault();
+  if (e.clipboardData) e.clipboardData.setData('text/plain', 'Content protected by MDB ARTHASPHERE');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && ['U', 'C'].includes(e.key.toUpperCase())) ||
+      (e.metaKey && ['C'].includes(e.key.toUpperCase()))) {
+    e.preventDefault();
+  }
+});

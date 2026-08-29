@@ -314,17 +314,17 @@
         <div class="filter-group-body">
           <div class="range-group">
             <label>EBITDA (₹ Cr)</label>
-            <input type="range" min="0" max="10000" value="5000" id="ebitda-range">
+            <input type="range" min="0" max="10000" value="0" id="ebitda-range">
             <div class="range-values"><span>₹0</span><span id="ebitda-val">₹5,000 Cr</span></div>
           </div>
           <div class="range-group">
             <label>EBITDA Margin (%)</label>
-            <input type="range" min="0" max="100" value="30" id="ebitda-margin">
+            <input type="range" min="0" max="100" value="0" id="ebitda-margin">
             <div class="range-values"><span>0%</span><span id="ebitda-margin-val">30%</span></div>
           </div>
           <div class="range-group">
             <label>EBIT Margin (%)</label>
-            <input type="range" min="0" max="100" value="25" id="ebit-margin">
+            <input type="range" min="0" max="100" value="0" id="ebit-margin">
             <div class="range-values"><span>0%</span><span id="ebit-margin-val">25%</span></div>
           </div>
         </div>
@@ -339,22 +339,22 @@
         <div class="filter-group-body">
           <div class="range-group">
             <label>Annual Revenue Growth (%)</label>
-            <input type="range" min="0" max="200" value="30" id="rev-growth">
+            <input type="range" min="0" max="200" value="0" id="rev-growth">
             <div class="range-values"><span>0%</span><span id="rev-growth-val">30%+</span></div>
           </div>
           <div class="range-group">
             <label>EBITDA Growth (%)</label>
-            <input type="range" min="0" max="200" value="20" id="ebitda-growth">
+            <input type="range" min="0" max="200" value="0" id="ebitda-growth">
             <div class="range-values"><span>0%</span><span id="ebitda-growth-val">20%+</span></div>
           </div>
           <div class="range-group">
             <label>EBIT Growth (%)</label>
-            <input type="range" min="0" max="200" value="20" id="ebit-growth">
+            <input type="range" min="0" max="200" value="0" id="ebit-growth">
             <div class="range-values"><span>0%</span><span id="ebit-growth-val">20%+</span></div>
           </div>
           <div class="range-group">
             <label>ARR Growth (%)</label>
-            <input type="range" min="0" max="300" value="50" id="arr-growth">
+            <input type="range" min="0" max="300" value="0" id="arr-growth">
             <div class="range-values"><span>0%</span><span id="arr-growth-val">50%+</span></div>
           </div>
         </div>
@@ -369,7 +369,7 @@
         <div class="filter-group-body">
           <div class="range-group">
             <label>EV/EBITDA (x)</label>
-            <input type="range" min="0" max="100" value="40" id="ev-ebitda">
+            <input type="range" min="0" max="100" value="100" id="ev-ebitda">
             <div class="range-values"><span>0x</span><span id="ev-ebitda-val">40x</span></div>
           </div>
           <label class="filter-sub-item"><input type="checkbox" checked> Profitable Companies</label>
@@ -402,7 +402,7 @@
         <div class="filter-group-body">
           <div class="range-group">
             <label>Price Range (₹)</label>
-            <input type="range" min="0" max="50000" value="25000" id="price-range">
+            <input type="range" min="0" max="50000" value="50000" id="price-range">
             <div class="range-values"><span>₹0</span><span id="price-range-val">₹25,000</span></div>
           </div>
           <label class="filter-sub-item"><input type="checkbox" checked> Under ₹500</label>
@@ -467,7 +467,7 @@
           <label class="filter-sub-item"><input type="checkbox"> High Risk</label>
           <div class="range-group" style="margin-top:8px;">
             <label>Financial Risk Score (max)</label>
-            <input type="range" min="1" max="10" value="7" id="risk-score">
+            <input type="range" min="1" max="10" value="10" id="risk-score">
             <div class="range-values"><span>1</span><span id="risk-score-val">7 / 10</span></div>
           </div>
         </div>
@@ -644,6 +644,7 @@
     if (!el) return;
     el.addEventListener('input', () => {
       document.getElementById(cfg.el).textContent = cfg.fmt(el.value);
+      applyFilters();
     });
   });
 
@@ -656,12 +657,44 @@
     });
   });
 
+  
+  document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', applyFilters);
+  });
+
   function resetFilters() {
     document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
     document.querySelectorAll('.filter-sidebar input[type=range]').forEach(r => {
       r.value = r.defaultValue;
       r.dispatchEvent(new Event('input'));
     });
+  }
+
+  
+  function applyFilters() {
+    let data = [...(window._allShares || [])];
+
+    // Read range slider values
+    const minEbitda = parseFloat(document.getElementById('ebitda-range').value) || 0;
+    const minEbitdaMgn = parseFloat(document.getElementById('ebitda-margin').value) || 0;
+    const minRevGrowth = parseFloat(document.getElementById('rev-growth').value) || 0;
+    const maxEv = parseFloat(document.getElementById('ev-ebitda').value) || 100;
+    const maxPrice = parseFloat(document.getElementById('price-range').value) || 50000;
+    const maxRisk = parseFloat(document.getElementById('risk-score').value) || 10;
+
+    // Filter array
+    data = data.filter(s => {
+      // Sliders
+      if ((s.ebitda || 0) < minEbitda) return false;
+      if ((s.ebitdaMargin || 0) < minEbitdaMgn) return false;
+      if ((s.annualRevenueGrowth || 0) < minRevGrowth) return false;
+      if ((s.evEbitda || 0) > maxEv) return false;
+      if ((s.price || 0) > maxPrice) return false;
+      if ((s.financialRiskScore || 0) > maxRisk) return false;
+      return true;
+    });
+
+    renderScreenerTable(data);
   }
 
   function applySort() {
@@ -742,21 +775,30 @@
     }).join('');
   }
 
-  // Boot: wait for shares-data to be ready
-  document.addEventListener('DOMContentLoaded', () => {
-    const tryLoad = () => {
-      // shares-data.js exposes window.SHARES_DATA (uppercase)
-      const raw = window.SHARES_DATA || window.sharesData;
-      if (raw && raw.length) {
-        // Filter to only actual stock entries (have a price) — excludes sector-only objects
-        const stocks = raw.filter(s => s.price != null);
-        window._allShares = stocks;
-        renderScreenerTable(stocks);
-      } else {
-        setTimeout(tryLoad, 200);
-      }
-    };
-    tryLoad();
+  // ── Boot: load stock table ───────────────────────────────
+  function bootScreener() {
+    const raw = window.SHARES_DATA || window.sharesData || [];
+    // Filter only actual stock entries (those with a price property)
+    const stocks = raw.filter(function(s) { return s && s.price != null; });
+    window._allShares = stocks;
+    renderScreenerTable(stocks);
+    // Update count label
+    const countEl = document.getElementById('screener-count');
+    if (countEl) countEl.textContent = stocks.length;
+  }
+
+  // Run as soon as possible — try immediately, then on DOMContentLoaded, then on window load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootScreener);
+  } else {
+    // Already loaded — run after a tiny tick so app.js finishes
+    setTimeout(bootScreener, 50);
+  }
+  window.addEventListener('load', function() {
+    // Final fallback — always re-render on full load in case data wasn't ready
+    if (!window._allShares || !window._allShares.length) {
+      bootScreener();
+    }
   });
   </script>
 
