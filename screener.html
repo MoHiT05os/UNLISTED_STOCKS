@@ -745,9 +745,13 @@
   // Boot: wait for shares-data to be ready
   document.addEventListener('DOMContentLoaded', () => {
     const tryLoad = () => {
-      if (window.sharesData && window.sharesData.length) {
-        window._allShares = window.sharesData;
-        renderScreenerTable(window.sharesData);
+      // shares-data.js exposes window.SHARES_DATA (uppercase)
+      const raw = window.SHARES_DATA || window.sharesData;
+      if (raw && raw.length) {
+        // Filter to only actual stock entries (have a price) — excludes sector-only objects
+        const stocks = raw.filter(s => s.price != null);
+        window._allShares = stocks;
+        renderScreenerTable(stocks);
       } else {
         setTimeout(tryLoad, 200);
       }
