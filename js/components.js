@@ -78,7 +78,7 @@
     const ipoWin     = stock.expectedIpoWindow || (stock.expectedIpoDate ? stock.expectedIpoDate : '—');
     const riskScore  = stock.financialRiskScore != null ? stock.financialRiskScore : null;
     const riskColor  = riskScore != null
-      ? (riskScore <= 3 ? '#10b981' : riskScore <= 6 ? '#f59e0b' : '#ef4444')
+      ? (riskScore >= 7 ? '#10b981' : riskScore >= 4 ? '#f59e0b' : '#ef4444')
       : 'var(--text-muted)';
 
     const metricsHTML = `

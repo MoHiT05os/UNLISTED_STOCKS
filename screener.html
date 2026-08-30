@@ -764,7 +764,7 @@
         <td style="color:var(--text-muted)">${founded}</td>
         <td style="color:var(--text-muted)">${size}</td>
         <td style="color:var(--text-muted)">${ipo}</td>
-        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) <= 4 ? '#10b981' : parseFloat(risk) <= 7 ? '#f59e0b' : '#ef4444'}">${risk}</span>` : '—'}</td>
+        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) >= 7 ? '#10b981' : parseFloat(risk) >= 4 ? '#f59e0b' : '#ef4444'}">${risk}</span>` : '—'}</td>
         <td>
           <div class="action-btns">
             <a href="https://wa.me/919354082477?text=Interested%20in%20${encodeURIComponent(name)}" class="action-btn wa" target="_blank" onclick="event.stopPropagation()">Enquire</a>
