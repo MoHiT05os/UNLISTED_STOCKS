@@ -85,3 +85,18 @@ def verify_otp(req: VerifyOTPRequest, db: Session = Depends(get_db)):
             "phone": user.phone
         }
     }
+
+@router.get("/users")
+def get_all_users(db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return [
+        {
+            "id": u.id,
+            "full_name": u.full_name,
+            "phone": u.phone,
+            "pan_number": u.pan_number,
+            "is_verified": u.is_verified,
+            "created_at": u.created_at
+        }
+        for u in users
+    ]
