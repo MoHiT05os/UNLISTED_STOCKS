@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | MDB ARTHASPHERE</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  
+  <style>
+    .account-container {
+      max-width: 800px;
+      margin: 100px auto;
+      padding: 0 20px;
+    }
+    
+    .account-header {
+      margin-bottom: 40px;
+    }
+    
+    .account-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    
+    .account-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    
+    .detail-label {
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .detail-value {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .logout-btn {
+      margin-top: 24px;
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="MDB Arthasphere" style="height:40px;">
+      </a>
+      
+      <div class="nav-links hide-md">
+        <a href="screener.html" class="nav-link">Screener</a>
+        <a href="shares.html" class="nav-link">Top Shares</a>
+        <a href="about.html" class="nav-link">About Us</a>
+      </div>
+      
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost hide-sm" style="text-decoration:none;display:inline-flex;align-items:center;">Sign In</a>
+        <a href="contact.html" class="btn btn-primary hide-sm">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ACCOUNT SECTION -->
+  <main class="account-container">
+    <div class="account-header">
+      <h1>My Account</h1>
+      <p style="color:var(--text-muted); margin-top:8px;">Manage your profile and authentication status.</p>
+    </div>
+    
+    <div class="account-card">
+      <div class="detail-row">
+        <div class="detail-label">Full Name</div>
+        <div class="detail-value" id="profileName">-</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Registered Phone</div>
+        <div class="detail-value" id="profilePhone">-</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">KYC / PAN Status</div>
+        <div class="detail-value">
+          <span id="profilePan">-</span> 
+          <span class="status-badge">Verified ✓</span>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Account Level</div>
+        <div class="detail-value">Investor</div>
+      </div>
+    </div>
+
+    <button id="logoutBtn" class="btn btn-ghost logout-btn">Log Out Securely</button>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p style="color:var(--text-muted); text-align:center;">&copy; 2026 MDB ARTHASPHERE. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Enforce login state for this page
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('auth_token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Populate fields
+      document.getElementById('profileName').textContent = localStorage.getItem('user_name') || 'Investor';
+      document.getElementById('profilePhone').textContent = '+91 ' + (localStorage.getItem('user_phone') || '----------');
+      
+      const pan = localStorage.getItem('user_pan');
+      if (pan) {
+        // Mask the PAN for security (e.g. ABCDE1234F -> ABC*****4F)
+        const masked = pan.substring(0, 3) + '*****' + pan.substring(8);
+        document.getElementById('profilePan').textContent = masked;
+      } else {
+        document.getElementById('profilePan').textContent = 'Linked';
+      }
+    });
+
+    // Logout logic
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_name');
+      localStorage.removeItem('user_phone');
+      localStorage.removeItem('user_pan');
+      
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

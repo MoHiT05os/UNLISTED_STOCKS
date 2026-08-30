@@ -268,9 +268,13 @@
           // Store token and redirect
           localStorage.setItem('auth_token', result.token);
           localStorage.setItem('user_name', result.user.name);
+          localStorage.setItem('user_phone', result.user.phone);
+          if (result.user.pan_number) {
+            localStorage.setItem('user_pan', result.user.pan_number);
+          }
           
           setTimeout(() => {
-            window.location.href = 'screener.html';
+            window.location.href = 'index.html';
           }, 1500);
         } else {
           errorBox.textContent = result.detail || 'Invalid OTP.';
