@@ -492,7 +492,7 @@
   <script>
     // ── Alpha Vantage News Loader ──────────────────────────────────
     (function() {
-      const AV_KEY = 'ALPHA_VANTAGE_API_KEY'; // Replace with real key from alphavantage.co
+      const AV_KEY = '2WLZ4OZBRRY3QT4U'; // Replace with real key from alphavantage.co
       const newsGrid = document.getElementById('news-grid');
 
       const topics = 'ipo,financial_markets,mergers_and_acquisitions,economy_fiscal';
@@ -546,14 +546,14 @@
             // Fallback: show placeholder cards with note to add API key
             newsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--text-muted);">
               <p style="font-size:15px; margin-bottom:8px;">Live news requires an <a href="https://www.alphavantage.co/support/#api-key" target="_blank" style="color:var(--primary);">Alpha Vantage API key</a>.</p>
-              <p style="font-size:13px;">Replace <code>ALPHA_VANTAGE_API_KEY</code> in index.html with your free key.</p>
+              <p style="font-size:13px;">Replace <code>2WLZ4OZBRRY3QT4U</code> in index.html with your free key.</p>
             </div>`;
           }
         })
         .catch(() => {
           newsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--text-muted);">
             <p style="font-size:15px; margin-bottom:8px;">Live news requires an <a href="https://www.alphavantage.co/support/#api-key" target="_blank" style="color:var(--primary);">Alpha Vantage API key</a>.</p>
-            <p style="font-size:13px;">Replace <code>ALPHA_VANTAGE_API_KEY</code> in index.html with your free key.</p>
+            <p style="font-size:13px;">Replace <code>2WLZ4OZBRRY3QT4U</code> in index.html with your free key.</p>
           </div>`;
         });
     })();
