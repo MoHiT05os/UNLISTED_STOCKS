@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRHP Tracker | MDB ARTHASPHERE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    /* ── Page layout ── */
+    .drhp-page { max-width: 1200px; margin: 0 auto; padding: 100px 24px 80px; }
+
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 99px; padding: 6px 18px; font-size: 12px; font-weight: 700;
+      color: var(--primary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .page-title { font-size: clamp(28px, 5vw, 48px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 12px; }
+    .page-subtitle { color: var(--text-muted); font-size: 16px; max-width: 600px; }
+
+    /* ── Filters row ── */
+    .filters-row {
+      display: flex; gap: 12px; flex-wrap: wrap; margin: 36px 0 28px;
+    }
+    .filter-chip {
+      padding: 8px 20px; border-radius: 99px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border); background: var(--bg-surface); color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-chip:hover, .filter-chip.active {
+      border-color: var(--primary); color: var(--primary); background: rgba(16,185,129,0.08);
+    }
+
+    /* ── Stage Badge ── */
+    .stage-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700;
+    }
+    .stage-1 { background: rgba(99,102,241,0.1); color: #818cf8; }   /* DRHP Filed */
+    .stage-2 { background: rgba(245,158,11,0.1); color: #f59e0b; }   /* SEBI Obs */
+    .stage-3 { background: rgba(249,115,22,0.1); color: #fb923c; }   /* Updated DRHP */
+    .stage-4 { background: rgba(59,130,246,0.1); color: #60a5fa; }   /* RHP Filed */
+    .stage-5 { background: rgba(16,185,129,0.15); color: #34d399; }  /* IPO Open */
+    .stage-6 { background: rgba(16,185,129,0.25); color: #10b981; }  /* IPO Closed */
+    .stage-7 { background: rgba(16,185,129,0.1); color: #6ee7b7; }   /* Allotment */
+    .stage-8 { background: rgba(212,175,55,0.15); color: #D4AF37; }  /* Listed */
+
+    /* ── Stage legend ── */
+    .stage-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px; margin-bottom: 40px;
+    }
+    .stage-legend-item {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .stage-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; flex-shrink: 0;
+    }
+
+    /* ── DRHP Cards grid ── */
+    .drhp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+    .drhp-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px; transition: all 0.2s;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .drhp-card:hover {
+      border-color: rgba(16,185,129,0.35); transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .drhp-card-header { display: flex; align-items: center; gap: 12px; }
+    .drhp-logo {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 15px; color: #fff; flex-shrink: 0;
+    }
+    .drhp-name { font-size: 17px; font-weight: 700; }
+    .drhp-sector { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .drhp-card-meta { display: flex; flex-direction: column; gap: 8px; }
+    .drhp-meta-row { display: flex; justify-content: space-between; font-size: 13px; }
+    .drhp-meta-label { color: var(--text-muted); }
+    .drhp-meta-val { font-weight: 600; }
+
+    .stage-track {
+      display: flex; gap: 4px; margin-top: 4px;
+    }
+    .stage-dot {
+      height: 6px; border-radius: 99px; flex: 1;
+      background: var(--border);
+    }
+    .stage-dot.done { background: var(--primary); }
+    .stage-dot.current { background: #f59e0b; }
+
+    .drhp-card-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .drhp-btn {
+      flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      text-align: center; cursor: pointer; text-decoration: none; transition: all 0.2s;
+      border: 1px solid var(--border); color: var(--text); background: transparent;
+    }
+    .drhp-btn:hover { background: var(--border); }
+    .drhp-btn.primary { background: var(--primary); color: #000; border-color: var(--primary); }
+    .drhp-btn.primary:hover { opacity: 0.9; }
+
+    /* ── No results ── */
+    .no-results {
+      grid-column: 1/-1; text-align: center; padding: 80px 20px;
+      color: var(--text-muted); font-size: 15px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="header">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; text-decoration:none;">
+        <img src="images/logo.png" alt="MDB Arthasphere" style="height:52px; width:auto; object-fit:contain;" />
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="screener.html">Screener</a>
+        <a href="drhp.html" style="color: var(--primary);">DRHP Tracker</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-ghost hide-sm" style="text-decoration:none;display:inline-flex;align-items:center;">Sign In</a>
+        <a href="contact.html" class="btn btn-primary hide-sm">Contact Us</a>
+        <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="drhp-page">
+
+    <!-- Header -->
+    <div class="page-badge">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--primary);display:inline-block;animation:pulse 2s infinite;"></span>
+      Live DRHP Tracking
+    </div>
+    <h1 class="page-title">DRHP & IPO Tracker</h1>
+    <p class="page-subtitle">Track companies from DRHP filing all the way to their stock exchange listing — every stage monitored.</p>
+
+    <!-- Stage Legend -->
+    <div class="stage-legend" style="margin-top:40px;">
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(99,102,241,0.15);color:#818cf8;">1</div>
+        <div><div style="font-size:13px;font-weight:700;">DRHP Filed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Draft prospectus submitted to SEBI</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(245,158,11,0.15);color:#f59e0b;">2</div>
+        <div><div style="font-size:13px;font-weight:700;">SEBI Observations</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">SEBI reviews and sends feedback</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(249,115,22,0.15);color:#fb923c;">3</div>
+        <div><div style="font-size:13px;font-weight:700;">Updated DRHP</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Revised prospectus / addendum filed</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(59,130,246,0.15);color:#60a5fa;">4</div>
+        <div><div style="font-size:13px;font-weight:700;">RHP Filed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Final prospectus with price band</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(16,185,129,0.15);color:#34d399;">5</div>
+        <div><div style="font-size:13px;font-weight:700;">IPO Opens</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Subscription window opens</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(16,185,129,0.25);color:#10b981;">6</div>
+        <div><div style="font-size:13px;font-weight:700;">IPO Closed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Bidding period ends</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(16,185,129,0.1);color:#6ee7b7;">7</div>
+        <div><div style="font-size:13px;font-weight:700;">Allotment</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Shares allotted to bidders</div></div>
+      </div>
+      <div class="stage-legend-item">
+        <div class="stage-num" style="background:rgba(212,175,55,0.15);color:#D4AF37;">8</div>
+        <div><div style="font-size:13px;font-weight:700;">Listed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Trading begins on NSE/BSE</div></div>
+      </div>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="filters-row">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="1">DRHP Filed</button>
+      <button class="filter-chip" data-filter="2">SEBI Stage</button>
+      <button class="filter-chip" data-filter="4">RHP Filed</button>
+      <button class="filter-chip" data-filter="5">IPO Open</button>
+      <button class="filter-chip" data-filter="8">Listed</button>
+    </div>
+
+    <!-- DRHP Grid -->
+    <div class="drhp-grid" id="drhp-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> MDB ARTHASPHERE is strictly an information platform and is NOT a stock exchange recognised by SEBI. All DRHP/IPO data is sourced from public filings and may not be fully up to date. Do your own research before investing.
+      </div>
+      <div class="fbottom">
+        <div>&copy; 2026 MDB ARTHASPHERE. All rights reserved.</div>
+        <div>Information platform &middot; Not a SEBI-recognised exchange</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── DRHP Data ──────────────────────────────────────────────────
+       Stage codes: 1=DRHP Filed, 2=SEBI Obs, 3=Updated DRHP,
+                    4=RHP Filed, 5=IPO Open, 6=IPO Closed,
+                    7=Allotment, 8=Listed
+    ─────────────────────────────────────────────────────────────── */
+    const DRHP_DATA = [
+      {
+        name: 'Swiggy',
+        sector: 'Food Tech',
+        initials: 'SW',
+        color: '#f97316',
+        stage: 8,
+        issueSize: '₹11,327 Cr',
+        priceBand: '₹371–₹390',
+        drhpDate: 'Sep 2024',
+        listingDate: 'Nov 13, 2024',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      },
+      {
+        name: 'NSDL',
+        sector: 'Financial Services',
+        initials: 'NS',
+        color: '#6366f1',
+        stage: 4,
+        issueSize: '₹3,000+ Cr',
+        priceBand: 'TBA',
+        drhpDate: 'Jul 2023',
+        listingDate: 'Expected 2025',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      },
+      {
+        name: 'PhysicsWallah',
+        sector: 'Edtech',
+        initials: 'PW',
+        color: '#10b981',
+        stage: 2,
+        issueSize: '₹2,500 Cr',
+        priceBand: 'TBA',
+        drhpDate: 'Oct 2024',
+        listingDate: 'Expected 2025',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      },
+      {
+        name: 'BoAt Lifestyle',
+        sector: 'Consumer Electronics',
+        initials: 'BT',
+        color: '#ef4444',
+        stage: 1,
+        issueSize: '₹2,000 Cr',
+        priceBand: 'TBA',
+        drhpDate: 'Jan 2022',
+        listingDate: 'Expected 2025',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      },
+      {
+        name: 'Ather Energy',
+        sector: 'Electric Vehicles',
+        initials: 'AE',
+        color: '#0ea5e9',
+        stage: 8,
+        issueSize: '₹2,981 Cr',
+        priceBand: '₹304–₹321',
+        drhpDate: 'Feb 2025',
+        listingDate: 'May 6, 2025',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      },
+      {
+        name: 'Shadowfax',
+        sector: 'Logistics',
+        initials: 'SF',
+        color: '#8b5cf6',
+        stage: 1,
+        issueSize: '₹2,000 Cr',
+        priceBand: 'TBA',
+        drhpDate: 'Sep 2024',
+        listingDate: 'Expected 2025',
+        exchange: 'NSE / BSE',
+        link: 'https://www.sebi.gov.in'
+      }
+    ];
+
+    const stageNames = ['', 'DRHP Filed', 'SEBI Review', 'Updated DRHP', 'RHP Filed', 'IPO Open', 'IPO Closed', 'Allotment', 'Listed'];
+    const stageClasses = ['', 'stage-1', 'stage-2', 'stage-3', 'stage-4', 'stage-5', 'stage-6', 'stage-7', 'stage-8'];
+
+    function renderGrid(data) {
+      const grid = document.getElementById('drhp-grid');
+      if (!data.length) {
+        grid.innerHTML = '<div class="no-results">No companies match this filter.</div>';
+        return;
+      }
+
+      grid.innerHTML = data.map(d => {
+        // Build stage progress dots (8 total)
+        const dots = Array.from({length: 8}, (_, i) => {
+          const dotNum = i + 1;
+          let cls = 'stage-dot';
+          if (dotNum < d.stage) cls += ' done';
+          else if (dotNum === d.stage) cls += ' current';
+          return `<div class="${cls}"></div>`;
+        }).join('');
+
+        return `
+          <div class="drhp-card" data-stage="${d.stage}">
+            <div class="drhp-card-header">
+              <div class="drhp-logo" style="background:${d.color};">${d.initials}</div>
+              <div>
+                <div class="drhp-name">${d.name}</div>
+                <div class="drhp-sector">${d.sector} &middot; ${d.exchange}</div>
+              </div>
+            </div>
+
+            <!-- Stage progress bar -->
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="font-size:11px;color:var(--text-muted);">Progress</span>
+                <span class="stage-badge ${stageClasses[d.stage]}">${stageNames[d.stage]}</span>
+              </div>
+              <div class="stage-track">${dots}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Stage ${d.stage} of 8</div>
+            </div>
+
+            <!-- Details -->
+            <div class="drhp-card-meta">
+              <div class="drhp-meta-row">
+                <span class="drhp-meta-label">Issue Size</span>
+                <span class="drhp-meta-val">${d.issueSize}</span>
+              </div>
+              <div class="drhp-meta-row">
+                <span class="drhp-meta-label">Price Band</span>
+                <span class="drhp-meta-val">${d.priceBand}</span>
+              </div>
+              <div class="drhp-meta-row">
+                <span class="drhp-meta-label">DRHP Date</span>
+                <span class="drhp-meta-val">${d.drhpDate}</span>
+              </div>
+              <div class="drhp-meta-row">
+                <span class="drhp-meta-label">Expected Listing</span>
+                <span class="drhp-meta-val">${d.listingDate}</span>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="drhp-card-actions">
+              <a href="${d.link}" target="_blank" class="drhp-btn">SEBI Filing</a>
+              <a href="https://wa.me/919354082477?text=Tell me more about ${encodeURIComponent(d.name)} IPO" class="drhp-btn primary" target="_blank">Enquire</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initial render
+    renderGrid(DRHP_DATA);
+
+    // Filter chips
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const f = chip.dataset.filter;
+        renderGrid(f === 'all' ? DRHP_DATA : DRHP_DATA.filter(d => String(d.stage) === f));
+      });
+    });
+  </script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
