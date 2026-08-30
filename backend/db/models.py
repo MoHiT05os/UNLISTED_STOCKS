@@ -146,3 +146,17 @@ class IPOGMPHistory(Base):
 
     def __repr__(self):
         return f'<IPOGMPHistory ipo_id={self.ipo_id} date={self.date} gmp={self.gmp}>'
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    full_name = Column(String(255), nullable=False)
+    phone = Column(String(20), unique=True, nullable=False)
+    pan_number = Column(String(20), unique=True, nullable=False)
+    is_verified = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'<User {self.full_name} ({self.phone})>'

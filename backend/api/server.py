@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from api.routes import stocks, assets
+from api.routes import stocks, assets, auth
 
 app = FastAPI(title="ASSET BOX - Stock API")
 
@@ -24,6 +24,7 @@ app.add_middleware(
 
 app.include_router(stocks.router, prefix="/api/stocks", tags=["stocks"])
 app.include_router(assets.router, prefix="/api/assets", tags=["assets"])
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 
 @app.get("/api/health", tags=["health"])
 def health_check():
