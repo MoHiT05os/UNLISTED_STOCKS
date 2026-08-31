@@ -20,7 +20,7 @@
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     // Apply saved or system preference
-    const theme = 'dark';
+    const theme = saved || 'light';
     html.setAttribute('data-theme', theme);
 
     // Bind toggle buttons (all of them on page)
