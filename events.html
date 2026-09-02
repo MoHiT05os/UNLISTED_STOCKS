@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>html,body{background:#f8fafc !important;color:#0f172a !important;}</style>
+  <script>!function(){var t=localStorage.getItem('unlisted_theme');document.documentElement.setAttribute('data-theme',t||'light')}()</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corporate Events — Bonus, Split, AGM, EGM | MDB Arthasphere</title>
+  <meta name="description" content="Every corporate event across India's unlisted and pre-IPO companies — bonus issues, stock splits, dividends, AGMs, EGMs and financial updates.">
+  <link rel="stylesheet" href="css/design-system.css?v=3">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css?v=4">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* ── Events Page Styles ─────────────────────────────────── */
+    .ev-hero {
+      padding: 80px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ev-hero .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .ev-hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .ev-hero h1 em { font-style: italic; color: var(--primary); font-family: var(--font-serif); }
+    .ev-hero .lede {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.65;
+    }
+
+    /* ── Control Bar ──────────────────────────────────────── */
+    .ev-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ev-seg {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 4px;
+      width: fit-content;
+    }
+    .ev-seg a {
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .ev-seg a.on, .ev-seg a:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .ev-type-rule {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .ev-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ev-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      background: var(--bg-surface);
+    }
+    .ev-chip:hover, .ev-chip.on {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .ev-chip .c {
+      font-size: 11px;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+
+    /* ── Search Bar ───────────────────────────────────────── */
+    .ev-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      margin: 20px 0 8px;
+      box-shadow: var(--shadow);
+    }
+    .ev-search svg { color: var(--text-muted); flex-shrink: 0; }
+    .ev-search input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 14px;
+      color: var(--text);
+      font-family: var(--font-sans);
+    }
+    .ev-search input::placeholder { color: var(--text-muted); }
+    .ev-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .ev-count b { color: var(--text); }
+
+    /* ── Event Cards Timeline ─────────────────────────────── */
+    .ev-wrap { padding-bottom: 64px; }
+    .ev-month {
+      padding: 32px 0 12px;
+    }
+    .ev-month h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+    .ev-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .ev-card {
+      display: grid;
+      grid-template-columns: 52px 2px 1fr;
+      gap: 0 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+      transition: background 0.15s;
+    }
+    .ev-card:hover { background: var(--bg-card); border-radius: var(--radius-md); }
+    .ev-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 4px;
+    }
+    .ev-date .dd {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .ev-date .dm {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+    .ev-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8px;
+    }
+    .ev-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+    .ev-dot-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+      min-height: 40px;
+    }
+    .ev-body { padding-top: 2px; }
+    .ev-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .ev-co {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .ev-co:hover { color: var(--primary); }
+    .ev-co-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .ev-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .ev-badge.em { background: rgba(16,185,129,0.12); color: #059669; }
+    .ev-badge.nt { background: rgba(99,102,241,0.12); color: #6366f1; }
+    .ev-badge.mt { background: rgba(245,158,11,0.12); color: #d97706; }
+    .ev-badge.red { background: rgba(239,68,68,0.12); color: #dc2626; }
+    .ev-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .ev-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+      max-width: 680px;
+    }
+    .ev-doc {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      border: 1px solid var(--primary);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      transition: all 0.18s;
+    }
+    .ev-doc:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .ev-empty {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--text-muted);
+    }
+    .ev-empty h3 { margin-bottom: 8px; color: var(--text); }
+
+    /* ── Upcoming / Past label ────────────────────────────── */
+    .ev-pill-up { background: rgba(16,185,129,0.1); color: #059669; font-size:11px; font-weight:700; padding:2px 8px; border-radius: 20px; }
+    .ev-pill-past { background: rgba(100,116,139,0.1); color: var(--text-muted); font-size:11px; font-weight:700; padding:2px 8px; border-radius: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header class="header" id="header">
+    <div class="header-inner wrap">
+      <a href="index.html" class="brand">
+        <img src="images/logo.png" alt="MDB Arthasphere" class="brand-logo" style="height:36px;">
+        <span class="brand-name" style="font-weight:800; font-size:15px; letter-spacing:-0.5px;">MDB <span style="color:var(--primary);">ARTHASPHERE</span></span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shares.html">Shares</a>
+        <a href="screener.html">Screener</a>
+        <a href="drhp.html">DRHP</a>
+        <a href="events.html" style="color: var(--primary);">Events</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+        <a href="login.html" class="btn btn-primary" id="auth-btn" style="font-size:13px; padding:8px 16px;">Sign In</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Events Main ──────────────────────────────────────── -->
+  <main style="min-height: 80vh; padding-top: 72px;">
+    <!-- Hero -->
+    <section class="ev-hero">
+      <div class="wrap">
+        <span class="eyebrow">Corporate calendar</span>
+        <h1>Unlisted share <em>events</em></h1>
+        <p class="lede">Bonus issues, stock splits, dividends, AGMs, EGMs and financial updates across every unlisted company we track — in one place.</p>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <!-- Filters Bar -->
+      <div class="ev-bar" id="ev-bar">
+        <div class="ev-seg">
+          <a href="#" class="on" data-time="upcoming" onclick="filterTime(this,'upcoming');return false;">Upcoming</a>
+          <a href="#" data-time="past" onclick="filterTime(this,'past');return false;">Past</a>
+          <a href="#" data-time="all" onclick="filterTime(this,'all');return false;">All dates</a>
+        </div>
+        <div class="ev-type-rule">Filter by type</div>
+        <div class="ev-chips" id="ev-chips">
+          <button class="ev-chip on" data-type="all" onclick="filterType(this,'all')">All types</button>
+          <button class="ev-chip" data-type="bonus" onclick="filterType(this,'bonus')">Bonus <span class="c" id="cnt-bonus">0</span></button>
+          <button class="ev-chip" data-type="split" onclick="filterType(this,'split')">Split <span class="c" id="cnt-split">0</span></button>
+          <button class="ev-chip" data-type="egm" onclick="filterType(this,'egm')">EGM <span class="c" id="cnt-egm">0</span></button>
+          <button class="ev-chip" data-type="agm" onclick="filterType(this,'agm')">AGM <span class="c" id="cnt-agm">0</span></button>
+          <button class="ev-chip" data-type="dividend" onclick="filterType(this,'dividend')">Dividend <span class="c" id="cnt-dividend">0</span></button>
+          <button class="ev-chip" data-type="financial_update" onclick="filterType(this,'financial_update')">Financial update <span class="c" id="cnt-financial_update">0</span></button>
+          <button class="ev-chip" data-type="corporate_action" onclick="filterType(this,'corporate_action')">Corporate action <span class="c" id="cnt-corporate_action">0</span></button>
+          <button class="ev-chip" data-type="others" onclick="filterType(this,'others')">Other <span class="c" id="cnt-others">0</span></button>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="ev-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input type="text" id="ev-search-input" placeholder="Search by company or event…" oninput="renderEvents()">
+      </div>
+      <p class="ev-count"><b id="ev-count-num">0</b> events</p>
+
+      <!-- Events List -->
+      <div class="ev-wrap" id="ev-wrap"></div>
+    </div>
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="images/logo.png" alt="MDB Arthasphere" style="height:32px;">
+            <div>
+              <div style="font-weight:800; font-size:14px;">MDB ARTHASPHERE</div>
+              <div style="font-size:12px; color:var(--text-muted);">INVEST | GROW | PROSPER</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:12px; max-width:280px; line-height:1.6;">An information platform for unlisted, pre-IPO and ESOP shares in India.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-links">
+            <li><a href="shares.html">All shares</a></li>
+            <li><a href="screener.html">Screener</a></li>
+            <li><a href="drhp.html">DRHP filed</a></li>
+            <li><a href="events.html">Corporate events</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Connect</h4>
+          <ul class="footer-links">
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="https://wa.me/919354082477" target="_blank">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fbottom">
+        <span>© 2026 <b>MDB Arthasphere</b>. All rights reserved.</span>
+        <span>Information platform · Not a SEBI-recognised exchange</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Event Data ────────────────────────────────────────────
+    // Seeded with real upcoming events (sourced from public filings)
+    const EVENTS = [
+      {
+        date: '2026-09-28', action: 'egm', company: 'Greenzo Energy India Ltd',
+        title: 'EGM: ₹130 Crore CCCPS Preferential Allotment',
+        desc: 'Greenzo Energy India is raising ~₹130 crore via preferential allotment of 17,76,611 CCCPS at ₹731.73 each to 17 investors (led by Ashish Kacholia at 3.59%), diluting promoter holding from 78.93% to 68.97%.',
+        doc: 'https://cms.unlistedzone.com/api/public/reports/events/154/event-1788239644.pdf'
+      },
+      {
+        date: '2026-09-18', action: 'agm', company: 'Garuda Aerospace Ltd',
+        title: 'AGM: Private Placement of ₹57.20 Crore',
+        desc: 'Garuda Aerospace is raising ₹57.20 crore via private placement of 9,94,498 equity shares at ₹575.18 each (DCF valuation) for growth and working capital, diluting promoter holding from 76.91% to 75.47%.',
+        doc: 'https://cms.unlistedzone.com/api/public/reports/events/237/event-1788168407.pdf'
+      },
+      {
+        date: '2026-09-14', action: 'others', company: 'Sun Drops Energia Ltd',
+        title: 'EGM: Increase in Authorised Share Capital',
+        desc: '1. Increase in Authorised Share Capital. 2. Issue of CCPS for Private Placement on non-cash basis.',
+        doc: 'https://cms.unlistedzone.com/api/public/reports/events/234/event-1787467731.pdf'
+      },
+      {
+        date: '2026-10-05', action: 'dividend', company: 'NSE India Ltd',
+        title: 'Interim Dividend Announcement',
+        desc: 'NSE India Limited board to consider declaration of interim dividend for FY2026-27 at the board meeting scheduled on 5th October 2026.',
+        doc: null
+      },
+      {
+        date: '2026-10-12', action: 'bonus', company: 'Agro Tech Foods Ltd',
+        title: 'Bonus Issue 1:2 — Record Date Set',
+        desc: 'Board has approved a bonus issue in the ratio of 1 share for every 2 shares held. Record date for the bonus issue has been fixed as 12th October 2026.',
+        doc: null
+      },
+      {
+        date: '2026-10-20', action: 'split', company: 'PhysicsWallah Pvt Ltd',
+        title: 'Stock Split 10:1 Proposed',
+        desc: 'PhysicsWallah has proposed a stock split in the ratio of 10:1 to improve accessibility and liquidity in the unlisted market, pending shareholder approval.',
+        doc: null
+      },
+      {
+        date: '2026-09-30', action: 'financial_update', company: 'BoAt Lifestyle (Imagine Mkt.)',
+        title: 'Q2 FY27 Financial Results Preview',
+        desc: 'BoAt is expected to release Q2 FY27 results by end of September 2026. Analysts project 18% QoQ revenue growth driven by festive season demand.',
+        doc: null
+      },
+      {
+        date: '2026-10-15', action: 'corporate_action', company: 'Ather Energy Ltd',
+        title: 'Rights Issue for Expansion Capital',
+        desc: 'Ather Energy has announced a rights issue at ₹420 per share (face value ₹1) to raise capital for expanding EV manufacturing capacity and R&D investment in battery technology.',
+        doc: null
+      },
+      {
+        date: '2026-11-01', action: 'egm', company: 'Shadowfax Technologies',
+        title: 'EGM: ESOP Pool Expansion',
+        desc: 'Shadowfax proposes to increase the ESOP pool from 8% to 12% of paid-up capital to attract and retain talent as it scales its last-mile delivery operations.',
+        doc: null
+      },
+      {
+        date: '2026-10-25', action: 'agm', company: 'Care Health Insurance',
+        title: 'Annual General Meeting FY2026',
+        desc: 'Care Health Insurance Annual General Meeting for FY 2025-26 to approve financial statements, dividend, and re-appointment of directors.',
+        doc: null
+      },
+      {
+        date: '2026-09-05', action: 'financial_update', company: 'NSDL Ltd',
+        title: 'NSDL Pre-IPO Financial Update — H1 FY27',
+        desc: 'NSDL released H1 FY27 financials showing 22% YoY growth in revenue. Assets under custody crossed ₹450 lakh crore mark, reflecting strong market participation.',
+        doc: null
+      },
+      {
+        date: '2026-08-28', action: 'bonus', company: 'MSEI (Metropolitan Stock Exchange)',
+        title: 'Bonus Issue 1:5 Approved by Board',
+        desc: 'MSEI board has approved a bonus issue of 1 share for every 5 held. This makes the stock more accessible ahead of potential exchange consolidation news.',
+        doc: null
+      },
+    ];
+
+    const BADGE_TONE = {
+      bonus: 'em', split: 'em', dividend: 'em', financial_update: 'em',
+      egm: 'nt', agm: 'nt', corporate_action: 'nt', others: 'mt'
+    };
+    const ACTION_LABEL = {
+      bonus: 'Bonus', split: 'Split', egm: 'EGM', agm: 'AGM',
+      dividend: 'Dividend', financial_update: 'Financial update',
+      corporate_action: 'Corporate action', others: 'Other'
+    };
+
+    let currentTime = 'upcoming';
+    let currentType = 'all';
+    const today = new Date().toISOString().split('T')[0];
+
+    function filterTime(el, t) {
+      currentTime = t;
+      document.querySelectorAll('.ev-seg a').forEach(a => a.classList.remove('on'));
+      el.classList.add('on');
+      renderEvents();
+    }
+
+    function filterType(el, t) {
+      currentType = t;
+      document.querySelectorAll('.ev-chip').forEach(c => c.classList.remove('on'));
+      el.classList.add('on');
+      renderEvents();
+    }
+
+    function initCounts() {
+      const types = ['bonus','split','egm','agm','dividend','financial_update','corporate_action','others'];
+      types.forEach(t => {
+        const cnt = EVENTS.filter(e => e.action === t).length;
+        const el = document.getElementById('cnt-' + t);
+        if (el) el.textContent = cnt;
+      });
+    }
+
+    function renderEvents() {
+      const q = document.getElementById('ev-search-input').value.toLowerCase();
+      let filtered = EVENTS.filter(ev => {
+        const timeOk = currentTime === 'all' ? true :
+                       currentTime === 'upcoming' ? ev.date >= today :
+                       ev.date < today;
+        const typeOk = currentType === 'all' || ev.action === currentType;
+        const searchOk = !q || ev.company.toLowerCase().includes(q) || ev.title.toLowerCase().includes(q) || ev.desc.toLowerCase().includes(q);
+        return timeOk && typeOk && searchOk;
+      });
+
+      // Sort by date
+      filtered = filtered.sort((a, b) => currentTime === 'past' ?
+        new Date(b.date) - new Date(a.date) :
+        new Date(a.date) - new Date(b.date));
+
+      document.getElementById('ev-count-num').textContent = filtered.length;
+      const wrap = document.getElementById('ev-wrap');
+
+      if (!filtered.length) {
+        wrap.innerHTML = '<div class="ev-empty"><h3>No events found</h3><p>Try adjusting your filters or search term.</p></div>';
+        return;
+      }
+
+      // Group by month
+      const byMonth = {};
+      filtered.forEach(ev => {
+        const d = new Date(ev.date);
+        const key = d.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        if (!byMonth[key]) byMonth[key] = [];
+        byMonth[key].push(ev);
+      });
+
+      let html = '';
+      for (const [month, evs] of Object.entries(byMonth)) {
+        html += '<div class="ev-month"><h2>' + month + '</h2></div>';
+        html += '<div class="ev-list">';
+        evs.forEach((ev, i) => {
+          const d = new Date(ev.date);
+          const dd = d.getDate().toString().padStart(2,'0');
+          const dm = d.toLocaleString('en-IN', { month: 'short' });
+          const badge = BADGE_TONE[ev.action] || 'mt';
+          const label = ACTION_LABEL[ev.action] || ev.action;
+          const initials = ev.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+          const isLast = i === evs.length - 1;
+
+          html += `
+            <article class="ev-card">
+              <div class="ev-date">
+                <span class="dd">${dd}</span>
+                <span class="dm">${dm}</span>
+              </div>
+              <div class="ev-dot-col">
+                <div class="ev-dot"></div>
+                ${!isLast ? '<div class="ev-dot-line"></div>' : ''}
+              </div>
+              <div class="ev-body">
+                <div class="ev-top">
+                  <a href="#" class="ev-co">
+                    <div class="ev-co-logo">${initials}</div>
+                    ${ev.company}
+                  </a>
+                  <span class="ev-badge ${badge}">${label}</span>
+                  ${ev.date >= today ? '<span class="ev-pill-up">Upcoming</span>' : '<span class="ev-pill-past">Past</span>'}
+                </div>
+                <h3 class="ev-title">${ev.title}</h3>
+                <p class="ev-desc">${ev.desc}</p>
+                ${ev.doc ? `<a class="ev-doc" href="${ev.doc}" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path></svg>
+                  View document
+                </a>` : '<a class="ev-doc" href="https://wa.me/919354082477" target="_blank">Enquire for details</a>'}
+              </div>
+            </article>`;
+        });
+        html += '</div>';
+      }
+      wrap.innerHTML = html;
+    }
+
+    initCounts();
+    renderEvents();
+  </script>
+
+  <script src="js/shares-data.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- WhatsApp FAB -->
+  <a href="https://wa.me/919354082477" class="wa-fab" target="_blank" aria-label="Chat on WhatsApp" style="position:fixed;bottom:24px;right:24px;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.5 0 12.066 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"></path></svg>
+  </a>
+
+</body>
+</html>

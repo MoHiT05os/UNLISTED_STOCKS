@@ -16,10 +16,8 @@
 
   const initDarkMode = () => {
     const html = document.documentElement;
-    const saved = localStorage.getItem(THEME_KEY);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Apply saved or system preference
+    // Always default to light mode — clear any stale dark preference
+    const saved = localStorage.getItem(THEME_KEY) === 'dark' ? null : localStorage.getItem(THEME_KEY);
     const theme = saved || 'light';
     html.setAttribute('data-theme', theme);
 
