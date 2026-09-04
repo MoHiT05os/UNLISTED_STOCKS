@@ -163,41 +163,332 @@
     <h1 class="page-title">DRHP & IPO Tracker</h1>
     <p class="page-subtitle">Track companies from DRHP filing all the way to their stock exchange listing — every stage monitored.</p>
 
-    <!-- Stage Legend -->
-    <div class="stage-legend" style="margin-top:40px;">
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(99,102,241,0.15);color:#818cf8;">1</div>
-        <div><div style="font-size:13px;font-weight:700;">DRHP Filed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Draft prospectus submitted to SEBI</div></div>
+    <!-- ── IPO Journey Tree ─────────────────────────────────── -->
+    <div class="ipo-tree-wrap" style="margin-top:40px; margin-bottom:48px;">
+      <div class="tree-header" style="margin-bottom:28px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--primary);margin-bottom:8px;">IPO Journey</div>
+        <div style="font-size:15px;color:var(--text-muted);max-width:520px;line-height:1.6;">Every company follows this path from private to publicly listed. Click any stage to see details.</div>
       </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(245,158,11,0.15);color:#f59e0b;">2</div>
-        <div><div style="font-size:13px;font-weight:700;">SEBI Observations</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">SEBI reviews and sends feedback</div></div>
+
+      <!-- Tree Container -->
+      <div class="ipo-tree" id="ipoTree">
+
+        <!-- ROOT -->
+        <div class="tree-node root-node" data-stage="0">
+          <div class="tree-node-box root-box">
+            <div class="tree-node-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);">
+              <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
+            </div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">Company decides to go public</div>
+              <div class="tree-node-sub">Board resolution + SEBI mandate</div>
+            </div>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 1: DRHP Filed -->
+        <div class="tree-node" data-stage="1" onclick="showStageInfo(1)">
+          <div class="tree-node-box stage-box" style="--sc:#818cf8;--sb:rgba(99,102,241,0.12);">
+            <div class="tree-step-num" style="background:rgba(99,102,241,0.15);color:#818cf8;">1</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">DRHP Filed <span class="tree-badge" style="background:rgba(99,102,241,0.12);color:#818cf8;">Draft</span></div>
+              <div class="tree-node-sub">Draft Red Herring Prospectus submitted to SEBI</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 2: SEBI Review — with branch -->
+        <div class="tree-node" data-stage="2" onclick="showStageInfo(2)">
+          <div class="tree-node-box stage-box" style="--sc:#f59e0b;--sb:rgba(245,158,11,0.1);">
+            <div class="tree-step-num" style="background:rgba(245,158,11,0.15);color:#f59e0b;">2</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">SEBI Observations <span class="tree-badge" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Regulator</span></div>
+              <div class="tree-node-sub">SEBI reviews prospectus, sends feedback within 30 days</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <!-- Branch: two outcomes -->
+          <div class="tree-branch-row">
+            <div class="tree-branch-left">
+              <div class="tree-hline-left"></div>
+              <div class="tree-branch-box rejected">
+                <svg width="14" height="14" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+                <span>Objections raised → Company revises</span>
+              </div>
+            </div>
+            <div class="tree-vline-mid"></div>
+            <div class="tree-branch-right">
+              <div class="tree-hline-right"></div>
+              <div class="tree-branch-box approved">
+                <svg width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                <span>Observations letter issued → Proceed</span>
+              </div>
+            </div>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 3: Updated DRHP -->
+        <div class="tree-node" data-stage="3" onclick="showStageInfo(3)">
+          <div class="tree-node-box stage-box" style="--sc:#fb923c;--sb:rgba(249,115,22,0.1);">
+            <div class="tree-step-num" style="background:rgba(249,115,22,0.15);color:#fb923c;">3</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">Updated DRHP <span class="tree-badge" style="background:rgba(249,115,22,0.12);color:#fb923c;">Revision</span></div>
+              <div class="tree-node-sub">Revised prospectus / addendum filed incorporating SEBI feedback</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 4: RHP Filed -->
+        <div class="tree-node" data-stage="4" onclick="showStageInfo(4)">
+          <div class="tree-node-box stage-box" style="--sc:#60a5fa;--sb:rgba(59,130,246,0.1);">
+            <div class="tree-step-num" style="background:rgba(59,130,246,0.15);color:#60a5fa;">4</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">RHP Filed <span class="tree-badge" style="background:rgba(59,130,246,0.12);color:#60a5fa;">Final</span></div>
+              <div class="tree-node-sub">Red Herring Prospectus with price band & lot size filed with ROC</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 5: IPO Opens -->
+        <div class="tree-node" data-stage="5" onclick="showStageInfo(5)">
+          <div class="tree-node-box stage-box" style="--sc:#34d399;--sb:rgba(16,185,129,0.12);">
+            <div class="tree-step-num" style="background:rgba(16,185,129,0.15);color:#34d399;">5</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">IPO Opens <span class="tree-badge" style="background:rgba(16,185,129,0.15);color:#34d399;">Live</span></div>
+              <div class="tree-node-sub">Subscription window opens for QIB, HNI & Retail investors (3 days)</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 6: IPO Closed -->
+        <div class="tree-node" data-stage="6" onclick="showStageInfo(6)">
+          <div class="tree-node-box stage-box" style="--sc:#10b981;--sb:rgba(16,185,129,0.15);">
+            <div class="tree-step-num" style="background:rgba(16,185,129,0.2);color:#10b981;">6</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">IPO Closed <span class="tree-badge" style="background:rgba(16,185,129,0.15);color:#10b981;">Closed</span></div>
+              <div class="tree-node-sub">Bidding period ends, subscription data finalised</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <!-- Branch: oversubscribed vs undersubscribed -->
+          <div class="tree-branch-row">
+            <div class="tree-branch-left">
+              <div class="tree-hline-left"></div>
+              <div class="tree-branch-box approved">
+                <svg width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                <span>Oversubscribed → Lottery allotment</span>
+              </div>
+            </div>
+            <div class="tree-vline-mid"></div>
+            <div class="tree-branch-right">
+              <div class="tree-hline-right"></div>
+              <div class="tree-branch-box rejected">
+                <svg width="14" height="14" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+                <span>Undersubscribed → Pro-rata allotment</span>
+              </div>
+            </div>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 7: Allotment -->
+        <div class="tree-node" data-stage="7" onclick="showStageInfo(7)">
+          <div class="tree-node-box stage-box" style="--sc:#6ee7b7;--sb:rgba(16,185,129,0.1);">
+            <div class="tree-step-num" style="background:rgba(110,231,183,0.15);color:#6ee7b7;">7</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">Allotment <span class="tree-badge" style="background:rgba(110,231,183,0.12);color:#6ee7b7;">T+6</span></div>
+              <div class="tree-node-sub">Shares credited to demat accounts, refunds processed within T+6 days</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+          <div class="tree-vline"></div>
+        </div>
+
+        <!-- STAGE 8: Listed — END NODE -->
+        <div class="tree-node" data-stage="8" onclick="showStageInfo(8)">
+          <div class="tree-node-box stage-box end-node" style="--sc:#D4AF37;--sb:rgba(212,175,55,0.12);">
+            <div class="tree-step-num" style="background:rgba(212,175,55,0.2);color:#D4AF37;">8</div>
+            <div class="tree-node-content">
+              <div class="tree-node-label">Listed on Exchange
+                <span class="tree-badge" style="background:rgba(212,175,55,0.15);color:#D4AF37;">🏆 Final</span>
+              </div>
+              <div class="tree-node-sub">Trading begins on NSE / BSE — stock is now publicly traded</div>
+            </div>
+            <svg class="tree-node-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+
       </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(249,115,22,0.15);color:#fb923c;">3</div>
-        <div><div style="font-size:13px;font-weight:700;">Updated DRHP</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Revised prospectus / addendum filed</div></div>
-      </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(59,130,246,0.15);color:#60a5fa;">4</div>
-        <div><div style="font-size:13px;font-weight:700;">RHP Filed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Final prospectus with price band</div></div>
-      </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(16,185,129,0.15);color:#34d399;">5</div>
-        <div><div style="font-size:13px;font-weight:700;">IPO Opens</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Subscription window opens</div></div>
-      </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(16,185,129,0.25);color:#10b981;">6</div>
-        <div><div style="font-size:13px;font-weight:700;">IPO Closed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Bidding period ends</div></div>
-      </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(16,185,129,0.1);color:#6ee7b7;">7</div>
-        <div><div style="font-size:13px;font-weight:700;">Allotment</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Shares allotted to bidders</div></div>
-      </div>
-      <div class="stage-legend-item">
-        <div class="stage-num" style="background:rgba(212,175,55,0.15);color:#D4AF37;">8</div>
-        <div><div style="font-size:13px;font-weight:700;">Listed</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Trading begins on NSE/BSE</div></div>
+
+      <!-- Stage Info Panel (shown on click) -->
+      <div class="tree-info-panel" id="treeInfoPanel" style="display:none;">
+        <button class="tree-info-close" onclick="document.getElementById('treeInfoPanel').style.display='none'">×</button>
+        <div class="tree-info-icon" id="treeInfoIcon"></div>
+        <div class="tree-info-title" id="treeInfoTitle"></div>
+        <div class="tree-info-desc" id="treeInfoDesc"></div>
+        <div class="tree-info-duration" id="treeInfoDuration"></div>
       </div>
     </div>
+
+    <style>
+      /* ── Tree Layout ─────────────────────────────────── */
+      .ipo-tree-wrap { position: relative; }
+      .ipo-tree {
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0; max-width: 640px;
+      }
+
+      .tree-node { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+      /* Vertical connecting line */
+      .tree-vline {
+        width: 2px; height: 28px;
+        background: linear-gradient(to bottom, #e2e8f0, #cbd5e1);
+        flex-shrink: 0;
+      }
+
+      /* Root node */
+      .root-box {
+        display: flex; align-items: center; gap: 14px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.06));
+        border: 1.5px solid rgba(99,102,241,0.2);
+        border-radius: 14px; padding: 16px 20px; width: 100%;
+        cursor: default;
+      }
+      .tree-node-icon {
+        width: 40px; height: 40px; border-radius: 10px;
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      }
+
+      /* Stage node box */
+      .stage-box {
+        display: flex; align-items: center; gap: 14px;
+        background: var(--sb, rgba(0,0,0,0.03));
+        border: 1.5px solid rgba(0,0,0,0.06);
+        border-radius: 14px; padding: 16px 20px; width: 100%;
+        cursor: pointer; transition: all 0.2s;
+        position: relative;
+      }
+      .stage-box:hover {
+        border-color: var(--sc, #10b981);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transform: translateX(4px);
+      }
+      .stage-box.active-stage {
+        border-color: var(--sc, #10b981);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--sc) 15%, transparent);
+      }
+      .end-node { border-width: 2px; }
+
+      .tree-step-num {
+        width: 34px; height: 34px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; font-weight: 800; flex-shrink: 0;
+      }
+      .tree-node-content { flex: 1; min-width: 0; }
+      .tree-node-label {
+        font-size: 14px; font-weight: 700; color: #0f172a;
+        display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      }
+      .tree-node-sub { font-size: 12px; color: #64748b; margin-top: 3px; line-height: 1.5; }
+      .tree-badge {
+        font-size: 10px; font-weight: 700; padding: 2px 8px;
+        border-radius: 20px; letter-spacing: 0.3px;
+      }
+      .tree-node-arrow { color: #cbd5e1; flex-shrink: 0; }
+      .stage-box:hover .tree-node-arrow { color: var(--sc, #10b981); }
+
+      /* Branch rows */
+      .tree-branch-row {
+        display: grid; grid-template-columns: 1fr 2px 1fr;
+        align-items: flex-start; gap: 0; width: 100%;
+        margin: 0;
+      }
+      .tree-vline-mid { width: 2px; background: linear-gradient(to bottom, #e2e8f0, #cbd5e1); min-height: 60px; }
+      .tree-hline-left, .tree-hline-right { height: 2px; background: #e2e8f0; margin-top: 20px; }
+
+      .tree-branch-box {
+        display: flex; align-items: flex-start; gap: 8px;
+        padding: 10px 14px; border-radius: 10px;
+        font-size: 11px; font-weight: 600; line-height: 1.4;
+        margin: 8px 0 8px;
+      }
+      .tree-branch-box svg { flex-shrink: 0; margin-top: 1px; }
+      .tree-branch-box.approved { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+      .tree-branch-box.rejected { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+      /* Info panel */
+      .tree-info-panel {
+        position: relative; background: #fff;
+        border: 1.5px solid #e2e8f0; border-radius: 16px;
+        padding: 24px; margin-top: 20px; max-width: 640px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        animation: slideIn 0.2s ease;
+      }
+      @keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+      .tree-info-close {
+        position: absolute; top: 12px; right: 14px;
+        background: none; border: none; font-size: 20px;
+        color: #94a3b8; cursor: pointer; line-height: 1;
+      }
+      .tree-info-close:hover { color: #0f172a; }
+      .tree-info-icon { font-size: 32px; margin-bottom: 10px; }
+      .tree-info-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+      .tree-info-desc { font-size: 14px; color: #475569; line-height: 1.7; }
+      .tree-info-duration {
+        display: inline-flex; align-items: center; gap: 6px;
+        margin-top: 14px; font-size: 12px; font-weight: 700;
+        color: #64748b; background: #f8fafc; padding: 6px 14px;
+        border-radius: 20px; border: 1px solid #e2e8f0;
+      }
+
+      @media (max-width: 640px) {
+        .tree-branch-row { grid-template-columns: 1fr; }
+        .tree-vline-mid { display: none; }
+        .tree-hline-left, .tree-hline-right { display: none; }
+        .tree-branch-box { margin: 4px 0; }
+      }
+    </style>
+
+    <script>
+      const STAGE_INFO = {
+        1: { icon: '📄', title: 'Stage 1 — DRHP Filed', desc: 'The company hires investment bankers (lead managers) and files a Draft Red Herring Prospectus (DRHP) with SEBI. This document contains everything about the company — financials, risk factors, promoter background, use of IPO proceeds, and more. It is made public on the SEBI website for investor feedback.', dur: '⏱ Timeline: Anytime — no fixed window' },
+        2: { icon: '🔍', title: 'Stage 2 — SEBI Observations', desc: 'SEBI reviews the DRHP within 30 days. It may raise objections on disclosures, related-party transactions, promoter credentials, or financial statements. SEBI issues an "Observations Letter" which is NOT an approval — it just means disclosures are adequate. Companies must incorporate feedback before proceeding.', dur: '⏱ Timeline: 30–75 days after DRHP filing' },
+        3: { icon: '✏️', title: 'Stage 3 — Updated DRHP', desc: 'Company files a revised or updated DRHP incorporating SEBI\'s observations. Additional disclosures, restated financials, or addendums may be filed. This is also when the company roadshows with institutional investors (QIBs) to gauge demand.', dur: '⏱ Timeline: 15–60 days after observations' },
+        4: { icon: '📋', title: 'Stage 4 — RHP Filed', desc: 'The Red Herring Prospectus (final) is filed with the Registrar of Companies (ROC) and stock exchanges (NSE/BSE). This contains the price band (e.g. ₹371–₹390), lot size, IPO dates, and final allocation ratios for QIB/HNI/Retail. This is the document investors use to make their bidding decision.', dur: '⏱ Timeline: 3–7 days before IPO opens' },
+        5: { icon: '🟢', title: 'Stage 5 — IPO Opens', desc: 'The subscription window opens on NSE and BSE platforms. Investors can bid at any price within the price band using ASBA (Application Supported by Blocked Amount). The IPO stays open for 3 working days. QIBs, High Net Worth Individuals (HNI/NII), and Retail investors bid in separate categories.', dur: '⏱ Timeline: 3 working days (mandatory)' },
+        6: { icon: '🔴', title: 'Stage 6 — IPO Closed', desc: 'Bidding ends at 5 PM on Day 3. Final subscription numbers are released by BSE/NSE. If oversubscribed, retail allotment is done via computerised lottery. HNI/NII allotment is pro-rata. QIB allotment is discretionary. The basis of allotment document is published post-closure.', dur: '⏱ Timeline: Same day as IPO close date' },
+        7: { icon: '💳', title: 'Stage 7 — Allotment', desc: 'Shares are credited to successful bidders\' demat accounts. Blocked funds of unsuccessful bidders are released (ASBA unblocking). The registrar (e.g. KFintech, Link Intime) manages this process. You can check allotment status on the registrar\'s website using PAN or application number.', dur: '⏱ Timeline: T+6 days after IPO close' },
+        8: { icon: '🏆', title: 'Stage 8 — Listed!', desc: 'The company\'s shares begin trading on NSE and BSE on the listing date. The opening price (listing price) is determined by pre-market discovery between 9–10 AM. From this point the company is a publicly listed entity — investors can buy and sell freely. The unlisted/GMP market price no longer applies.', dur: '⏱ Timeline: T+7 days after IPO close' },
+      };
+
+      function showStageInfo(stage) {
+        const info = STAGE_INFO[stage];
+        if (!info) return;
+        document.getElementById('treeInfoIcon').textContent = info.icon;
+        document.getElementById('treeInfoTitle').textContent = info.title;
+        document.getElementById('treeInfoDesc').textContent = info.desc;
+        document.getElementById('treeInfoDuration').innerHTML = info.dur;
+        const panel = document.getElementById('treeInfoPanel');
+        panel.style.display = 'block';
+        // Highlight active
+        document.querySelectorAll('.stage-box').forEach(b => b.classList.remove('active-stage'));
+        document.querySelector('[data-stage="'+stage+'"] .stage-box').classList.add('active-stage');
+        // Scroll to panel
+        setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+      }
+    </script>
+
 
     <!-- Filter chips -->
     <div class="filters-row">
