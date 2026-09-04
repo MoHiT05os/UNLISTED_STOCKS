@@ -5,248 +5,560 @@
   <script>!function(){var t=localStorage.getItem('unlisted_theme');document.documentElement.setAttribute('data-theme',t||'light')}()</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up | MDB ARTHASPHERE</title>
-  
+  <title>Sign Up | MDB Arthasphere</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="css/design-system.css">
-  <link rel="stylesheet" href="css/layout.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
+
   <style>
-    .auth-container {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
       min-height: 100vh;
+    }
+
+    .auth-shell {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left panel ──────────────────────────────── */
+    .auth-left {
+      background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0f2a1a 100%);
+      padding: 60px 56px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      background: var(--bg);
+      flex-direction: column;
+      justify-content: space-between;
       position: relative;
       overflow: hidden;
     }
-    
-    .auth-glow {
+    .auth-left::before {
+      content: '';
       position: absolute;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 65%);
       pointer-events: none;
     }
-    
-    .auth-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 48px;
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    .auth-left::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 65%);
+      pointer-events: none;
     }
-    
-    .auth-header {
-      text-align: center;
-      margin-bottom: 32px;
+
+    .al-top { position: relative; z-index: 1; }
+    .al-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; margin-bottom: 56px;
     }
-    
-    .auth-header img {
-      height: 48px;
-      margin-bottom: 24px;
+    .al-brand img { height: 40px; filter: brightness(0) invert(1); }
+    .al-brand-text { font-weight: 800; font-size: 15px; color: #fff; letter-spacing: -0.3px; }
+    .al-brand-sub { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+    .al-headline { color: #fff; }
+    .al-headline .eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: #10b981; margin-bottom: 20px;
     }
-    
-    .auth-header h1 {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 8px;
+    .al-headline h1 {
+      font-size: clamp(30px, 3.2vw, 44px);
+      font-weight: 800; line-height: 1.15;
+      color: #fff; margin-bottom: 20px;
     }
-    
-    .auth-header p {
-      color: var(--text-muted);
-      font-size: 15px;
+    .al-headline h1 em {
+      font-family: 'Newsreader', serif;
+      font-style: italic; color: #10b981;
     }
-    
-    .form-group {
-      margin-bottom: 20px;
+    .al-headline p {
+      font-size: 15px; color: rgba(255,255,255,0.55);
+      line-height: 1.7; max-width: 340px;
     }
-    
+
+    /* Feature list */
+    .al-features {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 16px;
+      padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .al-feature {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .al-feature-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(16,185,129,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: #10b981;
+    }
+    .al-feature-text .t { font-size: 14px; font-weight: 700; color: #fff; }
+    .al-feature-text .s { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+    /* ── Right panel ─────────────────────────────── */
+    .auth-right {
+      background: #f8fafc;
+      padding: 60px 56px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .auth-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      color: #64748b; text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      transition: all 0.18s;
+      align-self: flex-start;
+      margin-bottom: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .auth-back:hover {
+      color: #10b981; border-color: #10b981;
+      background: rgba(16,185,129,0.04);
+      transform: translateX(-2px);
+    }
+
+    .auth-form-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 420px;
+    }
+
+    .auth-title { font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 8px; }
+    .auth-subtitle { color: #64748b; font-size: 15px; line-height: 1.55; margin-bottom: 32px; }
+
+    /* Progress bar */
+    .signup-progress {
+      display: flex; gap: 4px; margin-bottom: 28px;
+    }
+    .progress-seg {
+      flex: 1; height: 3px; background: #e2e8f0; border-radius: 99px;
+      transition: background 0.3s;
+    }
+    .progress-seg.done { background: #10b981; }
+    .progress-step-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: #10b981; margin-bottom: 4px;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 18px; }
     .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text-muted);
+      display: block; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: #475569; margin-bottom: 8px;
     }
-    
+    .input-wrap { position: relative; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: #94a3b8; pointer-events: none;
+    }
     .form-control {
       width: 100%;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
+      padding: 14px 16px 14px 44px;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      color: #0f172a;
       font-size: 15px;
-      font-family: inherit;
+      font-family: 'Inter', sans-serif;
       transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    
     .form-control:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+      outline: none; border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
     }
-    
-    .btn-submit {
+    .form-control::placeholder { color: #cbd5e1; }
+    .form-control.valid { border-color: #10b981; }
+    .form-control.invalid { border-color: #ef4444; }
+
+    .field-hint {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: #94a3b8; margin-top: 6px;
+    }
+    .field-hint.error { color: #ef4444; }
+    .field-hint.success { color: #10b981; }
+
+    /* PAN field — right-aligned validation badge */
+    .pan-wrap { position: relative; }
+    .pan-badge {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 10px; font-weight: 800; padding: 3px 8px;
+      border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.2s;
+    }
+    .pan-badge.valid { background: #dcfce7; color: #16a34a; opacity: 1; }
+    .pan-badge.invalid { background: #fee2e2; color: #dc2626; opacity: 1; }
+
+    /* Buttons */
+    .btn-auth {
       width: 100%;
       padding: 16px;
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 12px;
-      border-radius: 10px;
+      background: #10b981;
+      color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+      letter-spacing: -0.2px;
+      position: relative; overflow: hidden;
     }
-    
-    .auth-footer {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 14px;
-      color: var(--text-muted);
+    .btn-auth::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
     }
-    
-    .auth-footer a {
-      color: var(--primary);
+    .btn-auth:hover::before { transform: translateX(100%); }
+    .btn-auth:hover:not(:disabled) {
+      background: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+    }
+    .btn-auth:active:not(:disabled) { transform: translateY(0); }
+    .btn-auth:disabled {
+      opacity: 0.55; cursor: not-allowed;
+      transform: none; box-shadow: none;
+    }
+    .btn-auth-ghost {
+      width: 100%; padding: 14px; border: 1.5px solid #e2e8f0;
+      background: #fff; color: #475569; border-radius: 12px;
+      font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
       text-decoration: none;
-      font-weight: 600;
     }
-    
-    .auth-footer a:hover {
-      text-decoration: underline;
+    .btn-auth-ghost:hover { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.04); }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
     }
-    
-    .error-msg {
-      color: #ef4444;
-      background: rgba(239,68,68,0.1);
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 20px;
-      display: none;
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .alert {
+      display: none; padding: 14px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; line-height: 1.5;
+      margin-bottom: 20px; gap: 10px; align-items: flex-start;
     }
-    
-    .success-msg {
-      color: #10b981;
-      background: rgba(16,185,129,0.1);
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 20px;
-      display: none;
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .alert svg { flex-shrink: 0; margin-top: 1px; }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      color: #cbd5e1; font-size: 12px; margin: 20px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: #e2e8f0;
+    }
+
+    .auth-foot {
+      text-align: center; font-size: 14px; color: #64748b; margin-top: 20px;
+    }
+    .auth-foot a { color: #10b981; font-weight: 700; text-decoration: none; }
+    .auth-foot a:hover { text-decoration: underline; }
+
+    .sec-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 10px; font-size: 12px; color: #64748b; margin-top: 20px;
+    }
+    .sec-badge svg { color: #10b981; flex-shrink: 0; }
+
+    /* Terms checkbox */
+    .check-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-top: 4px; cursor: pointer;
+    }
+    .check-row input[type=checkbox] {
+      width: 18px; height: 18px; margin-top: 1px; cursor: pointer;
+      accent-color: #10b981; flex-shrink: 0;
+    }
+    .check-row span { font-size: 13px; color: #64748b; line-height: 1.5; }
+    .check-row a { color: #10b981; font-weight: 600; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .auth-shell { grid-template-columns: 1fr; }
+      .auth-left { display: none; }
+      .auth-right { padding: 32px 24px; }
+      .auth-form-wrap { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-container">
-    <div class="auth-glow"></div>
-    <div class="auth-card">
-      <div class="auth-header">
-        <a href="index.html">
-          <img src="images/logo.png" alt="MDB Arthasphere">
-        </a>
-        <h1>Create an Account</h1>
-        <p>Invest in India's top unlisted & pre-IPO shares.</p>
+<div class="auth-shell">
+  <!-- ── Left Panel ─────────────────────────────────────── -->
+  <div class="auth-left">
+    <div class="al-top">
+      <a href="index.html" class="al-brand">
+        <img src="images/logo.png" alt="MDB Arthasphere">
+        <div>
+          <div class="al-brand-text">MDB ARTHASPHERE</div>
+          <div class="al-brand-sub">INVEST · GROW · PROSPER</div>
+        </div>
+      </a>
+      <div class="al-headline">
+        <span class="eyebrow">Join the Platform</span>
+        <h1>Get in before<br>the <em>IPO rush.</em></h1>
+        <p>Create your free account and start exploring 969+ unlisted shares, track GMP, and get corporate event alerts.</p>
       </div>
-      
-      <div id="errorBox" class="error-msg"></div>
-      <div id="successBox" class="success-msg"></div>
-      
-      <form id="signupForm">
-        <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" class="form-control" placeholder="As per PAN Card" required>
+    </div>
+
+    <div class="al-features">
+      <div class="al-feature">
+        <div class="al-feature-icon">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
         </div>
-        
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" class="form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        <div class="al-feature-text">
+          <div class="t">Instant price discovery</div>
+          <div class="s">Live GMP + indicative prices on 969+ shares</div>
         </div>
-        
-        <div class="form-group">
-          <label for="panNumber">PAN Card Number</label>
-          <input type="text" id="panNumber" class="form-control" placeholder="ABCDE1234F" style="text-transform: uppercase;" required maxlength="10">
-          <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:11px;">Your PAN is securely verified to comply with regulations.</small>
+      </div>
+      <div class="al-feature">
+        <div class="al-feature-icon">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path></svg>
         </div>
-        
-        <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">Verify & Sign Up</button>
-      </form>
-      
-      <div class="auth-footer">
-        Already have an account? <a href="login.html">Log In</a>
+        <div class="al-feature-text">
+          <div class="t">DRHP & IPO filings</div>
+          <div class="s">Track every pre-IPO filing in real time</div>
+        </div>
+      </div>
+      <div class="al-feature">
+        <div class="al-feature-icon">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
+        <div class="al-feature-text">
+          <div class="t">Corporate event alerts</div>
+          <div class="s">AGM, EGM, Bonus, Split — never miss one</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="js/app.js"></script>
-  <script>
-    const form = document.getElementById('signupForm');
-    const errorBox = document.getElementById('errorBox');
-    const successBox = document.getElementById('successBox');
-    const submitBtn = document.getElementById('submitBtn');
+  <!-- ── Right Panel ────────────────────────────────────── -->
+  <div class="auth-right">
+    <!-- Back button -->
+    <a href="index.html" class="auth-back">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg>
+      Back to Home
+    </a>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorBox.style.display = 'none';
-      successBox.style.display = 'none';
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Verifying PAN...';
+    <div class="auth-form-wrap">
+      <div id="errorAlert" class="alert alert-error">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6M9 9l6 6"></path></svg>
+        <span id="errorTxt"></span>
+      </div>
+      <div id="successAlert" class="alert alert-success">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+        <span id="successTxt"></span>
+      </div>
 
-      const data = {
-        full_name: document.getElementById('fullName').value,
-        phone: document.getElementById('phone').value,
-        pan_number: document.getElementById('panNumber').value.toUpperCase()
-      };
-      
-      // Basic local PAN regex validation
-      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-      if (!panRegex.test(data.pan_number)) {
-        errorBox.textContent = 'Invalid PAN format. Example: ABCDE1234F';
-        errorBox.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Verify & Sign Up';
-        return;
+      <!-- STEP 1: Details -->
+      <div id="formStep">
+        <div class="progress-step-label">Step 1 of 2 — Your Details</div>
+        <div class="signup-progress"><div class="progress-seg done" id="p1"></div><div class="progress-seg" id="p2"></div></div>
+        <h2 class="auth-title">Create your account</h2>
+        <p class="auth-subtitle">Invest in India's most promising unlisted & pre-IPO shares.</p>
+
+        <form id="signupForm" onsubmit="submitSignup(event)" novalidate>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <div class="input-wrap">
+              <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <input type="text" id="fullName" class="form-control" placeholder="As per PAN Card" required autocomplete="name">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Mobile Number</label>
+            <div class="input-wrap">
+              <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.68 16z"></path></svg>
+              <input type="tel" id="phone" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="panNumber">PAN Card Number</label>
+            <div class="input-wrap pan-wrap">
+              <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18"></path></svg>
+              <input type="text" id="panNumber" class="form-control" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase;padding-right:72px;" required autocomplete="off" oninput="validatePAN(this)">
+              <span class="pan-badge" id="panBadge"></span>
+            </div>
+            <div class="field-hint" id="panHint">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+              Format: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F)
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <label class="check-row" for="terms">
+              <input type="checkbox" id="terms" required>
+              <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I confirm I am 18+ years old and investing with own funds.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-auth" id="submitBtn">
+            <span id="submitLabel">Create Account</span>
+            <svg id="submitArrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Success -->
+      <div id="successStep" style="display:none; text-align:center; padding: 20px 0;">
+        <div style="width:72px;height:72px;background:#f0fdf4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <svg width="36" height="36" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+        </div>
+        <h2 class="auth-title" style="text-align:center; margin-bottom:12px;">Account created!</h2>
+        <p style="color:#64748b; font-size:15px; line-height:1.6; margin-bottom:32px;">Your account has been verified and is ready. You'll be redirected to login in a moment.</p>
+        <a href="login.html" class="btn-auth" style="text-decoration:none;">
+          Go to Login
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+
+      <div class="divider">OR</div>
+      <a href="login.html" class="btn-auth-ghost">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg>
+        Already have an account? Log In
+      </a>
+
+      <div class="sec-badge">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Your PAN & personal data is encrypted and never sold
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  const API = 'http://127.0.0.1:8000/api/auth';
+  const PAN_REGEX = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+  function showError(msg) {
+    const el = document.getElementById('errorAlert');
+    document.getElementById('errorTxt').textContent = msg;
+    el.classList.add('show');
+    document.getElementById('successAlert').classList.remove('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('successAlert');
+    document.getElementById('successTxt').textContent = msg;
+    el.classList.add('show');
+    document.getElementById('errorAlert').classList.remove('show');
+  }
+  function clearAlerts() {
+    document.getElementById('errorAlert').classList.remove('show');
+    document.getElementById('successAlert').classList.remove('show');
+  }
+
+  // PAN live validation
+  function validatePAN(input) {
+    const val = input.value.toUpperCase();
+    input.value = val;
+    const badge = document.getElementById('panBadge');
+    const hint = document.getElementById('panHint');
+    if (val.length === 0) {
+      badge.className = 'pan-badge';
+      input.classList.remove('valid', 'invalid');
+      hint.className = 'field-hint';
+      hint.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg> Format: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F)';
+    } else if (PAN_REGEX.test(val)) {
+      badge.className = 'pan-badge valid';
+      badge.textContent = 'VALID';
+      input.classList.add('valid'); input.classList.remove('invalid');
+      hint.className = 'field-hint success';
+      hint.innerHTML = '<svg width="12" height="12" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg> Valid PAN format';
+    } else {
+      badge.className = 'pan-badge invalid';
+      badge.textContent = 'INVALID';
+      input.classList.add('invalid'); input.classList.remove('valid');
+      hint.className = 'field-hint error';
+      hint.innerHTML = '<svg width="12" height="12" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6M9 9l6 6"></path></svg> Invalid format — example: ABCDE1234F';
+    }
+  }
+
+  async function submitSignup(e) {
+    e.preventDefault();
+    clearAlerts();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const panNumber = document.getElementById('panNumber').value.trim().toUpperCase();
+    const terms = document.getElementById('terms').checked;
+
+    // Validations
+    if (!fullName || fullName.length < 2) { showError('Please enter your full name as per PAN card.'); return; }
+    if (!/^[0-9]{10}$/.test(phone)) { showError('Please enter a valid 10-digit mobile number.'); return; }
+    if (!PAN_REGEX.test(panNumber)) { showError('Invalid PAN number. Format: ABCDE1234F'); return; }
+    if (!terms) { showError('Please agree to the Terms of Service to continue.'); return; }
+
+    // Loading
+    const btn = document.getElementById('submitBtn');
+    const lbl = document.getElementById('submitLabel');
+    const arr = document.getElementById('submitArrow');
+    btn.disabled = true;
+    lbl.textContent = 'Creating account…';
+    arr.style.display = 'none';
+    const sp = document.createElement('div'); sp.className = 'spinner'; btn.appendChild(sp);
+
+    try {
+      const res = await fetch(API + '/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: fullName, phone, pan_number: panNumber })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        // Show success step
+        document.getElementById('formStep').style.display = 'none';
+        document.getElementById('successStep').style.display = 'block';
+        document.getElementById('p1').classList.add('done');
+        document.getElementById('p2').classList.add('done');
+        setTimeout(() => window.location.href = 'login.html', 3500);
+      } else {
+        showError(data.detail || 'Registration failed. Please try again.');
+        btn.disabled = false;
+        lbl.textContent = 'Create Account';
+        arr.style.display = '';
+        sp.remove();
       }
-
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          successBox.textContent = 'Account verified and created successfully! Redirecting to login...';
-          successBox.style.display = 'block';
-          setTimeout(() => {
-            window.location.href = 'login.html';
-          }, 2000);
-        } else {
-          errorBox.textContent = result.detail || 'Registration failed.';
-          errorBox.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Verify & Sign Up';
-        }
-      } catch (err) {
-        errorBox.textContent = 'Server error. Please try again later.';
-        errorBox.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Verify & Sign Up';
-      }
-    });
-  </script>
+    } catch {
+      showError('Cannot connect to server. Make sure the backend is running.');
+      btn.disabled = false;
+      lbl.textContent = 'Create Account';
+      arr.style.display = '';
+      sp.remove();
+    }
+  }
+</script>
 </body>
 </html>

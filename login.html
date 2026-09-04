@@ -5,292 +5,681 @@
   <script>!function(){var t=localStorage.getItem('unlisted_theme');document.documentElement.setAttribute('data-theme',t||'light')}()</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | MDB ARTHASPHERE</title>
-  
+  <title>Login | MDB Arthasphere</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="css/design-system.css">
-  <link rel="stylesheet" href="css/layout.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
+
   <style>
-    .auth-container {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
       min-height: 100vh;
+    }
+
+    /* ── Split layout ─────────────────────────────────── */
+    .auth-shell {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left panel — branding ────────────────────────── */
+    .auth-left {
+      background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0f2a1a 100%);
+      padding: 60px 56px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      background: var(--bg);
+      flex-direction: column;
+      justify-content: space-between;
       position: relative;
       overflow: hidden;
     }
-    
-    .auth-glow {
+    .auth-left::before {
+      content: '';
       position: absolute;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 65%);
       pointer-events: none;
     }
-    
-    .auth-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 48px;
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-    
-    .auth-header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    
-    .auth-header img {
-      height: 48px;
-      margin-bottom: 24px;
-    }
-    
-    .auth-header h1 {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    
-    .auth-header p {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text-muted);
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 15px;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-    
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
-    }
-    
-    .btn-submit {
-      width: 100%;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 12px;
-      border-radius: 10px;
-    }
-    
-    .auth-footer {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-    
-    .auth-footer a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    
-    .auth-footer a:hover {
-      text-decoration: underline;
-    }
-    
-    .error-msg {
-      color: #ef4444;
-      background: rgba(239,68,68,0.1);
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 20px;
-      display: none;
-    }
-    
-    .success-msg {
-      color: #10b981;
-      background: rgba(16,185,129,0.1);
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 20px;
-      display: none;
+    .auth-left::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 65%);
+      pointer-events: none;
     }
 
-    #otpStep {
-      display: none;
+    .al-top { position: relative; z-index: 1; }
+    .al-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; margin-bottom: 56px;
+    }
+    .al-brand img { height: 40px; filter: brightness(0) invert(1); }
+    .al-brand-text { font-weight: 800; font-size: 15px; color: #fff; letter-spacing: -0.3px; }
+    .al-brand-sub { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+    .al-headline { color: #fff; }
+    .al-headline .eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: #10b981; margin-bottom: 20px;
+    }
+    .al-headline h1 {
+      font-size: clamp(30px, 3.2vw, 44px);
+      font-weight: 800; line-height: 1.15;
+      color: #fff; margin-bottom: 20px;
+    }
+    .al-headline h1 em {
+      font-family: 'Newsreader', serif;
+      font-style: italic; color: #10b981;
+    }
+    .al-headline p {
+      font-size: 15px; color: rgba(255,255,255,0.55);
+      line-height: 1.7; max-width: 340px;
+    }
+
+    .al-stats {
+      display: flex; gap: 32px;
+      position: relative; z-index: 1;
+      padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .al-stat .num {
+      font-size: 28px; font-weight: 800; color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    .al-stat .lbl { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+    /* ── Right panel — form ───────────────────────────── */
+    .auth-right {
+      background: #f8fafc;
+      padding: 60px 56px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Back button */
+    .auth-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      color: #64748b; text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      transition: all 0.18s;
+      align-self: flex-start;
+      margin-bottom: 48px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .auth-back:hover {
+      color: #10b981; border-color: #10b981;
+      background: rgba(16,185,129,0.04);
+      transform: translateX(-2px);
+    }
+    .auth-back svg { flex-shrink: 0; }
+
+    .auth-form-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 400px;
+    }
+
+    .auth-title {
+      margin-bottom: 8px;
+      font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.2;
+    }
+    .auth-subtitle {
+      color: #64748b; font-size: 15px; line-height: 1.55; margin-bottom: 36px;
+    }
+
+    /* Steps indicator */
+    .auth-steps {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 36px;
+    }
+    .step-item {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .step-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      background: #e2e8f0; color: #94a3b8;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .step-dot.active { background: #10b981; color: #fff; }
+    .step-dot.done { background: #0f172a; color: #fff; }
+    .step-label { font-size: 12px; font-weight: 600; color: #94a3b8; }
+    .step-label.active { color: #10b981; }
+    .step-label.done { color: #0f172a; }
+    .step-line { flex: 1; height: 1px; background: #e2e8f0; margin: 0 12px; min-width: 32px; }
+    .step-line.done { background: #10b981; }
+
+    /* Form elements */
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: #475569; margin-bottom: 8px;
+    }
+    .input-wrap { position: relative; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: #94a3b8; pointer-events: none;
+    }
+    .form-control {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      color: #0f172a;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
+    }
+    .form-control::placeholder { color: #cbd5e1; }
+
+    /* OTP boxes */
+    .otp-boxes {
+      display: flex; gap: 10px;
+    }
+    .otp-box {
+      flex: 1; aspect-ratio: 1;
+      text-align: center; font-size: 22px; font-weight: 700;
+      background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
+      color: #0f172a; font-family: 'Inter', sans-serif;
+      padding: 0;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      max-width: 56px;
+    }
+    .otp-box:focus {
+      outline: none; border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
+    }
+    .otp-box.filled { border-color: #10b981; background: rgba(16,185,129,0.05); }
+
+    .hint-text {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: #94a3b8; margin-top: 8px;
+    }
+    .hint-text svg { flex-shrink: 0; }
+
+    /* Submit button */
+    .btn-auth {
+      width: 100%;
+      padding: 16px;
+      background: #10b981;
+      color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+      letter-spacing: -0.2px;
+      position: relative; overflow: hidden;
+    }
+    .btn-auth::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .btn-auth:hover::before { transform: translateX(100%); }
+    .btn-auth:hover:not(:disabled) {
+      background: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+    }
+    .btn-auth:active:not(:disabled) { transform: translateY(0); }
+    .btn-auth:disabled {
+      opacity: 0.6; cursor: not-allowed;
+      transform: none; box-shadow: none;
+    }
+    .btn-auth-ghost {
+      width: 100%; padding: 14px; border: 1.5px solid #e2e8f0;
+      background: #fff; color: #475569; border-radius: 12px;
+      font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.2s; display: flex;
+      align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-auth-ghost:hover { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.04); }
+
+    /* Spinner */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alert messages */
+    .alert {
+      display: none; padding: 14px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; line-height: 1.5;
+      margin-bottom: 20px; gap: 10px; align-items: flex-start;
+    }
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .alert svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      color: #cbd5e1; font-size: 12px; margin: 20px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: #e2e8f0;
+    }
+
+    /* Footer link */
+    .auth-foot {
+      text-align: center; font-size: 14px; color: #64748b; margin-top: 24px;
+    }
+    .auth-foot a { color: #10b981; font-weight: 700; text-decoration: none; }
+    .auth-foot a:hover { text-decoration: underline; }
+
+    /* Resend timer */
+    .resend-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 16px; font-size: 13px;
+    }
+    .resend-timer { color: #94a3b8; }
+    .resend-btn {
+      color: #10b981; font-weight: 600; font-size: 13px;
+      background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif;
+      padding: 0; text-decoration: underline;
+    }
+    .resend-btn:disabled { color: #94a3b8; text-decoration: none; cursor: default; }
+
+    /* Security badge */
+    .sec-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 10px; font-size: 12px; color: #64748b; margin-top: 20px;
+    }
+    .sec-badge svg { color: #10b981; flex-shrink: 0; }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .auth-shell { grid-template-columns: 1fr; }
+      .auth-left { display: none; }
+      .auth-right { padding: 32px 24px; }
+      .auth-form-wrap { max-width: 100%; }
+      .auth-back { margin-bottom: 32px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-container">
-    <div class="auth-glow"></div>
-    <div class="auth-card">
-      <div class="auth-header">
-        <a href="index.html">
-          <img src="images/logo.png" alt="MDB Arthasphere">
-        </a>
-        <h1>Welcome Back</h1>
-        <p>Login with your registered phone number.</p>
+<div class="auth-shell">
+  <!-- ── Left Branding Panel ─────────────────────── -->
+  <div class="auth-left">
+    <div class="al-top">
+      <a href="index.html" class="al-brand">
+        <img src="images/logo.png" alt="MDB Arthasphere">
+        <div>
+          <div class="al-brand-text">MDB ARTHASPHERE</div>
+          <div class="al-brand-sub">INVEST · GROW · PROSPER</div>
+        </div>
+      </a>
+      <div class="al-headline">
+        <span class="eyebrow">Unlisted & Pre-IPO Shares</span>
+        <h1>Invest before<br>the <em>crowd does.</em></h1>
+        <p>Access 969+ unlisted shares, real-time GMP data, DRHP filings, and corporate events — all in one premium platform.</p>
       </div>
-      
-      <div id="errorBox" class="error-msg"></div>
-      <div id="successBox" class="success-msg"></div>
-      
-      <!-- STEP 1: Phone Input -->
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" class="form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-submit" id="sendOtpBtn">Get OTP</button>
-      </form>
-
-      <!-- STEP 2: OTP Input -->
-      <form id="otpStep">
-        <div class="form-group">
-          <label for="otp">Enter 6-digit OTP</label>
-          <input type="text" id="otp" class="form-control" placeholder="Enter OTP (Hint: 123456 for testing)" pattern="[0-9]{6}" required>
-          <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:11px;">(Check the backend server console for the mock OTP)</small>
-        </div>
-        <button type="submit" class="btn btn-primary btn-submit" id="verifyBtn">Verify & Login</button>
-      </form>
-      
-      <div class="auth-footer" id="authFooter">
-        Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="al-stats">
+      <div class="al-stat">
+        <div class="num">969+</div>
+        <div class="lbl">Shares tracked</div>
+      </div>
+      <div class="al-stat">
+        <div class="num">₹0</div>
+        <div class="lbl">Platform fee</div>
+      </div>
+      <div class="al-stat">
+        <div class="num">100%</div>
+        <div class="lbl">Secure & private</div>
       </div>
     </div>
   </div>
 
-  <script src="js/app.js"></script>
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const otpStep = document.getElementById('otpStep');
-    const errorBox = document.getElementById('errorBox');
-    const successBox = document.getElementById('successBox');
-    const sendOtpBtn = document.getElementById('sendOtpBtn');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const authFooter = document.getElementById('authFooter');
+  <!-- ── Right Form Panel ────────────────────────── -->
+  <div class="auth-right">
+    <!-- Back button -->
+    <a href="index.html" class="auth-back">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg>
+      Back to Home
+    </a>
 
-    let currentPhone = '';
+    <div class="auth-form-wrap">
+      <!-- Step indicator -->
+      <div class="auth-steps" id="stepsBar">
+        <div class="step-item">
+          <div class="step-dot active" id="step1dot">1</div>
+          <span class="step-label active" id="step1lbl">Phone</span>
+        </div>
+        <div class="step-line" id="stepLine"></div>
+        <div class="step-item">
+          <div class="step-dot" id="step2dot">2</div>
+          <span class="step-label" id="step2lbl">Verify OTP</span>
+        </div>
+      </div>
 
-    // Step 1: Request OTP
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorBox.style.display = 'none';
-      successBox.style.display = 'none';
-      sendOtpBtn.disabled = true;
-      sendOtpBtn.textContent = 'Sending...';
+      <div id="errorAlert" class="alert alert-error">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6M9 9l6 6"></path></svg>
+        <span id="errorTxt"></span>
+      </div>
+      <div id="successAlert" class="alert alert-success">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+        <span id="successTxt"></span>
+      </div>
 
-      currentPhone = document.getElementById('phone').value;
+      <!-- STEP 1: Phone -->
+      <div id="step1">
+        <h2 class="auth-title">Welcome back</h2>
+        <p class="auth-subtitle">Enter your registered mobile number to receive a secure OTP.</p>
 
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone: currentPhone })
-        });
+        <form id="loginForm" onsubmit="sendOTP(event)">
+          <div class="form-group">
+            <label for="phone">Mobile Number</label>
+            <div class="input-wrap">
+              <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.68 16z"></path></svg>
+              <input type="tel" id="phone" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required autocomplete="tel">
+            </div>
+          </div>
+          <button type="submit" class="btn-auth" id="sendOtpBtn">
+            <span id="sendOtpLabel">Get OTP</span>
+            <svg id="sendArrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </button>
+        </form>
 
-        const result = await response.json();
+        <div class="divider">OR</div>
+        <a href="signup.html" class="btn-auth-ghost">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Create a new account
+        </a>
 
-        if (response.ok) {
-          successBox.textContent = 'OTP sent to your phone! (Check server console)';
-          successBox.style.display = 'block';
-          
-          loginForm.style.display = 'none';
-          authFooter.style.display = 'none';
-          otpStep.style.display = 'block';
-        } else {
-          errorBox.textContent = result.detail || 'Login failed.';
-          errorBox.style.display = 'block';
-          sendOtpBtn.disabled = false;
-          sendOtpBtn.textContent = 'Get OTP';
-        }
-      } catch (err) {
-        errorBox.textContent = 'Server error. Is the backend running?';
-        errorBox.style.display = 'block';
-        sendOtpBtn.disabled = false;
-        sendOtpBtn.textContent = 'Get OTP';
-      }
+        <div class="auth-foot" style="margin-top:28px;">
+          Don't have an account? <a href="signup.html">Sign Up free</a>
+        </div>
+      </div>
+
+      <!-- STEP 2: OTP -->
+      <div id="step2" style="display:none;">
+        <h2 class="auth-title">Enter OTP</h2>
+        <p class="auth-subtitle" id="otpSubtitle">We sent a 6-digit code to your number.</p>
+
+        <form id="otpForm" onsubmit="verifyOTP(event)">
+          <div class="form-group">
+            <label>6-Digit OTP</label>
+            <div class="otp-boxes" id="otpBoxes">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="0">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="1">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="2">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="3">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="4">
+              <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="5">
+            </div>
+            <div class="hint-text">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+              Demo OTP: <strong>123456</strong>
+            </div>
+          </div>
+          <button type="submit" class="btn-auth" id="verifyBtn">
+            <span id="verifyLabel">Verify & Login</span>
+            <svg id="verifyArrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </button>
+        </form>
+
+        <div class="resend-row">
+          <span class="resend-timer" id="resendTimer">Resend in <b id="timerNum">30</b>s</span>
+          <button class="resend-btn" id="resendBtn" disabled onclick="resendOTP()">Resend OTP</button>
+        </div>
+        <button class="btn-auth-ghost" style="margin-top:16px;" onclick="goBack()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg>
+          Change number
+        </button>
+      </div>
+
+      <div class="sec-badge">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Your data is secured with 256-bit SSL encryption
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  let currentPhone = '';
+  let resendInterval = null;
+  const API = 'http://127.0.0.1:8000/api/auth';
+
+  // ── Utilities ─────────────────────────────────────────────
+  function showError(msg) {
+    const el = document.getElementById('errorAlert');
+    document.getElementById('errorTxt').textContent = msg;
+    el.classList.add('show');
+    document.getElementById('successAlert').classList.remove('show');
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('successAlert');
+    document.getElementById('successTxt').textContent = msg;
+    el.classList.add('show');
+    document.getElementById('errorAlert').classList.remove('show');
+  }
+  function clearAlerts() {
+    document.getElementById('errorAlert').classList.remove('show');
+    document.getElementById('successAlert').classList.remove('show');
+  }
+
+  function setLoading(btnId, labelId, arrowId, loading, defaultLabel) {
+    const btn = document.getElementById(btnId);
+    const lbl = document.getElementById(labelId);
+    const arr = document.getElementById(arrowId);
+    if (loading) {
+      btn.disabled = true;
+      lbl.textContent = 'Please wait…';
+      if (arr) arr.style.display = 'none';
+      // Add spinner
+      let sp = btn.querySelector('.spinner');
+      if (!sp) { sp = document.createElement('div'); sp.className = 'spinner'; btn.appendChild(sp); }
+    } else {
+      btn.disabled = false;
+      lbl.textContent = defaultLabel;
+      if (arr) arr.style.display = '';
+      const sp = btn.querySelector('.spinner');
+      if (sp) sp.remove();
+    }
+  }
+
+  // ── OTP boxes UX ──────────────────────────────────────────
+  document.querySelectorAll('.otp-box').forEach((box, i, all) => {
+    box.addEventListener('input', (e) => {
+      const val = e.target.value.replace(/[^0-9]/g, '');
+      e.target.value = val;
+      box.classList.toggle('filled', val.length > 0);
+      if (val && i < all.length - 1) all[i + 1].focus();
     });
-
-    // Step 2: Verify OTP
-    otpStep.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorBox.style.display = 'none';
-      successBox.style.display = 'none';
-      verifyBtn.disabled = true;
-      verifyBtn.textContent = 'Verifying...';
-
-      const otp = document.getElementById('otp').value;
-
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/verify-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone: currentPhone, otp: otp })
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          successBox.textContent = 'Login successful! Redirecting to Screener...';
-          successBox.style.display = 'block';
-          
-          // Store token and redirect
-          localStorage.setItem('auth_token', result.token);
-          localStorage.setItem('user_name', result.user.name);
-          localStorage.setItem('user_phone', result.user.phone);
-          if (result.user.pan_number) {
-            localStorage.setItem('user_pan', result.user.pan_number);
-          }
-          
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
-        } else {
-          errorBox.textContent = result.detail || 'Invalid OTP.';
-          errorBox.style.display = 'block';
-          verifyBtn.disabled = false;
-          verifyBtn.textContent = 'Verify & Login';
-        }
-      } catch (err) {
-        errorBox.textContent = 'Server error.';
-        errorBox.style.display = 'block';
-        verifyBtn.disabled = false;
-        verifyBtn.textContent = 'Verify & Login';
-      }
+    box.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !box.value && i > 0) all[i - 1].focus();
+      if (e.key === 'ArrowLeft' && i > 0) all[i - 1].focus();
+      if (e.key === 'ArrowRight' && i < all.length - 1) all[i + 1].focus();
     });
-  </script>
+    box.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').substring(0, 6);
+      pasted.split('').forEach((ch, j) => { if (all[j]) { all[j].value = ch; all[j].classList.add('filled'); } });
+      if (all[pasted.length - 1]) all[Math.min(pasted.length, all.length - 1)].focus();
+    });
+  });
+
+  function getOTPValue() {
+    return Array.from(document.querySelectorAll('.otp-box')).map(b => b.value).join('');
+  }
+
+  // ── Step 1: Send OTP ──────────────────────────────────────
+  async function sendOTP(e) {
+    e.preventDefault();
+    clearAlerts();
+    const phone = document.getElementById('phone').value.trim();
+    if (!/^[0-9]{10}$/.test(phone)) {
+      showError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setLoading('sendOtpBtn', 'sendOtpLabel', 'sendArrow', true);
+    currentPhone = phone;
+
+    try {
+      const res = await fetch(API + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        showSuccess('OTP sent! Enter the 6-digit code below.');
+        document.getElementById('otpSubtitle').textContent = 'We sent a 6-digit code to +91 ' + phone;
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        // Update step indicator
+        document.getElementById('step1dot').className = 'step-dot done';
+        document.getElementById('step1dot').innerHTML = '✓';
+        document.getElementById('step1lbl').className = 'step-label done';
+        document.getElementById('stepLine').className = 'step-line done';
+        document.getElementById('step2dot').className = 'step-dot active';
+        document.getElementById('step2lbl').className = 'step-label active';
+        // Focus first OTP box
+        setTimeout(() => document.querySelector('.otp-box').focus(), 100);
+        startResendTimer();
+      } else {
+        showError(data.detail || 'Phone number not registered. Please sign up first.');
+      }
+    } catch {
+      showError('Cannot connect to server. Make sure the backend is running on port 8000.');
+    }
+    setLoading('sendOtpBtn', 'sendOtpLabel', 'sendArrow', false, 'Get OTP');
+  }
+
+  // ── Step 2: Verify OTP ────────────────────────────────────
+  async function verifyOTP(e) {
+    e.preventDefault();
+    clearAlerts();
+    const otp = getOTPValue();
+    if (otp.length < 6) {
+      showError('Please enter all 6 digits of the OTP.');
+      document.querySelector('.otp-box').focus();
+      return;
+    }
+    setLoading('verifyBtn', 'verifyLabel', 'verifyArrow', true);
+
+    try {
+      const res = await fetch(API + '/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhone, otp })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        showSuccess('Login successful! Redirecting…');
+        if (data.token) localStorage.setItem('auth_token', data.token);
+        if (data.user) {
+          localStorage.setItem('user_name', data.user.name || data.user.full_name || '');
+          localStorage.setItem('user_phone', data.user.phone || currentPhone);
+          if (data.user.pan_number) localStorage.setItem('user_pan', data.user.pan_number);
+        }
+        setTimeout(() => window.location.href = 'index.html', 1400);
+        return;
+      } else {
+        showError(data.detail || 'Invalid OTP. Please try again.');
+        document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
+        document.querySelector('.otp-box').focus();
+      }
+    } catch {
+      showError('Server error. Please try again.');
+    }
+    setLoading('verifyBtn', 'verifyLabel', 'verifyArrow', false, 'Verify & Login');
+  }
+
+  // ── Go back ───────────────────────────────────────────────
+  function goBack() {
+    clearAlerts();
+    clearInterval(resendInterval);
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step1dot').className = 'step-dot active';
+    document.getElementById('step1dot').innerHTML = '1';
+    document.getElementById('step1lbl').className = 'step-label active';
+    document.getElementById('stepLine').className = 'step-line';
+    document.getElementById('step2dot').className = 'step-dot';
+    document.getElementById('step2lbl').className = 'step-label';
+    document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('filled'); });
+    setLoading('sendOtpBtn', 'sendOtpLabel', 'sendArrow', false, 'Get OTP');
+  }
+
+  // ── Resend timer ──────────────────────────────────────────
+  function startResendTimer() {
+    let sec = 30;
+    const timerEl = document.getElementById('timerNum');
+    const resendBtn = document.getElementById('resendBtn');
+    const timerRow = document.getElementById('resendTimer');
+    resendBtn.disabled = true;
+    timerRow.style.display = '';
+    if (resendInterval) clearInterval(resendInterval);
+    resendInterval = setInterval(() => {
+      sec--;
+      timerEl.textContent = sec;
+      if (sec <= 0) {
+        clearInterval(resendInterval);
+        timerRow.style.display = 'none';
+        resendBtn.disabled = false;
+      }
+    }, 1000);
+  }
+
+  async function resendOTP() {
+    clearAlerts();
+    document.getElementById('resendBtn').disabled = true;
+    try {
+      await fetch(API + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhone })
+      });
+      showSuccess('OTP resent successfully!');
+      startResendTimer();
+    } catch {
+      showError('Failed to resend. Please try again.');
+    }
+  }
+</script>
 </body>
 </html>
