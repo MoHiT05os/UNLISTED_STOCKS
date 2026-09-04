@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   gap: 0;
-  animation: ticker-scroll 120s linear infinite;
+  animation: ticker-scroll 200s linear infinite; /* JS overrides this dynamically */
   white-space: nowrap;
   will-change: transform;
 }
