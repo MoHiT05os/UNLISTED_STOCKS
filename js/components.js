@@ -66,6 +66,11 @@
     if (stock.hot) badges.push('<span class="badge badge-hot">🔥 Hot</span>');
     if (stock.isNew) badges.push('<span class="badge badge-new">✨ New</span>');
     if (stock.expectedIpoWindow) badges.push('<span class="badge badge-ipo" style="background:rgba(212,175,55,0.12);color:#D4AF37;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;">🚀 IPO</span>');
+    if (stock.tags && stock.tags.length > 0) {
+      stock.tags.forEach(t => {
+        if(t !== 'Popular') badges.push(`<span class="badge" style="background:rgba(16, 185, 129, 0.15);color:#10b981;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;">⭐ ${t}</span>`);
+      });
+    }
 
     const change = changeHTML(stock.price, stock.prevPrice);
 
