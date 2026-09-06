@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>html,body{background:#f8fafc !important;color:#0f172a !important;}</style>
+  <script>!function(){var t=localStorage.getItem('unlisted_theme');document.documentElement.setAttribute('data-theme',t||'light')}()</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live IPO GMP | Mainboard and SME IPOs | MDB Arthasphere</title>
+  <meta name="description" content="Track Live IPO Grey Market Premium (GMP), expected listing price, subscription status, and IPO dates.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/design-system.css?v=2">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    /* IPO GMP Specific Styles */
+    .gmp-header {
+      padding: 60px 0 40px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+    }
+    .gmp-header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .gmp-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+    .filter-btn {
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .table-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow-x: auto;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+      margin-bottom: 60px;
+    }
+    .gmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+      text-align: left;
+    }
+    .gmp-table th {
+      background: #f1f5f9;
+      padding: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .gmp-table td {
+      padding: 16px;
+      font-size: 14px;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .gmp-table tr:hover td {
+      background: #f8fafc;
+    }
+    .gmp-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ipo-name {
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .ipo-name:hover {
+      text-decoration: underline;
+    }
+    .ipo-type-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .type-mainboard { background: #e0e7ff; color: #4338ca; }
+    .type-sme { background: #fce7f3; color: #be185d; }
+    
+    .gmp-value {
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .val-positive { color: #10b981; }
+    .val-negative { color: #ef4444; }
+    .val-neutral { color: #64748b; }
+    
+    .fire-icon {
+      color: #f97316;
+      display: inline-block;
+      margin-left: 4px;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 99px;
+      font-weight: 700;
+    }
+    .status-upcoming { background: #fef08a; color: #854d0e; }
+    .status-open { background: #bbf7d0; color: #166534; }
+    .status-closed { background: #e2e8f0; color: #475569; }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a href="index.html" class="brand" style="display:flex; align-items:center; text-decoration:none;">
+        <img src="images/logo.png" alt="MDB Arthasphere" style="height:52px; width:auto; object-fit:contain;" />
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="screener.html">Screener</a>
+        <a href="drhp.html">DRHP</a>
+        <a href="ipo-gmp.html" style="color: var(--primary); font-weight:700;">IPO GMP</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-ghost hide-sm" style="text-decoration:none;display:inline-flex;align-items:center;">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="gmp-header">
+    <div class="wrap">
+      <h1>Live IPO & GMP Tracker</h1>
+      <p>Track real-time Grey Market Premium (GMP), expected listing price, subscription status, and crucial dates for all Mainboard and SME IPOs.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="All">All IPOs</button>
+      <button class="filter-btn" data-filter="Mainboard">Mainboard</button>
+      <button class="filter-btn" data-filter="SME">SME IPO</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="gmp-table">
+        <thead>
+          <tr>
+            <th>IPO Name</th>
+            <th>Price Band</th>
+            <th>GMP (₹)</th>
+            <th>Est Listing</th>
+            <th>Sub (x)</th>
+            <th>Dates (Open - Close)</th>
+            <th>Sauda / Kostak</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="gmp-tbody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <p>&copy; 2026 MDB Arthasphere. Designed for premium unlisted market research.</p>
+    </div>
+  </footer>
+
+  <script src="js/gmp-data.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tbody = document.getElementById("gmp-tbody");
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      
+      function renderTable(filter = "All") {
+        tbody.innerHTML = "";
+        
+        let filteredData = window.GMP_DATA;
+        if (filter !== "All") {
+          filteredData = filteredData.filter(ipo => ipo.type === filter);
+        }
+        
+        if (filteredData.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px; color: var(--text-muted);">No IPOs found in this category.</td></tr>`;
+          return;
+        }
+
+        filteredData.forEach(ipo => {
+          // GMP color logic
+          let gmpClass = "val-neutral";
+          let gmpArrow = "";
+          if (ipo.gmp > 0) {
+            gmpClass = "val-positive";
+            gmpArrow = "▲";
+          } else if (ipo.gmp < 0) {
+            gmpClass = "val-negative";
+            gmpArrow = "▼";
+          }
+          
+          // Fire icon for high GMP (> 40% gain)
+          const isFire = ipo.gainPct > 40 ? `<span class="fire-icon" title="High Demand">🔥</span>` : "";
+
+          // Status Badge logic
+          let statusClass = "status-upcoming";
+          if (ipo.status === "Open") statusClass = "status-open";
+          if (ipo.status === "Closed") statusClass = "status-closed";
+
+          // Table Row
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>
+              <a href="#" class="ipo-name">${ipo.name}</a>
+              <span class="ipo-type-badge type-${ipo.type.toLowerCase()}">${ipo.type}</span>
+            </td>
+            <td style="font-weight: 500;">${ipo.priceBand}</td>
+            <td>
+              <span class="gmp-value ${gmpClass}">${gmpArrow} ₹${Math.abs(ipo.gmp)}</span> ${isFire}
+            </td>
+            <td>
+              <div style="font-weight:700; color:var(--text);">₹${ipo.estListing}</div>
+              <div class="${gmpClass}" style="font-size:12px; font-weight:600;">(${ipo.gainPct > 0 ? '+' : ''}${ipo.gainPct}%)</div>
+            </td>
+            <td>
+              <div style="font-size:12px; color:var(--text-muted);">Total: <strong style="color:var(--text)">${ipo.subTotal}</strong></div>
+              <div style="font-size:12px; color:var(--text-muted);">Retail: <strong style="color:var(--text)">${ipo.subRetail}</strong></div>
+            </td>
+            <td>
+              <div style="font-size:13px; font-weight:500;">${ipo.openDate} - ${ipo.closeDate}</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">List: ${ipo.listingDate}</div>
+            </td>
+            <td>
+              <div style="font-size:12px; color:var(--text-muted);">Sauda: <strong style="color:var(--text)">₹${ipo.subjectToSauda}</strong></div>
+              <div style="font-size:12px; color:var(--text-muted);">Kostak: <strong style="color:var(--text)">₹${ipo.kostak}</strong></div>
+            </td>
+            <td>
+              <span class="status-badge ${statusClass}">${ipo.status}</span>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Initial Render
+      renderTable("All");
+
+      // Filter Clicks
+      filterBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          filterBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderTable(btn.dataset.filter);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
