@@ -266,7 +266,8 @@
       <nav class="nav-links" id="nav-links">
         <a href="index.html">Home</a>
         <a href="screener.html" style="color: var(--primary);">Screener</a>
-        <a href="drhp.html">DRHP</a>
+        <a href="https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13" target="_blank" rel="noopener">DRHP</a>
+        <a href="ipo-gmp.html">IPO</a>
         <a href="events.html">Events</a>
         <a href="about.html">About</a>
       </nav>
@@ -286,7 +287,107 @@
     </div>
   </header>
 
-  <div class="screener-page">
+  <!-- ── Sentinel-Style Screener Hero ─────────────────────── -->
+  <section style="
+    background: linear-gradient(135deg, rgba(16,185,129,0.13) 0%, rgba(16,185,129,0.04) 40%, #f8fafc 100%);
+    padding: 72px 0 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e2e8f0;
+  ">
+    <!-- decorative green blobs -->
+    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.12),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.07),transparent 70%);pointer-events:none;"></div>
+
+    <div class="wrap" style="position:relative;z-index:1;">
+      <!-- eyebrow -->
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #bbf7d0;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#16a34a;letter-spacing:0.5px;margin-bottom:24px;">
+        <span style="width:7px;height:7px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+        LIVE MARKET SCREENER
+      </div>
+
+      <!-- headline -->
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.1;color:#0f172a;margin-bottom:16px;max-width:700px;">
+        Screen risk.<br>
+        <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:#10b981;">Act with conviction.</em>
+      </h1>
+      <p style="font-size:17px;color:#64748b;max-width:560px;line-height:1.7;margin-bottom:36px;">
+        Filter 969+ unlisted companies by sector, risk score, EBITDA, IPO window, and more. Built for serious investors.
+      </p>
+
+      <!-- CTA row -->
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:48px;">
+        <a href="#screener-main" style="background:#0f172a;color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;text-decoration:none;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;" onmouseover="this.style.background='#10b981'" onmouseout="this.style.background='#0f172a'">
+          Start Screening
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" style="background:#fff;color:#0f172a;padding:14px 28px;border-radius:99px;font-weight:600;text-decoration:none;font-size:15px;border:1px solid #e2e8f0;display:inline-flex;align-items:center;gap:8px;" onclick="alert('Export feature coming soon!')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export CSV
+        </a>
+      </div>
+
+      <!-- Tab switcher (Sentinel-style) -->
+      <div style="display:flex;gap:4px;padding:6px;background:rgba(241,245,249,0.8);border-radius:12px;width:fit-content;margin-bottom:-1px;">
+        <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:#fff;color:#0f172a;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
+        <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
+        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
+        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
+      </div>
+    </div>
+
+    <!-- mini stats bar -->
+    <div style="background:rgba(255,255,255,0.7);border-top:1px solid #e2e8f0;padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
+      <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#0f172a;" id="hero-total-count">969</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
+        </div>
+        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#10b981;">&#8377;16Cr+</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
+        </div>
+        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#0f172a;">9</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</div>
+        </div>
+        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#D4AF37;">4.9★</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Google Rating</div>
+        </div>
+        <div style="flex:1;"></div>
+        <div style="font-size:12px;color:#94a3b8;">Last updated: <strong style="color:#0f172a;" id="hero-last-update">Today</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="screener-main" class="screener-page">
+
+  <script>
+    // Tab switcher logic — hooks into existing screener filters once loaded
+    function switchTab(tab) {
+      ['all','hot','ipo','lowrisk'].forEach(t => {
+        const btn = document.getElementById('tab-'+t);
+        if(btn) {
+          btn.style.background = t===tab ? '#fff' : 'transparent';
+          btn.style.color = t===tab ? '#0f172a' : '#64748b';
+          btn.style.boxShadow = t===tab ? '0 1px 3px rgba(0,0,0,0.08)' : 'none';
+          btn.style.fontWeight = t===tab ? '700' : '600';
+        }
+      });
+      // Apply filter to screener table
+      if(window.applyHeroTab) window.applyHeroTab(tab);
+      else {
+        // Fallback: scroll down to screener
+        document.getElementById('screener-main')?.scrollIntoView({behavior:'smooth'});
+      }
+    }
+    // Set today's date
+    document.getElementById('hero-last-update').textContent = new Date().toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
+  </script>
 
     <!-- ════════════════════════════════════════
          FILTER SIDEBAR  (from Excel Sheet 2 & 3)
