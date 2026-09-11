@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap');
 
 :root {
-  /* Light Mode Default (White/Slate theme) */
-  --bg: #f8fafc;
+  /* Emerald & Gold Premium Theme */
+  --bg: #F5F5F5;
   --bg-surface: #ffffff;
-  --bg-card: rgba(0, 0, 0, 0.02);
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --primary: #10b981; /* Shift primary brand color to beautiful forest green */
-  --primary-dark: #059669;
-  --accent: #8b5cf6;
-  --border: rgba(0, 0, 0, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.06);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  --bg-card: rgba(17, 75, 61, 0.03);
+  --text: #2C2C2C;
+  --text-muted: #6b7280;
+  --primary: #0F4C3A; /* Emerald Green */
+  --primary-dark: #0B3A2C;
+  --accent: #D4AF37; /* Gold */
+  --border: rgba(15, 76, 58, 0.12);
+  --glass-bg: rgba(245, 245, 245, 0.85);
+  --glass-border: rgba(212, 175, 55, 0.2);
+  --shadow: 0 12px 32px rgba(15, 76, 58, 0.08);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -41,7 +41,7 @@
   --bg-card: rgba(255, 255, 255, 0.03);
   --text: #f1f5f9;
   --text-muted: #94a3b8;
-  --primary: #10b981;
+  --primary: var(--primary);
   --primary-dark: #059669;
   --accent: #8B5CF6;
   --border: rgba(255, 255, 255, 0.06);

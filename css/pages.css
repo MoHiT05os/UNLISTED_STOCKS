@@ -60,7 +60,7 @@
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(16, 185, 129, 0.15) 0%, rgba(10, 15, 26, 0) 50%, rgba(212, 168, 83, 0.05) 100%);
+  background: linear-gradient(120deg, rgba(15, 76, 58, 0.15) 0%, rgba(10, 15, 26, 0) 50%, rgba(212, 168, 83, 0.05) 100%);
   z-index: -2;
   animation: gradient-shift 15s ease infinite;
   background-size: 200% 200%;
@@ -235,7 +235,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(15, 76, 58, 0.1);
   border-radius: 50%;
 }
 
@@ -279,7 +279,7 @@
 .search-bar input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 76, 58, 0.1);
 }
 
 .search-bar svg {
@@ -458,7 +458,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 76, 58, 0.1);
 }
 
 textarea.form-control {
@@ -953,7 +953,7 @@ textarea.form-control {
   font-weight: 600;
 }
 
-.modern-pill.positive .change { color: #10b981; }
+.modern-pill.positive .change { color: var(--primary); }
 .modern-pill.negative .change { color: #ef4444; }
 
 @keyframes modern-marquee {
@@ -1057,18 +1057,18 @@ textarea.form-control {
   align-items: center;
   gap: 4px;
 }
-.mover-change.positive { color: #10b981; }
+.mover-change.positive { color: var(--primary); }
 .mover-change.negative { color: #ef4444; }
 
 /* Market Movers Coloring */
 .mover-card.gainer {
-  background: rgba(16,185,129,0.08);
-  border-color: rgba(16,185,129,0.3);
+  background: rgba(15,76,58,0.08);
+  border-color: rgba(15,76,58,0.3);
 }
 .mover-card.gainer:hover {
-  background: rgba(16,185,129,0.15);
-  border-color: rgba(16,185,129,0.6);
-  box-shadow: 0 8px 24px rgba(16,185,129,0.1);
+  background: rgba(15,76,58,0.15);
+  border-color: rgba(15,76,58,0.6);
+  box-shadow: 0 8px 24px rgba(15,76,58,0.1);
 }
 .mover-card.loser {
   background: rgba(239,68,68,0.08);
@@ -1080,13 +1080,13 @@ textarea.form-control {
   box-shadow: 0 8px 24px rgba(239,68,68,0.1);
 }
 .mover-card.gainer .mover-card-symbol, .mover-card.gainer .mover-card-price, .mover-card.gainer .mover-card-change {
-  color: #10b981;
+  color: var(--primary);
 }
 .mover-card.loser .mover-card-symbol, .mover-card.loser .mover-card-price, .mover-card.loser .mover-card-change {
   color: #ef4444;
 }
 .mover-card.gainer .mover-card-bar {
-  background: #10b981;
+  background: var(--primary);
   height: 4px; border-radius: 2px; margin-top: 12px;
 }
 .mover-card.loser .mover-card-bar {

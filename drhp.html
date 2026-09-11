@@ -19,7 +19,7 @@
 
     .page-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25);
+      background: rgba(15,76,58,0.08); border: 1px solid rgba(15,76,58,0.25);
       border-radius: 99px; padding: 6px 18px; font-size: 12px; font-weight: 700;
       color: var(--primary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;
     }
@@ -37,7 +37,7 @@
       cursor: pointer; transition: all 0.2s;
     }
     .filter-chip:hover, .filter-chip.active {
-      border-color: var(--primary); color: var(--primary); background: rgba(16,185,129,0.08);
+      border-color: var(--primary); color: var(--primary); background: rgba(15,76,58,0.08);
     }
 
     /* ── Stage Badge ── */
@@ -49,9 +49,9 @@
     .stage-2 { background: rgba(245,158,11,0.1); color: #f59e0b; }   /* SEBI Obs */
     .stage-3 { background: rgba(249,115,22,0.1); color: #fb923c; }   /* Updated DRHP */
     .stage-4 { background: rgba(59,130,246,0.1); color: #60a5fa; }   /* RHP Filed */
-    .stage-5 { background: rgba(16,185,129,0.15); color: #34d399; }  /* IPO Open */
-    .stage-6 { background: rgba(16,185,129,0.25); color: #10b981; }  /* IPO Closed */
-    .stage-7 { background: rgba(16,185,129,0.1); color: #6ee7b7; }   /* Allotment */
+    .stage-5 { background: rgba(15,76,58,0.15); color: #34d399; }  /* IPO Open */
+    .stage-6 { background: rgba(15,76,58,0.25); color: var(--primary); }  /* IPO Closed */
+    .stage-7 { background: rgba(15,76,58,0.1); color: #6ee7b7; }   /* Allotment */
     .stage-8 { background: rgba(212,175,55,0.15); color: #D4AF37; }  /* Listed */
 
     /* ── Stage legend ── */
@@ -80,7 +80,7 @@
       display: flex; flex-direction: column; gap: 14px;
     }
     .drhp-card:hover {
-      border-color: rgba(16,185,129,0.35); transform: translateY(-2px);
+      border-color: rgba(15,76,58,0.35); transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
@@ -169,7 +169,7 @@
       <a href="https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13"
          target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:10px;background:#0f172a;color:#fff;padding:13px 26px;border-radius:99px;font-size:15px;font-weight:700;text-decoration:none;transition:background 0.2s;"
-         onmouseover="this.style.background='#10b981'" onmouseout="this.style.background='#0f172a'">
+         onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='#0f172a'">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
         File DRHP with SEBI
       </a>
@@ -417,7 +417,7 @@
         name: 'PhysicsWallah',
         sector: 'Edtech',
         initials: 'PW',
-        color: '#10b981',
+        color: 'var(--primary)',
         stage: 2,
         issueSize: '₹2,500 Cr',
         priceBand: 'TBA',

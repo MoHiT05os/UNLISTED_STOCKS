@@ -61,8 +61,8 @@
 }
 
 .ticker-chg.up {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  background: rgba(15, 76, 58, 0.1);
 }
 
 .ticker-chg.down {

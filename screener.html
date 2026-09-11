@@ -61,7 +61,7 @@
       user-select: none;
     }
     .filter-group-header:hover { background: rgba(255,255,255,0.04); border-left-color: var(--border); }
-    .filter-group-header.active { border-left-color: #10b981; color: #10b981; background: rgba(16,185,129,0.06); }
+    .filter-group-header.active { border-left-color: var(--primary); color: var(--primary); background: rgba(15,76,58,0.06); }
     .filter-group-icon { font-size: 16px; margin-right: 10px; }
     .filter-group-chevron {
       transition: transform 0.25s;
@@ -85,13 +85,13 @@
       transition: color 0.15s;
     }
     .filter-sub-item:hover { color: var(--text); }
-    .filter-sub-item.active { color: #10b981; font-weight: 600; }
-    .filter-sub-item input[type=checkbox] { accent-color: #10b981; width: 14px; height: 14px; }
+    .filter-sub-item.active { color: var(--primary); font-weight: 600; }
+    .filter-sub-item input[type=checkbox] { accent-color: var(--primary); width: 14px; height: 14px; }
 
     /* Range slider groups */
     .range-group { padding: 8px 0; }
     .range-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: block; }
-    .range-group input[type=range] { width: 100%; accent-color: #10b981; }
+    .range-group input[type=range] { width: 100%; accent-color: var(--primary); }
     .range-values { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
     .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 12px 20px; }
@@ -134,11 +134,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .sub-tab-btn:hover { border-color: #10b981; color: var(--text); }
+    .sub-tab-btn:hover { border-color: var(--primary); color: var(--text); }
     .sub-tab-btn.active {
-      background: rgba(16,185,129,0.1);
-      border-color: #10b981;
-      color: #10b981;
+      background: rgba(15,76,58,0.1);
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     /* Results toolbar */
@@ -202,10 +202,10 @@
     .stock-name-cell .s-sector { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
     .badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-    .badge-new { background: rgba(16,185,129,0.1); color: #10b981; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+    .badge-new { background: rgba(15,76,58,0.1); color: var(--primary); font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
     .badge-ipo { background: rgba(212,175,55,0.12); color: #D4AF37; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
 
-    .up-text { color: #10b981; font-weight: 600; }
+    .up-text { color: var(--primary); font-weight: 600; }
     .down-text { color: #ef4444; font-weight: 600; }
     .neutral-text { color: var(--text-muted); }
 
@@ -289,27 +289,27 @@
 
   <!-- ── Sentinel-Style Screener Hero ─────────────────────── -->
   <section style="
-    background: linear-gradient(135deg, rgba(16,185,129,0.13) 0%, rgba(16,185,129,0.04) 40%, #f8fafc 100%);
+    background: linear-gradient(135deg, rgba(15,76,58,0.13) 0%, rgba(15,76,58,0.04) 40%, #f8fafc 100%);
     padding: 72px 0 0;
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid #e2e8f0;
   ">
     <!-- decorative green blobs -->
-    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.12),transparent 70%);pointer-events:none;"></div>
-    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.07),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(15,76,58,0.12),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(15,76,58,0.07),transparent 70%);pointer-events:none;"></div>
 
     <div class="wrap" style="position:relative;z-index:1;">
       <!-- eyebrow -->
       <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #bbf7d0;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#16a34a;letter-spacing:0.5px;margin-bottom:24px;">
-        <span style="width:7px;height:7px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+        <span style="width:7px;height:7px;background:var(--primary);border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
         LIVE MARKET SCREENER
       </div>
 
       <!-- headline -->
       <h1 style="font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.1;color:#0f172a;margin-bottom:16px;max-width:700px;">
         Screen risk.<br>
-        <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:#10b981;">Act with conviction.</em>
+        <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
       </h1>
       <p style="font-size:17px;color:#64748b;max-width:560px;line-height:1.7;margin-bottom:36px;">
         Filter 969+ unlisted companies by sector, risk score, EBITDA, IPO window, and more. Built for serious investors.
@@ -317,7 +317,7 @@
 
       <!-- CTA row -->
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:48px;">
-        <a href="#screener-main" style="background:#0f172a;color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;text-decoration:none;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;" onmouseover="this.style.background='#10b981'" onmouseout="this.style.background='#0f172a'">
+        <a href="#screener-main" style="background:#0f172a;color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;text-decoration:none;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='#0f172a'">
           Start Screening
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -345,7 +345,7 @@
         </div>
         <div style="width:1px;height:32px;background:#e2e8f0;"></div>
         <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#10b981;">&#8377;16Cr+</div>
+          <div style="font-size:20px;font-weight:800;color:var(--primary);">&#8377;16Cr+</div>
           <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
         </div>
         <div style="width:1px;height:32px;background:#e2e8f0;"></div>
@@ -668,7 +668,7 @@
     <div class="wrap">
       <div class="ftop">
         <div class="fbrand">
-          <div class="fmono-img" style="background: linear-gradient(135deg, #10b981, #059669); font-weight:800; font-size:13px;">MA</div>
+          <div class="fmono-img" style="background: linear-gradient(135deg, var(--primary), #059669); font-weight:800; font-size:13px;">MA</div>
           <div>
             <div class="fbn">MDB ARTHASPHERE</div>
             <div class="ftag">India's home for unlisted &amp; pre-IPO shares</div>
@@ -858,7 +858,7 @@
         <td style="color:var(--text-muted)">${founded}</td>
         <td style="color:var(--text-muted)">${size}</td>
         <td style="color:var(--text-muted)">${ipo}</td>
-        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) > 5 ? '#ef4444' : '#10b981'}">${risk}</span>` : '—'}</td>
+        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) > 5 ? '#ef4444' : 'var(--primary)'}">${risk}</span>` : '—'}</td>
         <td>
           <div class="action-btns">
             <a href="https://wa.me/919354082477?text=Interested%20in%20${encodeURIComponent(name)}" class="action-btn wa" target="_blank" onclick="event.stopPropagation()">Enquire</a>
