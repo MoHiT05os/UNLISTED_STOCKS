@@ -40,12 +40,12 @@ async def scrape_gmp_data():
         )
         
         print(f"[*] Navigating to {TARGET_URL}...")
-        # Go to the URL and wait for network to be idle (so the JS table loads)
-        await page.goto(TARGET_URL, wait_until='networkidle')
+        # Go to the URL and wait for the table to appear
+        await page.goto(TARGET_URL)
         
         # Wait specifically for the table body to contain tr elements
         try:
-            await page.wait_for_selector('table tbody tr', timeout=10000)
+            await page.wait_for_selector('table tbody tr', timeout=30000)
         except Exception as e:
             print("[!] Timeout waiting for table to load.")
             await browser.close()
@@ -60,19 +60,29 @@ async def scrape_gmp_data():
             
             rows.forEach((row, index) => {
                 const cells = row.querySelectorAll('td, th');
-                if (cells.length < 10) return; // Skip invalid rows
+                if (cells.length < 10) {
+                    console.log("Skipped row due to cell count:", cells.length);
+                    return; // Skip invalid rows
+                }
                 
                 try {
                     // Extracting the columns based on InvestorGain standard format
                     // 0: IPO, 1: Price, 2: GMP, 3: Est Listing, 4: IPO Size, 5: Lot, 6: Open, 7: Close, 8: BoA, 9: Listing, 10: GMP Update
                     
-                    const nameCell = cells[0].innerText.trim();
-                    const nameMatch = nameCell.match(/(.*?)(?:SME)?$/i);
-                    let name = nameMatch ? nameMatch[1].trim() : nameCell;
-                    const type = nameCell.toLowerCase().includes('sme') ? 'SME' : 'Mainboard';
-                    
-                    // Cleanup name
+                    const aTag = cells[0].querySelector('a');
+                    let name = aTag ? aTag.innerText.trim() : cells[0].innerText.trim();
                     name = name.replace(' IPO', '').trim();
+                    
+                    let indicator = '';
+                    const badges = cells[0].querySelectorAll('.badge');
+                    badges.forEach(b => {
+                        const txt = b.innerText.trim();
+                        if (['U', 'O', 'C'].includes(txt)) {
+                            indicator = txt;
+                        }
+                    });
+                    
+                    const type = cells[0].innerText.toLowerCase().includes('sme') ? 'SME' : 'Mainboard';
                     const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                     
                     const price = cells[1].innerText.trim();
@@ -119,6 +129,7 @@ async def scrape_gmp_data():
                         listingDate: listingDate,
                         lotSize: lotSize,
                         status: status,
+                        indicator: indicator,
                         subjectToSauda: 0,
                         kostak: 0
                     });
