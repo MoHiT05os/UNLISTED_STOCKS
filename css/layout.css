@@ -47,13 +47,11 @@
 
 .header.scrolled {
   height: 64px;
-  background: rgba(10, 15, 26, 0.85);
+  background: rgba(4, 26, 20, 0.95);
   box-shadow: var(--shadow);
 }
 
-[data-theme='light'] .header.scrolled {
-  background: rgba(255, 255, 255, 0.9);
-}
+
 
 .header .wrap {
   display: flex;

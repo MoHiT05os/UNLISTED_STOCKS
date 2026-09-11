@@ -311,7 +311,7 @@
         Screen risk.<br>
         <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
       </h1>
-      <p style="font-size:17px;color:#64748b;max-width:560px;line-height:1.7;margin-bottom:36px;">
+      <p style="font-size:17px;color:var(--text-muted);max-width:560px;line-height:1.7;margin-bottom:36px;">
         Filter 969+ unlisted companies by sector, risk score, EBITDA, IPO window, and more. Built for serious investors.
       </p>
 
@@ -328,35 +328,35 @@
       </div>
 
       <!-- Tab switcher (Sentinel-style) -->
-      <div style="display:flex;gap:4px;padding:6px;background:rgba(241,245,249,0.8);border-radius:12px;width:fit-content;margin-bottom:-1px;">
+      <div style="display:flex;gap:4px;padding:6px;background:rgba(255,255,255,0.05);border-radius:12px;width:fit-content;margin-bottom:-1px;">
         <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
-        <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
-        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
-        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
+        <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
+        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
+        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
       </div>
     </div>
 
     <!-- mini stats bar -->
-    <div style="background:rgba(255,255,255,0.7);border-top:1px solid #e2e8f0;padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
+    <div style="background:rgba(255,255,255,0.03);border-top:1px solid var(--border);padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
       <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap;">
         <div style="text-align:center;">
           <div style="font-size:20px;font-weight:800;color:var(--text);" id="hero-total-count">969</div>
-          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
         </div>
-        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="width:1px;height:32px;background:var(--border);"></div>
         <div style="text-align:center;">
           <div style="font-size:20px;font-weight:800;color:var(--primary);">&#8377;16Cr+</div>
-          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
         </div>
-        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="width:1px;height:32px;background:var(--border);"></div>
         <div style="text-align:center;">
           <div style="font-size:20px;font-weight:800;color:var(--text);">9</div>
-          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</div>
         </div>
-        <div style="width:1px;height:32px;background:#e2e8f0;"></div>
+        <div style="width:1px;height:32px;background:var(--border);"></div>
         <div style="text-align:center;">
           <div style="font-size:20px;font-weight:800;color:#D4AF37;">4.9★</div>
-          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Google Rating</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Google Rating</div>
         </div>
         <div style="flex:1;"></div>
         <div style="font-size:12px;color:#94a3b8;">Last updated: <strong style="color:var(--text);" id="hero-last-update">Today</strong></div>
