@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap');
 
 :root {
-  /* Emerald & Gold Premium Theme */
-  --bg: #F5F5F5;
-  --bg-surface: #ffffff;
-  --bg-card: rgba(17, 75, 61, 0.03);
-  --text: #2C2C2C;
-  --text-muted: #6b7280;
-  --primary: #0F4C3A; /* Emerald Green */
-  --primary-dark: #0B3A2C;
-  --accent: #D4AF37; /* Gold */
-  --border: rgba(15, 76, 58, 0.12);
-  --glass-bg: rgba(245, 245, 245, 0.85);
+  /* Emerald Background & Gold Accent Theme */
+  --bg: #092C22; /* Very Deep Emerald */
+  --bg-surface: #0E4233; /* Slightly lighter Emerald for cards */
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --text: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.65);
+  --primary: #D4AF37; /* Gold */
+  --primary-dark: #B5952F;
+  --accent: #E8CA58; /* Lighter Gold */
+  --border: rgba(212, 175, 55, 0.15); /* Subtle Gold Border */
+  --glass-bg: rgba(14, 66, 51, 0.7);
   --glass-border: rgba(212, 175, 55, 0.2);
-  --shadow: 0 12px 32px rgba(15, 76, 58, 0.08);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

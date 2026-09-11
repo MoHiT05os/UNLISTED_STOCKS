@@ -60,7 +60,7 @@
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(15, 76, 58, 0.15) 0%, rgba(10, 15, 26, 0) 50%, rgba(212, 168, 83, 0.05) 100%);
+  background: linear-gradient(120deg, rgba(212, 175, 55, 0.15) 0%, rgba(10, 15, 26, 0) 50%, rgba(212, 168, 83, 0.05) 100%);
   z-index: -2;
   animation: gradient-shift 15s ease infinite;
   background-size: 200% 200%;
@@ -235,7 +235,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 76, 58, 0.1);
+  background: rgba(212, 175, 55, 0.1);
   border-radius: 50%;
 }
 
@@ -279,7 +279,7 @@
 .search-bar input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(15, 76, 58, 0.1);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 .search-bar svg {
@@ -458,7 +458,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(15, 76, 58, 0.1);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 textarea.form-control {
@@ -1062,13 +1062,13 @@ textarea.form-control {
 
 /* Market Movers Coloring */
 .mover-card.gainer {
-  background: rgba(15,76,58,0.08);
-  border-color: rgba(15,76,58,0.3);
+  background: rgba(212,175,55,0.08);
+  border-color: rgba(212,175,55,0.3);
 }
 .mover-card.gainer:hover {
-  background: rgba(15,76,58,0.15);
-  border-color: rgba(15,76,58,0.6);
-  box-shadow: 0 8px 24px rgba(15,76,58,0.1);
+  background: rgba(212,175,55,0.15);
+  border-color: rgba(212,175,55,0.6);
+  box-shadow: 0 8px 24px rgba(212,175,55,0.1);
 }
 .mover-card.loser {
   background: rgba(239,68,68,0.08);

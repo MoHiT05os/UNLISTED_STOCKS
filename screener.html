@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>html,body{background:#f8fafc !important;color:#0f172a !important;}</style>
-  <script>!function(){var t=localStorage.getItem('unlisted_theme');document.documentElement.setAttribute('data-theme',t||'light')}()</script>
+  
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Screener | MDB ARTHASPHERE</title>
@@ -61,7 +61,7 @@
       user-select: none;
     }
     .filter-group-header:hover { background: rgba(255,255,255,0.04); border-left-color: var(--border); }
-    .filter-group-header.active { border-left-color: var(--primary); color: var(--primary); background: rgba(15,76,58,0.06); }
+    .filter-group-header.active { border-left-color: var(--primary); color: var(--primary); background: rgba(212,175,55,0.06); }
     .filter-group-icon { font-size: 16px; margin-right: 10px; }
     .filter-group-chevron {
       transition: transform 0.25s;
@@ -136,7 +136,7 @@
     }
     .sub-tab-btn:hover { border-color: var(--primary); color: var(--text); }
     .sub-tab-btn.active {
-      background: rgba(15,76,58,0.1);
+      background: rgba(212,175,55,0.1);
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -202,7 +202,7 @@
     .stock-name-cell .s-sector { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
     .badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-    .badge-new { background: rgba(15,76,58,0.1); color: var(--primary); font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+    .badge-new { background: rgba(212,175,55,0.1); color: var(--primary); font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
     .badge-ipo { background: rgba(212,175,55,0.12); color: #D4AF37; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
 
     .up-text { color: var(--primary); font-weight: 600; }
@@ -289,25 +289,25 @@
 
   <!-- ── Sentinel-Style Screener Hero ─────────────────────── -->
   <section style="
-    background: linear-gradient(135deg, rgba(15,76,58,0.13) 0%, rgba(15,76,58,0.04) 40%, #f8fafc 100%);
+    background: linear-gradient(135deg, rgba(212,175,55,0.13) 0%, rgba(212,175,55,0.04) 40%, #f8fafc 100%);
     padding: 72px 0 0;
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid #e2e8f0;
   ">
     <!-- decorative green blobs -->
-    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(15,76,58,0.12),transparent 70%);pointer-events:none;"></div>
-    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(15,76,58,0.07),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.12),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.07),transparent 70%);pointer-events:none;"></div>
 
     <div class="wrap" style="position:relative;z-index:1;">
       <!-- eyebrow -->
-      <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #bbf7d0;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#16a34a;letter-spacing:0.5px;margin-bottom:24px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:24px;">
         <span style="width:7px;height:7px;background:var(--primary);border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
         LIVE MARKET SCREENER
       </div>
 
       <!-- headline -->
-      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.1;color:#0f172a;margin-bottom:16px;max-width:700px;">
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.1;color:var(--text);margin-bottom:16px;max-width:700px;">
         Screen risk.<br>
         <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
       </h1>
@@ -321,7 +321,7 @@
           Start Screening
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="#" style="background:#fff;color:#0f172a;padding:14px 28px;border-radius:99px;font-weight:600;text-decoration:none;font-size:15px;border:1px solid #e2e8f0;display:inline-flex;align-items:center;gap:8px;" onclick="alert('Export feature coming soon!')">
+        <a href="#" style="background:var(--bg-card);color:var(--text);padding:14px 28px;border-radius:99px;font-weight:600;text-decoration:none;font-size:15px;border:1px solid var(--border);display:inline-flex;align-items:center;gap:8px;" onclick="alert('Export feature coming soon!')">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           Export CSV
         </a>
@@ -329,7 +329,7 @@
 
       <!-- Tab switcher (Sentinel-style) -->
       <div style="display:flex;gap:4px;padding:6px;background:rgba(241,245,249,0.8);border-radius:12px;width:fit-content;margin-bottom:-1px;">
-        <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:#fff;color:#0f172a;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
+        <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
         <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
         <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
         <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:#64748b;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
@@ -340,7 +340,7 @@
     <div style="background:rgba(255,255,255,0.7);border-top:1px solid #e2e8f0;padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
       <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap;">
         <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#0f172a;" id="hero-total-count">969</div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);" id="hero-total-count">969</div>
           <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
         </div>
         <div style="width:1px;height:32px;background:#e2e8f0;"></div>
@@ -350,7 +350,7 @@
         </div>
         <div style="width:1px;height:32px;background:#e2e8f0;"></div>
         <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#0f172a;">9</div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);">9</div>
           <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</div>
         </div>
         <div style="width:1px;height:32px;background:#e2e8f0;"></div>
@@ -359,7 +359,7 @@
           <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Google Rating</div>
         </div>
         <div style="flex:1;"></div>
-        <div style="font-size:12px;color:#94a3b8;">Last updated: <strong style="color:#0f172a;" id="hero-last-update">Today</strong></div>
+        <div style="font-size:12px;color:#94a3b8;">Last updated: <strong style="color:var(--text);" id="hero-last-update">Today</strong></div>
       </div>
     </div>
   </section>

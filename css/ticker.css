@@ -62,7 +62,7 @@
 
 .ticker-chg.up {
   color: var(--primary);
-  background: rgba(15, 76, 58, 0.1);
+  background: rgba(212, 175, 55, 0.1);
 }
 
 .ticker-chg.down {
