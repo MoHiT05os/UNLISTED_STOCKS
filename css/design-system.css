@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap');
 
 :root {
-  /* Light Theme (Classic Emerald) */
-  --bg: #F8FAFC;
-  --bg-surface: #FFFFFF;
-  --bg-card: rgba(15, 76, 58, 0.03);
-  --text: #0F172A;
-  --text-muted: #64748B;
-  --primary: #0F4C3A; /* Emerald Green */
-  --primary-dark: #0B3A2C;
-  --btn-text: #FFFFFF;
-  --accent: #D4AF37; /* Gold */
-  --border: rgba(15, 76, 58, 0.15);
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(15, 76, 58, 0.2);
-  --shadow: 0 12px 32px rgba(15, 76, 58, 0.08);
+  /* Theme 1: Emerald & Gold */
+  --bg: #092C22;
+  --bg-surface: #0E4233;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --text: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --primary-rgb: 212, 175, 55;
+  --primary: #D4AF37; /* Gold */
+  --primary-dark: #B5952F;
+  --primary-glow: rgba(var(--primary-rgb), 0.3);
+  --btn-text: #092C22; /* Dark Emerald text on Gold button */
+  --accent: #E8CA58; /* Lighter Gold */
+  --border: rgba(var(--primary-rgb), 0.15);
+  --glass-bg: rgba(14, 66, 51, 0.85);
+  --glass-border: rgba(var(--primary-rgb), 0.2);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -30,20 +32,22 @@
 }
 
 [data-theme='dark'] {
-  /* Dark Theme (Emerald & Gold Premium) */
-  --bg: #092C22;
-  --bg-surface: #0E4233;
-  --bg-card: rgba(255, 255, 255, 0.04);
+  /* Theme 2: Black & Grey/White */
+  --bg: #050505;
+  --bg-surface: #0F0F0F;
+  --bg-card: rgba(255, 255, 255, 0.05);
   --text: #FFFFFF;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --primary: #D4AF37; /* Gold replaces Emerald */
-  --primary-dark: #B5952F;
-  --btn-text: #092C22;
-  --accent: #E8CA58; /* Lighter Gold */
-  --border: rgba(212, 175, 55, 0.15);
-  --glass-bg: rgba(14, 66, 51, 0.85);
-  --glass-border: rgba(212, 175, 55, 0.2);
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --text-muted: #A1A1AA;
+  --primary-rgb: 255, 255, 255;
+  --primary: #FFFFFF; /* White */
+  --primary-dark: #D4D4D8; /* Light Grey */
+  --primary-glow: rgba(255, 255, 255, 0.2);
+  --btn-text: #050505; /* Black text on white buttons */
+  --accent: #F4F4F5;
+  --border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(5, 5, 5, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
 *, *::before, *::after {

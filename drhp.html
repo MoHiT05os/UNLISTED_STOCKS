@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css?v=8">
-  <link rel="stylesheet" href="css/layout.css?v=8">
-  <link rel="stylesheet" href="css/components.css?v=8">
+  <link rel="stylesheet" href="css/design-system.css?v=9">
+  <link rel="stylesheet" href="css/layout.css?v=9">
+  <link rel="stylesheet" href="css/components.css?v=9">
 
   <style>
     /* ── Page layout ── */
@@ -19,7 +19,7 @@
 
     .page-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.25);
+      background: rgba(var(--primary-rgb),0.08); border: 1px solid rgba(var(--primary-rgb),0.25);
       border-radius: 99px; padding: 6px 18px; font-size: 12px; font-weight: 700;
       color: var(--primary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;
     }
@@ -37,7 +37,7 @@
       cursor: pointer; transition: all 0.2s;
     }
     .filter-chip:hover, .filter-chip.active {
-      border-color: var(--primary); color: var(--primary); background: rgba(212,175,55,0.08);
+      border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb),0.08);
     }
 
     /* ── Stage Badge ── */
@@ -49,10 +49,10 @@
     .stage-2 { background: rgba(245,158,11,0.1); color: #f59e0b; }   /* SEBI Obs */
     .stage-3 { background: rgba(249,115,22,0.1); color: #fb923c; }   /* Updated DRHP */
     .stage-4 { background: rgba(59,130,246,0.1); color: #60a5fa; }   /* RHP Filed */
-    .stage-5 { background: rgba(212,175,55,0.15); color: #34d399; }  /* IPO Open */
-    .stage-6 { background: rgba(212,175,55,0.25); color: var(--primary); }  /* IPO Closed */
-    .stage-7 { background: rgba(212,175,55,0.1); color: #6ee7b7; }   /* Allotment */
-    .stage-8 { background: rgba(212,175,55,0.15); color: #D4AF37; }  /* Listed */
+    .stage-5 { background: rgba(var(--primary-rgb),0.15); color: #34d399; }  /* IPO Open */
+    .stage-6 { background: rgba(var(--primary-rgb),0.25); color: var(--primary); }  /* IPO Closed */
+    .stage-7 { background: rgba(var(--primary-rgb),0.1); color: #6ee7b7; }   /* Allotment */
+    .stage-8 { background: rgba(var(--primary-rgb),0.15); color: var(--primary); }  /* Listed */
 
     /* ── Stage legend ── */
     .stage-legend {
@@ -80,7 +80,7 @@
       display: flex; flex-direction: column; gap: 14px;
     }
     .drhp-card:hover {
-      border-color: rgba(212,175,55,0.35); transform: translateY(-2px);
+      border-color: rgba(var(--primary-rgb),0.35); transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
@@ -195,7 +195,7 @@
                     <!-- Stage 1 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 1</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 1</span>
                             <span class="card-icon">📄</span>
                         </div>
                         <h3 class="card-title">DRHP Filed</h3>
@@ -206,7 +206,7 @@
                     <!-- Stage 2 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 2</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 2</span>
                             <span class="card-icon">🔍</span>
                         </div>
                         <h3 class="card-title">SEBI Observations</h3>
@@ -217,7 +217,7 @@
                     <!-- Stage 3 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 3</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 3</span>
                             <span class="card-icon">✏️</span>
                         </div>
                         <h3 class="card-title">Updated DRHP</h3>
@@ -228,7 +228,7 @@
                     <!-- Stage 4 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 4</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 4</span>
                             <span class="card-icon">📋</span>
                         </div>
                         <h3 class="card-title">RHP Filed</h3>
@@ -239,7 +239,7 @@
                     <!-- Stage 5 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 5</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 5</span>
                             <span class="card-icon">🟢</span>
                         </div>
                         <h3 class="card-title">IPO Opens</h3>
@@ -250,7 +250,7 @@
                     <!-- Stage 6 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 6</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 6</span>
                             <span class="card-icon">🔴</span>
                         </div>
                         <h3 class="card-title">IPO Closed</h3>
@@ -261,7 +261,7 @@
                     <!-- Stage 7 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 7</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 7</span>
                             <span class="card-icon">💳</span>
                         </div>
                         <h3 class="card-title">Allotment</h3>
@@ -272,7 +272,7 @@
                     <!-- Stage 8 -->
                     <div class="stage-card" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border);">
                         <div class="card-top">
-                            <span class="card-pill" style="background: rgba(212,175,55,0.15); color: var(--primary);">Stage 8</span>
+                            <span class="card-pill" style="background: rgba(var(--primary-rgb),0.15); color: var(--primary);">Stage 8</span>
                             <span class="card-icon">🏆</span>
                         </div>
                         <h3 class="card-title">Listed!</h3>
