@@ -15,28 +15,8 @@
   const THEME_KEY = 'unlisted_theme';
 
   const initDarkMode = () => {
-    const html = document.documentElement;
-    // Always default to light mode — clear any stale dark preference
-    const saved = localStorage.getItem(THEME_KEY) === 'dark' ? null : localStorage.getItem(THEME_KEY);
-    const theme = saved || 'light';
-    html.setAttribute('data-theme', theme);
-
-    // Bind toggle buttons (all of them on page)
-    document.querySelectorAll('.theme-toggle, [data-theme-toggle]').forEach((btn) => {
-      updateThemeIcon(btn, theme);
-
-      btn.addEventListener('click', () => {
-        const current = html.getAttribute('data-theme') || 'light';
-        const next = current === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem(THEME_KEY, next);
-
-        // Update all toggle icons
-        document.querySelectorAll('.theme-toggle, [data-theme-toggle]').forEach((b) =>
-          updateThemeIcon(b, next)
-        );
-      });
-    });
+    // Theme toggle removed - strictly using Emerald & Gold theme
+    document.documentElement.removeAttribute('data-theme');
   };
 
   const updateThemeIcon = (btn, theme) => {
