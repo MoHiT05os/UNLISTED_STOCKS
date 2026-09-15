@@ -105,6 +105,10 @@
 
 .search-trigger, .theme-toggle {
   color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
   display: flex;
   padding: 8px;
   border-radius: var(--radius-full);
