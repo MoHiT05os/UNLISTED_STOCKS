@@ -12,11 +12,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/design-system.css?v=6">
-  <link rel="stylesheet" href="css/layout.css?v=6">
-  <link rel="stylesheet" href="css/components.css?v=6">
-  <link rel="stylesheet" href="css/pages.css?v=6">
-  <link rel="stylesheet" href="css/animations.css?v=6">
+  <link rel="stylesheet" href="css/design-system.css?v=8">
+  <link rel="stylesheet" href="css/layout.css?v=8">
+  <link rel="stylesheet" href="css/components.css?v=8">
+  <link rel="stylesheet" href="css/pages.css?v=8">
+  <link rel="stylesheet" href="css/animations.css?v=8">
 
   <style>
     /* ── Screener Layout ─────────────────────────────────── */
@@ -276,7 +276,9 @@
         <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </button>
-        
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
         <a href="login.html" class="btn btn-ghost hide-sm" style="text-decoration:none;display:inline-flex;align-items:center;">Sign In</a>
         <button class="nav-toggle" id="nav-toggle">
           <span></span><span></span><span></span>
@@ -323,7 +325,7 @@
       </div>
 
       <!-- Tab switcher (Sentinel-style) -->
-      <div style="display:flex;gap:4px;padding:6px;background:rgba(255,255,255,0.05);border-radius:12px;width:fit-content;margin-bottom:-1px;">
+      <div style="display:flex;gap:4px;padding:6px;background:var(--bg-card);border-radius:12px;width:fit-content;margin-bottom:-1px;">
         <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
         <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
         <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
@@ -332,7 +334,7 @@
     </div>
 
     <!-- mini stats bar -->
-    <div style="background:rgba(255,255,255,0.03);border-top:1px solid var(--border);padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
+    <div style="background:var(--bg-card);border-top:1px solid var(--border);padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
       <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap;">
         <div style="text-align:center;">
           <div style="font-size:20px;font-weight:800;color:var(--text);" id="hero-total-count">969</div>

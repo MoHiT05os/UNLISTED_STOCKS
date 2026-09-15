@@ -16,7 +16,7 @@
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #092C22; /* Dark Emerald text on Gold button */
+  color: var(--btn-text);
   box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
 }
 

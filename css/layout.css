@@ -47,7 +47,7 @@
 
 .header.scrolled {
   height: 64px;
-  background: rgba(4, 26, 20, 0.95);
+  background: var(--glass-bg);
   box-shadow: var(--shadow);
 }
 
