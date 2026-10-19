@@ -20,18 +20,24 @@
 
   <style>
     /* ── Screener Layout ─────────────────────────────────── */
-    .screener-page { display: flex; gap: 0; min-height: 100vh; padding-top: 72px; }
+    .screener-page {
+      display: flex;
+      flex-direction: row;        /* ← sidebar LEFT, table RIGHT */
+      align-items: flex-start;
+      gap: 0;
+      min-height: calc(100vh - 84px);
+    }
 
     /* Sidebar */
     .filter-sidebar {
-      width: 280px;
+      width: 260px;
       flex-shrink: 0;
       background: var(--bg-surface);
       border-right: 1px solid var(--border);
-      padding: 28px 0;
+      padding: 20px 0;
       position: sticky;
-      top: 72px;
-      height: calc(100vh - 72px);
+      top: 84px;                  /* ← matches new header height */
+      height: calc(100vh - 84px);
       overflow-y: auto;
     }
     .filter-sidebar::-webkit-scrollbar { width: 4px; }
@@ -249,8 +255,9 @@
     @media(max-width: 900px) {
       .filter-sidebar { display: none; position: fixed; z-index: 200; left: 0; top: 0; height: 100vh; box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
       .filter-sidebar.open { display: block; }
-      .screener-main { padding: 20px 16px; }
+      .screener-main { padding: 16px 14px; }
       .mobile-filter-toggle { display: flex; }
+      .screener-page { min-height: calc(100vh - 84px); }
     }
   </style>
 </head>
