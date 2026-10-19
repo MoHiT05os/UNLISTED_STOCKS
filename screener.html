@@ -112,7 +112,7 @@
     .reset-filters-btn:hover { background: rgba(239,68,68,0.15); }
 
     /* Main content area */
-    .screener-main { flex: 1; min-width: 0; padding: 32px 32px; }
+    .screener-main { flex: 1; min-width: 0; padding: 20px 24px; }
 
     /* Sub-filter tabs (from Excel sheet 3) */
     .sub-filter-tabs {
@@ -287,13 +287,13 @@
     </div>
   </header>
 
-  <!-- ── Sentinel-Style Screener Hero ─────────────────────── -->
+  <!-- ── Compact Screener Hero ─────────────────────── -->
   <section style="
-    background: linear-gradient(135deg, rgba(var(--primary-rgb),0.13) 0%, rgba(var(--primary-rgb),0.04) 40%, #f8fafc 100%);
-    padding: 72px 0 0;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb),0.1) 0%, rgba(var(--primary-rgb),0.03) 50%, transparent 100%);
+    padding: 24px 0 0;
     position: relative;
     overflow: hidden;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border);
   ">
     <!-- decorative green blobs -->
     <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(var(--primary-rgb),0.12),transparent 70%);pointer-events:none;"></div>
@@ -301,58 +301,47 @@
 
     <div class="wrap" style="position:relative;z-index:1;">
       <!-- eyebrow -->
-      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:24px;">
-        <span style="width:7px;height:7px;background:var(--primary);border-radius:50%;display:inline-block;"></span>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:12px;">
+        <span style="width:6px;height:6px;background:var(--primary);border-radius:50%;display:inline-block;"></span>
         LIVE MARKET SCREENER
       </div>
 
       <!-- headline -->
-      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1.1;color:var(--text);margin-bottom:16px;max-width:700px;">
-        Screen risk.<br>
-        <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
+      <h1 style="font-size:clamp(22px,3.5vw,36px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;color:var(--text);margin-bottom:8px;max-width:700px;">
+        Screen risk. <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
       </h1>
-      <p style="font-size:17px;color:var(--text-muted);max-width:560px;line-height:1.7;margin-bottom:36px;">
+      <p style="font-size:14px;color:var(--text-muted);max-width:560px;line-height:1.6;margin-bottom:20px;">
         Screen 1000+ unlisted companies by sector, market cap, and key financials. Built for serious investors.
       </p>
 
-      <!-- CTA row -->
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:48px;">
-        <a href="#screener-main" style="background:#0f172a;color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;text-decoration:none;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='#0f172a'">
-          Start Screening
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        
-      </div>
-
-      <!-- Tab switcher (Sentinel-style) -->
-      <div style="display:flex;gap:4px;padding:6px;background:var(--bg-card);border-radius:12px;width:fit-content;margin-bottom:-1px;">
-        <button id="tab-all" onclick="switchTab('all')" style="padding:9px 22px;border-radius:8px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
-        <button id="tab-hot" onclick="switchTab('hot')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
-        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
-        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
+      <!-- Tab switcher -->
+      <div style="display:flex;gap:4px;padding:5px;background:var(--bg-card);border-radius:10px;width:fit-content;margin-bottom:-1px;">
+        <button id="tab-all" onclick="switchTab('all')" style="padding:7px 18px;border-radius:7px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:12px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
+        <button id="tab-hot" onclick="switchTab('hot')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
+        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
+        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
       </div>
     </div>
 
     <!-- mini stats bar -->
-    <div style="background:var(--bg-card);border-top:1px solid var(--border);padding:14px 0;margin-top:0;backdrop-filter:blur(10px);">
-      <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap;">
-        <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:var(--text);" id="hero-total-count">969</div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
+    <div style="background:var(--bg-card);border-top:1px solid var(--border);padding:8px 0;">
+      <div class="wrap" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:15px;font-weight:800;color:var(--text);" id="hero-total-count">1000+</span>
+          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</span>
         </div>
-        <div style="width:1px;height:32px;background:var(--border);"></div>
-        <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:var(--primary);">&#8377;16Cr+</div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
+        <div style="width:1px;height:20px;background:var(--border);"></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:15px;font-weight:800;color:var(--primary);">&#8377;16Cr+</span>
+          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</span>
         </div>
-        <div style="width:1px;height:32px;background:var(--border);"></div>
-        <div style="text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:var(--text);">9</div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</div>
+        <div style="width:1px;height:20px;background:var(--border);"></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:15px;font-weight:800;color:var(--text);">9</span>
+          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</span>
         </div>
-        
         <div style="flex:1;"></div>
-        <div style="font-size:12px;color:#94a3b8;">Last updated: <strong style="color:var(--text);" id="hero-last-update">Today</strong></div>
+        <div style="font-size:11px;color:#94a3b8;">Updated: <strong style="color:var(--text);" id="hero-last-update">Today</strong></div>
       </div>
     </div>
   </section>
@@ -484,16 +473,6 @@
         Filters
       </button>
 
-      <!-- Hero -->
-      <div style="margin-bottom:28px;">
-        <h1 style="font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:8px;">
-          Stock <em style="color:var(--primary);font-family:var(--font-serif);font-style:italic;">Screener</em>
-        </h1>
-        <p style="color:var(--text-muted);font-size:15px;">Filter 1000+ unlisted stocks using institutional-grade metrics.</p>
-      </div>
-
-      <!-- Sub-filter tabs removed per user request -->
-
       <!-- Results toolbar -->
       <div class="results-toolbar">
         <div class="results-count">Showing <strong id="screener-count">—</strong> companies</div>
@@ -585,22 +564,18 @@
 
   // ── Range slider live labels ─────────────────────────────
   const rangeLabels = {
-    'ebitda-range': { el: 'ebitda-val', fmt: v => `₹${Number(v).toLocaleString('en-IN')} Cr` },
-    'ebitda-margin': { el: 'ebitda-margin-val', fmt: v => `${v}%` },
-    'ebit-margin': { el: 'ebit-margin-val', fmt: v => `${v}%` },
-    'rev-growth': { el: 'rev-growth-val', fmt: v => `${v}%+` },
-    'ebitda-growth': { el: 'ebitda-growth-val', fmt: v => `${v}%+` },
-    'ebit-growth': { el: 'ebit-growth-val', fmt: v => `${v}%+` },
-    'arr-growth': { el: 'arr-growth-val', fmt: v => `${v}%+` },
-    'ev-ebitda': { el: 'ev-ebitda-val', fmt: v => `${v}x` },
-    'price-range': { el: 'price-range-val', fmt: v => `₹${Number(v).toLocaleString('en-IN')}` },
-    'risk-score': { el: 'risk-score-val', fmt: v => `${v} / 10` },
+    'ebitda-range':   { el: 'ebitda-val',        fmt: v => `₹${Number(v).toLocaleString('en-IN')} Cr` },
+    'ebitda-margin':  { el: 'ebitda-margin-val',  fmt: v => `${v}%` },
+    'rev-growth':     { el: 'rev-growth-val',     fmt: v => `${v}%+` },
+    'ebitda-growth':  { el: 'ebitda-growth-val',  fmt: v => `${v}%+` },
+    'ev-ebitda':      { el: 'ev-ebitda-val',      fmt: v => `${v}x` },
   };
   Object.entries(rangeLabels).forEach(([id, cfg]) => {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('input', () => {
-      document.getElementById(cfg.el).textContent = cfg.fmt(el.value);
+      const lbl = document.getElementById(cfg.el);
+      if (lbl) lbl.textContent = cfg.fmt(el.value);
       applyFilters();
     });
   });
@@ -625,29 +600,30 @@
       r.value = r.defaultValue;
       r.dispatchEvent(new Event('input'));
     });
+    renderScreenerTable(window._allShares || []);
   }
 
   
   function applyFilters() {
     let data = [...(window._allShares || [])];
 
-    // Read range slider values
-    const minEbitda = parseFloat(document.getElementById('ebitda-range').value) || 0;
-    const minEbitdaMgn = parseFloat(document.getElementById('ebitda-margin').value) || 0;
-    const minRevGrowth = parseFloat(document.getElementById('rev-growth').value) || 0;
-    const maxEv = parseFloat(document.getElementById('ev-ebitda').value) || 100;
-    const maxPrice = parseFloat(document.getElementById('price-range').value) || 50000;
-    const maxRisk = parseFloat(document.getElementById('risk-score').value) || 10;
+    // Read range slider values — only from elements that still exist
+    const getVal = (id, def) => {
+      const el = document.getElementById(id);
+      return el ? parseFloat(el.value) || def : def;
+    };
+
+    const minEbitda     = getVal('ebitda-range',  0);
+    const minEbitdaMgn  = getVal('ebitda-margin', 0);
+    const minRevGrowth  = getVal('rev-growth',    0);
+    const maxEv         = getVal('ev-ebitda',     100);
 
     // Filter array
     data = data.filter(s => {
-      // Sliders
-      if ((s.ebitda || 0) < minEbitda) return false;
-      if ((s.ebitdaMargin || 0) < minEbitdaMgn) return false;
-      if ((s.annualRevenueGrowth || 0) < minRevGrowth) return false;
-      if ((s.evEbitda || 0) > maxEv) return false;
-      if ((s.price || 0) > maxPrice) return false;
-      if ((s.financialRiskScore || 0) > maxRisk) return false;
+      if (minEbitda    > 0 && (parseFloat(s.ebitda)             || 0) < minEbitda)    return false;
+      if (minEbitdaMgn > 0 && (parseFloat(s.ebitdaMargin)       || 0) < minEbitdaMgn) return false;
+      if (minRevGrowth > 0 && (parseFloat(s.annualRevenueGrowth) || 0) < minRevGrowth) return false;
+      if (maxEv < 100 && (parseFloat(s.evEbitda) || 0) > maxEv) return false;
       return true;
     });
 
