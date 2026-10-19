@@ -38,7 +38,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 72px;
+  height: 84px;
   background: var(--bg);
   
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -46,7 +46,7 @@
 }
 
 .header.scrolled {
-  height: 64px;
+  height: 72px;
   background: var(--glass-bg);
   box-shadow: var(--shadow);
 }
