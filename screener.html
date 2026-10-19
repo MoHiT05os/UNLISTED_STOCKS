@@ -12,11 +12,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/design-system.css?v=13">
-  <link rel="stylesheet" href="css/layout.css?v=13">
-  <link rel="stylesheet" href="css/components.css?v=13">
-  <link rel="stylesheet" href="css/pages.css?v=13">
-  <link rel="stylesheet" href="css/animations.css?v=13">
+  <link rel="stylesheet" href="css/design-system.css?v=14">
+  <link rel="stylesheet" href="css/layout.css?v=14">
+  <link rel="stylesheet" href="css/components.css?v=14">
+  <link rel="stylesheet" href="css/pages.css?v=14">
+  <link rel="stylesheet" href="css/animations.css?v=14">
 
   <style>
     /* ── Screener Layout ─────────────────────────────────── */
@@ -302,7 +302,7 @@
     <div class="wrap" style="position:relative;z-index:1;">
       <!-- eyebrow -->
       <div style="display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:24px;">
-        <span style="width:7px;height:7px;background:var(--primary);border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+        <span style="width:7px;height:7px;background:var(--primary);border-radius:50%;display:inline-block;"></span>
         LIVE MARKET SCREENER
       </div>
 
@@ -312,7 +312,7 @@
         <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
       </h1>
       <p style="font-size:17px;color:var(--text-muted);max-width:560px;line-height:1.7;margin-bottom:36px;">
-        Filter 969+ unlisted companies by sector, risk score, EBITDA, IPO window, and more. Built for serious investors.
+        Screen 1000+ unlisted companies by sector, market cap, and key financials. Built for serious investors.
       </p>
 
       <!-- CTA row -->
@@ -388,21 +388,6 @@
     <aside class="filter-sidebar" id="filter-sidebar">
       <div class="sidebar-title">🔍 Filters</div>
 
-      <!-- GEOGRAPHY -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">🌏</span>Geography</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox" checked> Pan India</label>
-          <label class="filter-sub-item"><input type="checkbox"> North India</label>
-          <label class="filter-sub-item"><input type="checkbox"> South India</label>
-          <label class="filter-sub-item"><input type="checkbox"> West India</label>
-          <label class="filter-sub-item"><input type="checkbox"> East India</label>
-        </div>
-      </div>
-
       <!-- FINANCIALS -->
       <div class="filter-group">
         <div class="filter-group-header" onclick="toggleGroup(this)">
@@ -419,11 +404,6 @@
             <label>EBITDA Margin (%)</label>
             <input type="range" min="0" max="100" value="0" id="ebitda-margin">
             <div class="range-values"><span>0%</span><span id="ebitda-margin-val">30%</span></div>
-          </div>
-          <div class="range-group">
-            <label>EBIT Margin (%)</label>
-            <input type="range" min="0" max="100" value="0" id="ebit-margin">
-            <div class="range-values"><span>0%</span><span id="ebit-margin-val">25%</span></div>
           </div>
         </div>
       </div>
@@ -444,16 +424,6 @@
             <label>EBITDA Growth (%)</label>
             <input type="range" min="0" max="200" value="0" id="ebitda-growth">
             <div class="range-values"><span>0%</span><span id="ebitda-growth-val">20%+</span></div>
-          </div>
-          <div class="range-group">
-            <label>EBIT Growth (%)</label>
-            <input type="range" min="0" max="200" value="0" id="ebit-growth">
-            <div class="range-values"><span>0%</span><span id="ebit-growth-val">20%+</span></div>
-          </div>
-          <div class="range-group">
-            <label>ARR Growth (%)</label>
-            <input type="range" min="0" max="300" value="0" id="arr-growth">
-            <div class="range-values"><span>0%</span><span id="arr-growth-val">50%+</span></div>
           </div>
         </div>
       </div>
@@ -483,107 +453,19 @@
         </div>
         <div class="filter-group-body">
           <label class="filter-sub-item"><input type="checkbox"> Bootstrapped</label>
-          <label class="filter-sub-item"><input type="checkbox"> Seed / Angel</label>
+          
           <label class="filter-sub-item"><input type="checkbox"> Series A–C</label>
           <label class="filter-sub-item"><input type="checkbox"> Series D+</label>
           <label class="filter-sub-item"><input type="checkbox"> PE/VC Backed</label>
           <label class="filter-sub-item"><input type="checkbox"> Pre-IPO Round</label>
         </div>
       </div>
-
-      <!-- PRICE -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">🏷️</span>Price</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <div class="range-group">
-            <label>Price Range (₹)</label>
-            <input type="range" min="0" max="50000" value="50000" id="price-range">
-            <div class="range-values"><span>₹0</span><span id="price-range-val">₹25,000</span></div>
-          </div>
           <label class="filter-sub-item"><input type="checkbox" checked> Under ₹500</label>
           <label class="filter-sub-item"><input type="checkbox"> ₹500–₹2,000</label>
           <label class="filter-sub-item"><input type="checkbox"> ₹2,000–₹10,000</label>
           <label class="filter-sub-item"><input type="checkbox"> Above ₹10,000</label>
         </div>
       </div>
-
-      <!-- IPO -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">🚀</span>IPO</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox"> DRHP Filed</label>
-          <label class="filter-sub-item"><input type="checkbox"> IPO in 2025</label>
-          <label class="filter-sub-item"><input type="checkbox"> IPO in 2026</label>
-          <label class="filter-sub-item"><input type="checkbox"> Expected 2027+</label>
-          <label class="filter-sub-item"><input type="checkbox"> No IPO Plans</label>
-        </div>
-      </div>
-
-      <!-- BUSINESS METRICS -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">🏭</span>Business Metrics</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox"> High-Revenue (₹500Cr+)</label>
-          <label class="filter-sub-item"><input type="checkbox"> Mid-Revenue (₹100–500Cr)</label>
-          <label class="filter-sub-item"><input type="checkbox"> Early-Stage (&lt;₹100Cr)</label>
-          <label class="filter-sub-item"><input type="checkbox"> SaaS / ARR Model</label>
-        </div>
-      </div>
-
-      <!-- OWNERSHIP -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">🤝</span>Ownership</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox"> Founder-led</label>
-          <label class="filter-sub-item"><input type="checkbox"> Institutional-led</label>
-          <label class="filter-sub-item"><input type="checkbox"> Family-owned</label>
-          <label class="filter-sub-item"><input type="checkbox"> Employee Buyout</label>
-        </div>
-      </div>
-
-      <!-- RISK -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">⚠️</span>Risk</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox" checked> Low Risk</label>
-          <label class="filter-sub-item"><input type="checkbox" checked> Medium Risk</label>
-          <label class="filter-sub-item"><input type="checkbox"> High Risk</label>
-          <div class="range-group" style="margin-top:8px;">
-            <label>Financial Risk Score (max)</label>
-            <input type="range" min="1" max="10" value="10" id="risk-score">
-            <div class="range-values"><span>1</span><span id="risk-score-val">7 / 10</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INVESTOR -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">👥</span>Investor</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox"> Sequoia / Peak XV</label>
-          <label class="filter-sub-item"><input type="checkbox"> Accel</label>
-          <label class="filter-sub-item"><input type="checkbox"> Tiger Global</label>
-          <label class="filter-sub-item"><input type="checkbox"> SoftBank</label>
-          <label class="filter-sub-item"><input type="checkbox"> Zerodha / Rainmatter</label>
-          <label class="filter-sub-item"><input type="checkbox"> Govt / PSU backed</label>
         </div>
       </div>
 
