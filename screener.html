@@ -1,163 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Screener | MDB ARTHASPHERE</title>
-  <meta name="description" content="Screen unlisted stocks by geography, financials, growth, valuation, funding, IPO and more.">
+  <meta name="description" content="Screen unlisted stocks by financials, growth, valuation, funding and more.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/design-system.css?v=15">
-  <link rel="stylesheet" href="css/layout.css?v=15">
-  <link rel="stylesheet" href="css/components.css?v=15">
-  <link rel="stylesheet" href="css/pages.css?v=15">
-  <link rel="stylesheet" href="css/animations.css?v=15">
+  <link rel="stylesheet" href="css/design-system.css?v=16">
+  <link rel="stylesheet" href="css/layout.css?v=16">
+  <link rel="stylesheet" href="css/components.css?v=16">
+  <link rel="stylesheet" href="css/pages.css?v=16">
+  <link rel="stylesheet" href="css/animations.css?v=16">
 
   <style>
-    /* ── Screener Layout ─────────────────────────────────── */
-    .screener-page {
-      display: flex;
-      flex-direction: row;        /* ← sidebar LEFT, table RIGHT */
-      align-items: flex-start;
-      gap: 0;
-      min-height: calc(100vh - 84px);
-    }
+    /* ── Full-width screener (no persistent sidebar) ── */
+    .screener-wrap { max-width: 100%; padding: 0; }
+    .screener-main { padding: 24px 32px; }
 
-    /* Sidebar */
-    .filter-sidebar {
-      width: 260px;
-      flex-shrink: 0;
-      background: var(--bg-surface);
+    /* ── Filter Drawer Overlay ── */
+    .filter-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      animation: fadeIn 0.2s ease;
+    }
+    .filter-overlay.open { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ── Filter Drawer Panel ── */
+    .filter-drawer {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 340px;
+      background: var(--bg);
       border-right: 1px solid var(--border);
-      padding: 20px 0;
-      position: sticky;
-      top: 84px;                  /* ← matches new header height */
-      height: calc(100vh - 84px);
-      overflow-y: auto;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.25);
     }
-    .filter-sidebar::-webkit-scrollbar { width: 4px; }
-    .filter-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .filter-drawer.open { transform: translateX(0); }
 
-    .sidebar-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 0 20px 16px;
-    }
-
-    .filter-group { margin-bottom: 4px; }
-    .filter-group-header {
+    .drawer-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .drawer-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .drawer-close {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      border-left: 3px solid transparent;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
       transition: all 0.2s;
-      user-select: none;
     }
-    .filter-group-header:hover { background: rgba(255,255,255,0.04); border-left-color: var(--border); }
-    .filter-group-header.active { border-left-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb),0.06); }
-    .filter-group-icon { font-size: 16px; margin-right: 10px; }
-    .filter-group-chevron {
-      transition: transform 0.25s;
-      opacity: 0.5;
-    }
-    .filter-group-header.open .filter-group-chevron { transform: rotate(180deg); }
+    .drawer-close:hover { background: var(--bg-surface); color: var(--text); }
 
-    .filter-group-body {
-      display: none;
-      padding: 4px 20px 12px 50px;
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0 0;
     }
-    .filter-group-body.open { display: block; }
-    .filter-sub-item {
+    .drawer-body::-webkit-scrollbar { width: 3px; }
+    .drawer-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Filter group accordion */
+    .fg { border-bottom: 1px solid var(--border); }
+    .fg-header {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 0;
-      font-size: 13px;
-      color: var(--text-muted);
+      justify-content: space-between;
+      padding: 14px 24px;
       cursor: pointer;
-      transition: color 0.15s;
+      user-select: none;
+      transition: background 0.15s;
     }
-    .filter-sub-item:hover { color: var(--text); }
-    .filter-sub-item.active { color: var(--primary); font-weight: 600; }
-    .filter-sub-item input[type=checkbox] { accent-color: var(--primary); width: 14px; height: 14px; }
+    .fg-header:hover { background: rgba(255,255,255,0.03); }
+    .fg-label { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+    .fg-icon { font-size: 16px; }
+    .fg-badge {
+      font-size: 10px; font-weight: 700;
+      background: rgba(var(--primary-rgb),0.15);
+      color: var(--primary);
+      padding: 1px 6px; border-radius: 99px;
+      display: none;
+    }
+    .fg-badge.visible { display: inline-block; }
+    .fg-chevron { color: var(--text-muted); transition: transform 0.25s; font-size: 12px; }
+    .fg-header.open .fg-chevron { transform: rotate(180deg); }
 
-    /* Range slider groups */
-    .range-group { padding: 8px 0; }
-    .range-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: block; }
-    .range-group input[type=range] { width: 100%; accent-color: var(--primary); }
-    .range-values { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .fg-body {
+      display: none;
+      padding: 4px 24px 16px 52px;
+    }
+    .fg-body.open { display: block; }
 
-    .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 12px 20px; }
+    /* Filter items */
+    .fi {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0;
+      font-size: 13px; color: var(--text-muted);
+      cursor: pointer; transition: color 0.15s;
+    }
+    .fi:hover { color: var(--text); }
+    .fi input[type=checkbox] {
+      accent-color: var(--primary);
+      width: 15px; height: 15px;
+      cursor: pointer;
+    }
 
-    .reset-filters-btn {
-      margin: 8px 20px 0;
-      width: calc(100% - 40px);
+    /* Range sliders */
+    .rg { padding: 10px 0; }
+    .rg-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .rg-label span { font-weight: 600; color: var(--text); }
+    .rg input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+    /* Active filter pills row */
+    .active-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      min-height: 0;
+    }
+    .pill-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px 4px 12px;
+      background: rgba(var(--primary-rgb),0.1);
+      border: 1px solid rgba(var(--primary-rgb),0.25);
+      border-radius: 99px;
+      font-size: 12px; font-weight: 600; color: var(--primary);
+    }
+    .pill-tag button {
+      background: none; border: none; cursor: pointer;
+      color: var(--primary); font-size: 14px; line-height: 1;
+      padding: 0; opacity: 0.7;
+    }
+    .pill-tag button:hover { opacity: 1; }
+
+    /* Drawer footer */
+    .drawer-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .apply-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.2px;
+    }
+    .apply-btn:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(var(--primary-rgb),0.35); }
+    .reset-btn {
+      width: 100%;
       padding: 10px;
-      background: rgba(239,68,68,0.08);
-      border: 1px solid rgba(239,68,68,0.2);
-      color: #ef4444;
-      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .reset-filters-btn:hover { background: rgba(239,68,68,0.15); }
+    .reset-btn:hover { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.06); }
 
-    /* Main content area */
-    .screener-main { flex: 1; min-width: 0; padding: 20px 24px; }
-
-    /* Sub-filter tabs (from Excel sheet 3) */
-    .sub-filter-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-    .sub-tab-btn {
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
+    /* Filter trigger button in toolbar */
+    .filter-trigger {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px;
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.2s;
+      border-radius: 10px;
+      font-size: 13px; font-weight: 600; color: var(--text);
+      cursor: pointer; transition: all 0.2s;
     }
-    .sub-tab-btn:hover { border-color: var(--primary); color: var(--text); }
-    .sub-tab-btn.active {
-      background: rgba(var(--primary-rgb),0.1);
-      border-color: var(--primary);
-      color: var(--primary);
+    .filter-trigger:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-trigger.has-filters { border-color: var(--primary); background: rgba(var(--primary-rgb),0.07); color: var(--primary); }
+    .filter-count {
+      background: var(--primary); color: #000;
+      font-size: 11px; font-weight: 800;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: none; align-items: center; justify-content: center;
     }
+    .filter-count.visible { display: flex; }
 
     /* Results toolbar */
     .results-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
     }
     .results-count { font-size: 14px; color: var(--text-muted); }
-    .results-count strong { color: var(--text); }
+    .results-count strong { color: var(--text); font-weight: 700; }
     .sort-select {
       padding: 8px 14px;
       background: var(--bg-surface);
@@ -170,95 +237,43 @@
 
     /* Stock table */
     .screener-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
-    .screener-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 13px;
-    }
+    .screener-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
     .screener-table thead th {
-      background: rgba(255,255,255,0.02);
-      text-align: left;
-      padding: 12px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background: var(--bg-surface);
+      text-align: left; padding: 12px 16px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
       color: var(--text-muted);
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
     }
-    .screener-table thead th:hover { color: var(--text); }
-    .screener-table thead th .sort-icon { opacity: 0.4; font-size: 10px; margin-left: 4px; }
-    .screener-table tbody tr { transition: background 0.15s; cursor: pointer; }
-    .screener-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
+    .screener-table tbody tr { transition: background 0.12s; cursor: pointer; }
+    .screener-table tbody tr:hover td { background: rgba(255,255,255,0.025); }
     .screener-table tbody td {
-      padding: 14px 16px;
+      padding: 13px 16px;
       border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-      vertical-align: middle;
+      white-space: nowrap; vertical-align: middle;
     }
     .screener-table tbody tr:last-child td { border-bottom: none; }
 
     .logo-cell { display: flex; align-items: center; gap: 10px; }
-    .logo-pill { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; flex-shrink: 0; }
-    .stock-name-cell .s-name { font-weight: 600; color: var(--text); }
-    .stock-name-cell .s-sector { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
-    .badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-    .badge-new { background: rgba(var(--primary-rgb),0.1); color: var(--primary); font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-    .badge-ipo { background: rgba(var(--primary-rgb),0.12); color: var(--primary); font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-
+    .logo-pill { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; flex-shrink: 0; }
+    .s-name { font-weight: 600; color: var(--text); }
+    .badge-hot { background: rgba(239,68,68,0.1); color: #ef4444; font-size: 10px; padding: 2px 7px; border-radius: 99px; font-weight: 700; margin-left: 4px; }
+    .badge-ipo { background: rgba(var(--primary-rgb),0.12); color: var(--primary); font-size: 10px; padding: 2px 7px; border-radius: 99px; font-weight: 700; margin-left: 4px; }
     .up-text { color: var(--primary); font-weight: 600; }
     .down-text { color: #ef4444; font-weight: 600; }
     .neutral-text { color: var(--text-muted); }
-
     .action-btns { display: flex; gap: 6px; }
-    .action-btn {
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: 0.2s;
-      text-decoration: none;
-      color: var(--text-muted);
-      background: transparent;
-    }
+    .action-btn { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; text-decoration: none; color: var(--text-muted); background: transparent; }
     .action-btn.wa { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.3); color: #25d366; }
     .action-btn.wa:hover { background: rgba(37,211,102,0.18); }
     .action-btn.view:hover { border-color: var(--primary); color: var(--primary); }
 
-    /* Top Sectors */
-    .sectors-section { margin-top: 48px; }
-    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
-
-    /* Mobile sidebar toggle */
-    .mobile-filter-toggle {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    @media(max-width: 900px) {
-      .filter-sidebar { display: none; position: fixed; z-index: 200; left: 0; top: 0; height: 100vh; box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
-      .filter-sidebar.open { display: block; }
-      .screener-main { padding: 16px 14px; }
-      .mobile-filter-toggle { display: flex; }
-      .screener-page { min-height: calc(100vh - 84px); }
-    }
+    /* Empty state */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-state svg { opacity: 0.3; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   </style>
 </head>
 <body>
@@ -269,8 +284,7 @@
       <a href="index.html" class="brand" style="display:flex; align-items:center; text-decoration:none;">
         <img src="images/logo.png" alt="MDB Arthasphere" style="height:72px; width:auto; object-fit:contain;" />
       </a>
-
-                  <nav class="nav-links" id="nav-links">
+      <nav class="nav-links" id="nav-links">
         <a href="index.html">Home</a>
         <a href="screener.html" style="color: var(--primary); font-weight: 700;">Screener</a>
         <a href="drhp.html">DRHP</a>
@@ -278,7 +292,6 @@
         <a href="events.html">Events</a>
         <a href="about.html">About</a>
       </nav>
-
       <div class="header-actions">
         <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -287,248 +300,201 @@
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         </button>
         <a href="login.html" class="btn btn-ghost hide-sm" style="text-decoration:none;display:inline-flex;align-items:center;">Sign In</a>
-        <button class="nav-toggle" id="nav-toggle">
-          <span></span><span></span><span></span>
-        </button>
+        <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
       </div>
     </div>
   </header>
 
-  <!-- ── Compact Screener Hero ─────────────────────── -->
-  <section style="
-    background: linear-gradient(135deg, rgba(var(--primary-rgb),0.1) 0%, rgba(var(--primary-rgb),0.03) 50%, transparent 100%);
-    padding: 24px 0 0;
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-  ">
-    <!-- decorative green blobs -->
-    <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(var(--primary-rgb),0.12),transparent 70%);pointer-events:none;"></div>
-    <div style="position:absolute;top:20px;right:-120px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(var(--primary-rgb),0.07),transparent 70%);pointer-events:none;"></div>
-
-    <div class="wrap" style="position:relative;z-index:1;">
-      <!-- eyebrow -->
-      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:12px;">
-        <span style="width:6px;height:6px;background:var(--primary);border-radius:50%;display:inline-block;"></span>
-        LIVE MARKET SCREENER
+  <!-- ── Compact Hero Bar ── -->
+  <div style="background:var(--bg-surface);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--primary);margin-bottom:2px;">Live Market Screener</div>
+      <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px;">Screen risk. <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-left:auto;align-items:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-size:18px;font-weight:800;color:var(--text);" id="hero-total-count">—</div>
+        <div style="font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</div>
       </div>
+      <div style="width:1px;height:28px;background:var(--border);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:18px;font-weight:800;color:var(--primary);">&#8377;16Cr+</div>
+        <div style="font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</div>
+      </div>
+    </div>
+  </div>
 
-      <!-- headline -->
-      <h1 style="font-size:clamp(22px,3.5vw,36px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;color:var(--text);margin-bottom:8px;max-width:700px;">
-        Screen risk. <em style="font-style:italic;font-family:Georgia,serif;font-weight:400;color:var(--primary);">Act with conviction.</em>
-      </h1>
-      <p style="font-size:14px;color:var(--text-muted);max-width:560px;line-height:1.6;margin-bottom:20px;">
-        Screen 1000+ unlisted companies by sector, market cap, and key financials. Built for serious investors.
-      </p>
+  <!-- ── Tab Switcher ── -->
+  <div style="background:var(--bg);border-bottom:1px solid var(--border);padding:0 32px;display:flex;gap:0;">
+    <button id="tab-all" onclick="switchTab('all')" class="tab-btn active-tab" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--primary);border-bottom:2px solid var(--primary);cursor:pointer;">All Companies</button>
+    <button id="tab-hot" onclick="switchTab('hot')" class="tab-btn" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;cursor:pointer;">🔥 Volume Buzzing</button>
+    <button id="tab-ipo" onclick="switchTab('ipo')" class="tab-btn" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;cursor:pointer;">🚀 IPO Bound</button>
+    <button id="tab-low" onclick="switchTab('lowrisk')" class="tab-btn" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;cursor:pointer;">🛡️ Low Risk</button>
+  </div>
 
-      <!-- Tab switcher -->
-      <div style="display:flex;gap:4px;padding:5px;background:var(--bg-card);border-radius:10px;width:fit-content;margin-bottom:-1px;">
-        <button id="tab-all" onclick="switchTab('all')" style="padding:7px 18px;border-radius:7px;border:none;background:var(--bg-card);color:var(--text);font-weight:700;font-size:12px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);transition:all 0.2s;">All Companies</button>
-        <button id="tab-hot" onclick="switchTab('hot')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🔥 Volume Buzzing</button>
-        <button id="tab-ipo" onclick="switchTab('ipo')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🚀 IPO Bound</button>
-        <button id="tab-low" onclick="switchTab('lowrisk')" style="padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-muted);font-weight:600;font-size:12px;cursor:pointer;transition:all 0.2s;">🛡️ Low Risk</button>
+  <!-- ── Main Screener Area (full width) ── -->
+  <div class="screener-main">
+
+    <!-- Toolbar -->
+    <div class="results-toolbar">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <!-- Filter trigger -->
+        <button class="filter-trigger" id="filter-trigger" onclick="openDrawer()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+          Filters
+          <span class="filter-count" id="filter-count">0</span>
+        </button>
+        <!-- Active pills -->
+        <div class="active-pills" id="active-pills"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="results-count">Showing <strong id="screener-count">—</strong> companies</div>
+        <select class="sort-select" id="screener-sort" onchange="applySort()">
+          <option value="name">Name A–Z</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+          <option value="founded">Founded Year</option>
+        </select>
       </div>
     </div>
 
-    <!-- mini stats bar -->
-    <div style="background:var(--bg-card);border-top:1px solid var(--border);padding:8px 0;">
-      <div class="wrap" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-size:15px;font-weight:800;color:var(--text);" id="hero-total-count">1000+</span>
-          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Companies</span>
-        </div>
-        <div style="width:1px;height:20px;background:var(--border);"></div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-size:15px;font-weight:800;color:var(--primary);">&#8377;16Cr+</span>
-          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Transacted</span>
-        </div>
-        <div style="width:1px;height:20px;background:var(--border);"></div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-size:15px;font-weight:800;color:var(--text);">9</span>
-          <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sectors</span>
-        </div>
-        <div style="flex:1;"></div>
-        <div style="font-size:11px;color:#94a3b8;">Updated: <strong style="color:var(--text);" id="hero-last-update">Today</strong></div>
-      </div>
+    <!-- Stock table -->
+    <div class="screener-table-wrap">
+      <table class="screener-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Sector</th>
+            <th>Price</th>
+            <th>Change</th>
+            <th>Founded</th>
+            <th>Est. IPO</th>
+            <th>Risk Score</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="screener-tbody">
+          <tr><td colspan="8" style="text-align:center;padding:56px;color:var(--text-muted);">Loading companies…</td></tr>
+        </tbody>
+      </table>
     </div>
-  </section>
 
-  <div id="screener-main" class="screener-page">
+  </div>
 
-  <script>
-    // Tab switcher logic — hooks into existing screener filters once loaded
-    function switchTab(tab) {
-      ['all','hot','ipo','lowrisk'].forEach(t => {
-        const btn = document.getElementById('tab-'+t);
-        if(btn) {
-          btn.style.background = t===tab ? '#fff' : 'transparent';
-          btn.style.color = t===tab ? '#0f172a' : '#64748b';
-          btn.style.boxShadow = t===tab ? '0 1px 3px rgba(0,0,0,0.08)' : 'none';
-          btn.style.fontWeight = t===tab ? '700' : '600';
-        }
-      });
-      // Apply filter to screener table
-      if(window.applyHeroTab) window.applyHeroTab(tab);
-      else {
-        // Fallback: scroll down to screener
-        document.getElementById('screener-main')?.scrollIntoView({behavior:'smooth'});
-      }
-    }
-    // Set today's date
-    document.getElementById('hero-last-update').textContent = new Date().toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
-  </script>
+  <!-- ════════════════════════════════════
+       FILTER DRAWER OVERLAY
+       ════════════════════════════════════ -->
+  <div class="filter-overlay" id="filter-overlay" onclick="closeDrawer()"></div>
 
-    <!-- ════════════════════════════════════════
-         FILTER SIDEBAR  (from Excel Sheet 2 & 3)
-         ════════════════════════════════════════ -->
-    <aside class="filter-sidebar" id="filter-sidebar">
-      <div class="sidebar-title">🔍 Filters</div>
+  <!-- ════════════════════════════════════
+       FILTER DRAWER PANEL
+       ════════════════════════════════════ -->
+  <div class="filter-drawer" id="filter-drawer">
+
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="margin-right:8px;vertical-align:middle;"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+        Filters
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+
+    <div class="drawer-body" id="drawer-body">
 
       <!-- FINANCIALS -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">📊</span>Financials</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="fg">
+        <div class="fg-header" onclick="toggleFg(this)">
+          <div class="fg-label"><span class="fg-icon">📊</span>Financials <span class="fg-badge" id="badge-financials">0</span></div>
+          <span class="fg-chevron">▼</span>
         </div>
-        <div class="filter-group-body">
-          <div class="range-group">
-            <label>EBITDA (₹ Cr)</label>
-            <input type="range" min="0" max="10000" value="0" id="ebitda-range">
-            <div class="range-values"><span>₹0</span><span id="ebitda-val">₹5,000 Cr</span></div>
+        <div class="fg-body">
+          <div class="rg">
+            <div class="rg-label">EBITDA (₹ Cr) <span id="lbl-ebitda">Any</span></div>
+            <input type="range" id="f-ebitda" min="0" max="5000" value="0" step="100" oninput="updateLabel('lbl-ebitda',this.value,v=>v==0?'Any':'₹'+Number(v).toLocaleString('en-IN')+'Cr+')">
           </div>
-          <div class="range-group">
-            <label>EBITDA Margin (%)</label>
-            <input type="range" min="0" max="100" value="0" id="ebitda-margin">
-            <div class="range-values"><span>0%</span><span id="ebitda-margin-val">30%</span></div>
+          <div class="rg">
+            <div class="rg-label">EBITDA Margin (%) <span id="lbl-ebitda-margin">Any</span></div>
+            <input type="range" id="f-ebitda-margin" min="0" max="100" value="0" oninput="updateLabel('lbl-ebitda-margin',this.value,v=>v==0?'Any':v+'%+')">
           </div>
         </div>
       </div>
 
       <!-- GROWTH -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">📈</span>Growth</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="fg">
+        <div class="fg-header" onclick="toggleFg(this)">
+          <div class="fg-label"><span class="fg-icon">📈</span>Growth <span class="fg-badge" id="badge-growth">0</span></div>
+          <span class="fg-chevron">▼</span>
         </div>
-        <div class="filter-group-body">
-          <div class="range-group">
-            <label>Annual Revenue Growth (%)</label>
-            <input type="range" min="0" max="200" value="0" id="rev-growth">
-            <div class="range-values"><span>0%</span><span id="rev-growth-val">30%+</span></div>
+        <div class="fg-body">
+          <div class="rg">
+            <div class="rg-label">Annual Revenue Growth (%) <span id="lbl-rev-growth">Any</span></div>
+            <input type="range" id="f-rev-growth" min="0" max="200" value="0" oninput="updateLabel('lbl-rev-growth',this.value,v=>v==0?'Any':v+'%+')">
           </div>
-          <div class="range-group">
-            <label>EBITDA Growth (%)</label>
-            <input type="range" min="0" max="200" value="0" id="ebitda-growth">
-            <div class="range-values"><span>0%</span><span id="ebitda-growth-val">20%+</span></div>
+          <div class="rg">
+            <div class="rg-label">EBITDA Growth (%) <span id="lbl-ebitda-growth">Any</span></div>
+            <input type="range" id="f-ebitda-growth" min="0" max="200" value="0" oninput="updateLabel('lbl-ebitda-growth',this.value,v=>v==0?'Any':v+'%+')">
           </div>
         </div>
       </div>
 
       <!-- VALUATION -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">💰</span>Valuation</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="fg">
+        <div class="fg-header" onclick="toggleFg(this)">
+          <div class="fg-label"><span class="fg-icon">💰</span>Valuation <span class="fg-badge" id="badge-valuation">0</span></div>
+          <span class="fg-chevron">▼</span>
         </div>
-        <div class="filter-group-body">
-          <div class="range-group">
-            <label>EV/EBITDA (x)</label>
-            <input type="range" min="0" max="100" value="100" id="ev-ebitda">
-            <div class="range-values"><span>0x</span><span id="ev-ebitda-val">40x</span></div>
+        <div class="fg-body">
+          <div class="rg">
+            <div class="rg-label">Max EV/EBITDA (x) <span id="lbl-ev-ebitda">Any</span></div>
+            <input type="range" id="f-ev-ebitda" min="0" max="100" value="100" oninput="updateLabel('lbl-ev-ebitda',this.value,v=>v>=100?'Any':v+'x')">
           </div>
-          <label class="filter-sub-item"><input type="checkbox" checked> Profitable Companies</label>
-          <label class="filter-sub-item"><input type="checkbox"> Loss-Making (High Growth)</label>
+          <label class="fi"><input type="checkbox" id="f-profitable"> Profitable Companies Only</label>
+          <label class="fi"><input type="checkbox" id="f-loss-making"> High-Growth (Loss Making)</label>
         </div>
       </div>
 
       <!-- FUNDING -->
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleGroup(this)">
-          <span><span class="filter-group-icon">💸</span>Funding</span>
-          <svg class="filter-group-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="fg">
+        <div class="fg-header" onclick="toggleFg(this)">
+          <div class="fg-label"><span class="fg-icon">💸</span>Funding Stage <span class="fg-badge" id="badge-funding">0</span></div>
+          <span class="fg-chevron">▼</span>
         </div>
-        <div class="filter-group-body">
-          <label class="filter-sub-item"><input type="checkbox"> Bootstrapped</label>
-          
-          <label class="filter-sub-item"><input type="checkbox"> Series A–C</label>
-          <label class="filter-sub-item"><input type="checkbox"> Series D+</label>
-          <label class="filter-sub-item"><input type="checkbox"> PE/VC Backed</label>
-          <label class="filter-sub-item"><input type="checkbox"> Pre-IPO Round</label>
-        </div>
-      </div>
-          <label class="filter-sub-item"><input type="checkbox" checked> Under ₹500</label>
-          <label class="filter-sub-item"><input type="checkbox"> ₹500–₹2,000</label>
-          <label class="filter-sub-item"><input type="checkbox"> ₹2,000–₹10,000</label>
-          <label class="filter-sub-item"><input type="checkbox"> Above ₹10,000</label>
-        </div>
-      </div>
+        <div class="fg-body">
+          <label class="fi"><input type="checkbox" name="funding" value="bootstrapped"> Bootstrapped</label>
+          <label class="fi"><input type="checkbox" name="funding" value="series-a-c"> Series A–C</label>
+          <label class="fi"><input type="checkbox" name="funding" value="series-d"> Series D+</label>
+          <label class="fi"><input type="checkbox" name="funding" value="pe-vc"> PE/VC Backed</label>
+          <label class="fi"><input type="checkbox" name="funding" value="pre-ipo"> Pre-IPO Round</label>
         </div>
       </div>
 
-      <hr class="sidebar-divider">
-      <button class="reset-filters-btn" onclick="resetFilters()">✕ Reset All Filters</button>
-    </aside>
+      <!-- SECTOR -->
+      <div class="fg">
+        <div class="fg-header" onclick="toggleFg(this)">
+          <div class="fg-label"><span class="fg-icon">🏭</span>Sector <span class="fg-badge" id="badge-sector">0</span></div>
+          <span class="fg-chevron">▼</span>
+        </div>
+        <div class="fg-body" id="sector-filter-body">
+          <!-- populated by JS from SECTORS_DATA -->
+        </div>
+      </div>
 
-    <!-- ════════════════════════════════════════
-         MAIN CONTENT
-         ════════════════════════════════════════ -->
-    <main class="screener-main">
+    </div><!-- /drawer-body -->
 
-      <!-- Mobile toggle -->
-      <button class="mobile-filter-toggle" onclick="document.getElementById('filter-sidebar').classList.toggle('open')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        Filters
+    <!-- Footer with Apply + Reset -->
+    <div class="drawer-footer">
+      <button class="apply-btn" onclick="applyFilters()">
+        ✦ Apply Filters
       </button>
-
-      <!-- Results toolbar -->
-      <div class="results-toolbar">
-        <div class="results-count">Showing <strong id="screener-count">—</strong> companies</div>
-        <select class="sort-select" id="screener-sort" onchange="applySort()">
-          <option value="name">Sort: Name A–Z</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="founded">Founded Year</option>
-        </select>
-      </div>
-
-      <!-- Stock table -->
-      <div class="screener-table-wrap">
-        <table class="screener-table">
-          <thead>
-            <tr>
-              <th>Company</th>
-              <th>Sector</th>
-              <th>Price <span class="sort-icon">↕</span></th>
-              <th>Change</th>
-              <th>Founded</th>
-              <th>Company Size</th>
-              <th>Est. IPO</th>
-              <th>Risk Score</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="screener-tbody">
-            <tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-muted);">Loading companies…</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Top Sectors -->
-      <div class="sectors-section">
-        <div class="section-label">Top Sectors</div>
-        <div class="grid-3" id="sectors-grid">
-          <!-- JS will populate -->
-        </div>
-      </div>
-
-    </main>
+      <button class="reset-btn" onclick="resetFilters()">Reset All</button>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
     <div class="wrap">
       <div class="disclaimer">
-        <strong>Disclaimer:</strong> MDB ARTHASPHERE is strictly an information platform and is NOT a stock exchange recognised by the Securities and Exchange Board of India (SEBI).
+        <strong>Disclaimer:</strong> MDB ARTHASPHERE is strictly an information platform and is NOT a stock exchange recognised by SEBI. All prices are purely indicative.
       </div>
       <div class="fbottom">
         <div>&copy; 2026 MDB ARTHASPHERE. All rights reserved.</div>
@@ -561,97 +527,243 @@
   <script src="js/app.js"></script>
 
   <script>
-  // ── Filter sidebar accordion ─────────────────────────────
-  function toggleGroup(header) {
+  // ── Drawer open / close ─────────────────────────────────
+  function openDrawer() {
+    document.getElementById('filter-overlay').classList.add('open');
+    document.getElementById('filter-drawer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('filter-overlay').classList.remove('open');
+    document.getElementById('filter-drawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Accordion ───────────────────────────────────────────
+  function toggleFg(header) {
     const body = header.nextElementSibling;
     const isOpen = body.classList.contains('open');
     body.classList.toggle('open', !isOpen);
     header.classList.toggle('open', !isOpen);
   }
 
-  // ── Range slider live labels ─────────────────────────────
-  const rangeLabels = {
-    'ebitda-range':   { el: 'ebitda-val',        fmt: v => `₹${Number(v).toLocaleString('en-IN')} Cr` },
-    'ebitda-margin':  { el: 'ebitda-margin-val',  fmt: v => `${v}%` },
-    'rev-growth':     { el: 'rev-growth-val',     fmt: v => `${v}%+` },
-    'ebitda-growth':  { el: 'ebitda-growth-val',  fmt: v => `${v}%+` },
-    'ev-ebitda':      { el: 'ev-ebitda-val',      fmt: v => `${v}x` },
-  };
-  Object.entries(rangeLabels).forEach(([id, cfg]) => {
+  // ── Range label helper ──────────────────────────────────
+  function updateLabel(id, val, fmt) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = fmt(val);
+  }
+
+  // ── Tab switcher ────────────────────────────────────────
+  let currentTab = 'all';
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      const isActive = btn.id === 'tab-' + tab;
+      btn.style.color = isActive ? 'var(--primary)' : 'var(--text-muted)';
+      btn.style.borderBottomColor = isActive ? 'var(--primary)' : 'transparent';
+      btn.style.fontWeight = isActive ? '700' : '600';
+    });
+    renderTable(window._filteredShares || window._allShares || []);
+  }
+
+  // ── Populate sector filter checkboxes from data ─────────
+  function populateSectors() {
+    const body = document.getElementById('sector-filter-body');
+    if (!body) return;
+    const sectors = window.SECTORS_DATA || [];
+    body.innerHTML = sectors.map(s => `
+      <label class="fi">
+        <input type="checkbox" name="sector" value="${s.slug}"> ${s.name} <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">(${s.count})</span>
+      </label>
+    `).join('');
+  }
+
+  // ── Count active filters & update badges ────────────────
+  function countActiveFilters() {
+    let total = 0;
+
+    // Sliders: count if not at default
+    const sliders = [
+      { id: 'f-ebitda', def: 0 },
+      { id: 'f-ebitda-margin', def: 0 },
+      { id: 'f-rev-growth', def: 0 },
+      { id: 'f-ebitda-growth', def: 0 },
+      { id: 'f-ev-ebitda', def: 100 },
+    ];
+    let financialsCount = 0, growthCount = 0, valuationCount = 0;
+    sliders.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (!el) return;
+      if (parseFloat(el.value) !== s.def) {
+        total++;
+        if (s.id.includes('ebitda-margin') || s.id === 'f-ebitda') financialsCount++;
+        if (s.id.includes('rev') || s.id.includes('ebitda-growth')) growthCount++;
+        if (s.id.includes('ev')) valuationCount++;
+      }
+    });
+
+    // Checkboxes
+    const profitable = document.getElementById('f-profitable')?.checked;
+    const lossMaking = document.getElementById('f-loss-making')?.checked;
+    if (profitable) { total++; valuationCount++; }
+    if (lossMaking) { total++; valuationCount++; }
+
+    const fundingChecked = document.querySelectorAll('input[name="funding"]:checked').length;
+    const sectorChecked = document.querySelectorAll('input[name="sector"]:checked').length;
+    total += fundingChecked + sectorChecked;
+
+    // Update group badges
+    setBadge('badge-financials', financialsCount);
+    setBadge('badge-growth', growthCount);
+    setBadge('badge-valuation', valuationCount);
+    setBadge('badge-funding', fundingChecked);
+    setBadge('badge-sector', sectorChecked);
+
+    // Update trigger button
+    const countEl = document.getElementById('filter-count');
+    const trigger = document.getElementById('filter-trigger');
+    if (total > 0) {
+      countEl.textContent = total;
+      countEl.classList.add('visible');
+      trigger.classList.add('has-filters');
+    } else {
+      countEl.classList.remove('visible');
+      trigger.classList.remove('has-filters');
+    }
+
+    return total;
+  }
+
+  function setBadge(id, count) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.addEventListener('input', () => {
-      const lbl = document.getElementById(cfg.el);
-      if (lbl) lbl.textContent = cfg.fmt(el.value);
-      applyFilters();
+    el.textContent = count;
+    el.classList.toggle('visible', count > 0);
+  }
+
+  // ── Build active-filter pills ───────────────────────────
+  function buildPills(filters) {
+    const container = document.getElementById('active-pills');
+    container.innerHTML = '';
+    filters.forEach(f => {
+      const pill = document.createElement('div');
+      pill.className = 'pill-tag';
+      pill.innerHTML = `${f.label} <button onclick="removeFilter('${f.id}','${f.value||''}')">✕</button>`;
+      container.appendChild(pill);
     });
-  });
+  }
 
-  // ── Sub-filter tab switching ─────────────────────────────
-  document.querySelectorAll('.sub-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderScreenerTable(window._allShares || [], btn.dataset.sub);
-    });
-  });
+  function removeFilter(id, value) {
+    if (value) {
+      // Checkbox
+      const el = document.querySelector(`input[name="${id}"][value="${value}"]`) ||
+                 document.getElementById('f-' + id);
+      if (el) el.checked = false;
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        el.value = el.defaultValue;
+        el.dispatchEvent(new Event('input'));
+      }
+    }
+    applyFilters();
+  }
 
-  
-  document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => {
-    cb.addEventListener('change', applyFilters);
-  });
+  // ── Apply Filters ───────────────────────────────────────
+  function applyFilters() {
+    closeDrawer();
 
+    let data = [...(window._allShares || [])];
+    const activePillsList = [];
+
+    // Sliders
+    const getSlider = (id, def) => {
+      const el = document.getElementById(id);
+      return el ? parseFloat(el.value) : def;
+    };
+
+    const minEbitda = getSlider('f-ebitda', 0);
+    const minEbitdaMgn = getSlider('f-ebitda-margin', 0);
+    const minRevGrowth = getSlider('f-rev-growth', 0);
+    const minEbitdaGrowth = getSlider('f-ebitda-growth', 0);
+    const maxEv = getSlider('f-ev-ebitda', 100);
+
+    if (minEbitda > 0) {
+      data = data.filter(s => (parseFloat(s.ebitda) || 0) >= minEbitda);
+      activePillsList.push({ id: 'f-ebitda', label: `EBITDA ≥ ₹${minEbitda}Cr` });
+    }
+    if (minEbitdaMgn > 0) {
+      data = data.filter(s => (parseFloat(s.ebitdaMargin) || 0) >= minEbitdaMgn);
+      activePillsList.push({ id: 'f-ebitda-margin', label: `EBITDA Margin ≥ ${minEbitdaMgn}%` });
+    }
+    if (minRevGrowth > 0) {
+      data = data.filter(s => (parseFloat(s.annualRevenueGrowth) || 0) >= minRevGrowth);
+      activePillsList.push({ id: 'f-rev-growth', label: `Rev Growth ≥ ${minRevGrowth}%` });
+    }
+    if (minEbitdaGrowth > 0) {
+      data = data.filter(s => (parseFloat(s.ebitdaGrowth) || 0) >= minEbitdaGrowth);
+      activePillsList.push({ id: 'f-ebitda-growth', label: `EBITDA Growth ≥ ${minEbitdaGrowth}%` });
+    }
+    if (maxEv < 100) {
+      data = data.filter(s => !s.evEbitda || parseFloat(s.evEbitda) <= maxEv);
+      activePillsList.push({ id: 'f-ev-ebitda', label: `EV/EBITDA ≤ ${maxEv}x` });
+    }
+
+    // Checkboxes — profitable
+    if (document.getElementById('f-profitable')?.checked) {
+      data = data.filter(s => (parseFloat(s.ebitda) || 0) > 0);
+      activePillsList.push({ id: 'f-profitable', label: 'Profitable Only' });
+    }
+
+    // Sector
+    const selSectors = [...document.querySelectorAll('input[name="sector"]:checked')].map(c => c.value);
+    if (selSectors.length) {
+      data = data.filter(s => selSectors.some(sec => (s.sector || '').toLowerCase().replace(/\s+/g,'-') === sec));
+      selSectors.forEach(sec => activePillsList.push({ id: 'sector', value: sec, label: sec.replace(/-/g,' ') }));
+    }
+
+    window._filteredShares = data;
+    buildPills(activePillsList);
+    countActiveFilters();
+    renderTable(data);
+  }
+
+  // ── Reset ───────────────────────────────────────────────
   function resetFilters() {
-    document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
-    document.querySelectorAll('.filter-sidebar input[type=range]').forEach(r => {
+    document.querySelectorAll('#filter-drawer input[type=range]').forEach(r => {
       r.value = r.defaultValue;
       r.dispatchEvent(new Event('input'));
     });
-    renderScreenerTable(window._allShares || []);
+    document.querySelectorAll('#filter-drawer input[type=checkbox]').forEach(c => c.checked = false);
+    document.getElementById('active-pills').innerHTML = '';
+    setBadge('badge-financials', 0);
+    setBadge('badge-growth', 0);
+    setBadge('badge-valuation', 0);
+    setBadge('badge-funding', 0);
+    setBadge('badge-sector', 0);
+    const countEl = document.getElementById('filter-count');
+    countEl.classList.remove('visible');
+    document.getElementById('filter-trigger').classList.remove('has-filters');
+    window._filteredShares = null;
+    renderTable(window._allShares || []);
   }
 
-  
-  function applyFilters() {
-    let data = [...(window._allShares || [])];
-
-    // Read range slider values — only from elements that still exist
-    const getVal = (id, def) => {
-      const el = document.getElementById(id);
-      return el ? parseFloat(el.value) || def : def;
-    };
-
-    const minEbitda     = getVal('ebitda-range',  0);
-    const minEbitdaMgn  = getVal('ebitda-margin', 0);
-    const minRevGrowth  = getVal('rev-growth',    0);
-    const maxEv         = getVal('ev-ebitda',     100);
-
-    // Filter array
-    data = data.filter(s => {
-      if (minEbitda    > 0 && (parseFloat(s.ebitda)             || 0) < minEbitda)    return false;
-      if (minEbitdaMgn > 0 && (parseFloat(s.ebitdaMargin)       || 0) < minEbitdaMgn) return false;
-      if (minRevGrowth > 0 && (parseFloat(s.annualRevenueGrowth) || 0) < minRevGrowth) return false;
-      if (maxEv < 100 && (parseFloat(s.evEbitda) || 0) > maxEv) return false;
-      return true;
-    });
-
-    renderScreenerTable(data);
-  }
-
+  // ── Sort ────────────────────────────────────────────────
   function applySort() {
-    renderScreenerTable(window._allShares || []);
+    renderTable(window._filteredShares || window._allShares || []);
   }
 
-  // ── Render table from shares-data.js ────────────────────
-  function renderScreenerTable(shares, subFilter) {
+  // ── Render table ────────────────────────────────────────
+  function renderTable(shares) {
     const tbody = document.getElementById('screener-tbody');
     const countEl = document.getElementById('screener-count');
     const sort = document.getElementById('screener-sort').value;
     let data = [...shares];
 
-    // Sub-filter (placeholder logic — enhance with real data)
-    if (subFilter && subFilter !== 'all') {
-      // In production filter by relevant metric; for now show all
-    }
+    // Tab filter
+    if (currentTab === 'hot') data = data.filter(s => s.hot);
+    else if (currentTab === 'ipo') data = data.filter(s => s.expectedIpoWindow || s.expectedIpoDate);
+    else if (currentTab === 'lowrisk') data = data.filter(s => (s.financialRiskScore || 10) <= 4);
 
     // Sort
     if (sort === 'price_asc') data.sort((a, b) => (a.price || 0) - (b.price || 0));
@@ -659,10 +771,20 @@
     else if (sort === 'founded') data.sort((a, b) => (a.foundedYear || 9999) - (b.foundedYear || 9999));
     else data.sort((a, b) => (a.shortName || a.name || '').localeCompare(b.shortName || b.name || ''));
 
-    countEl.textContent = data.length;
+    if (countEl) countEl.textContent = data.length;
+    if (document.getElementById('hero-total-count')) {
+      document.getElementById('hero-total-count').textContent = (window._allShares||[]).length + '+';
+    }
 
     if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--text-muted);">No companies match your filters.</td></tr>';
+      tbody.innerHTML = `<tr><td colspan="8">
+        <div class="empty-state">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+          <h3>No companies match your filters</h3>
+          <p style="font-size:14px;">Try adjusting or resetting your filters.</p>
+          <button onclick="resetFilters()" style="margin-top:12px;padding:8px 20px;border-radius:8px;border:1px solid var(--primary);color:var(--primary);background:transparent;cursor:pointer;font-weight:600;">Reset Filters</button>
+        </div>
+      </td></tr>`;
       return;
     }
 
@@ -670,76 +792,56 @@
       const name = s.shortName || s.name || '—';
       const sector = s.sector || '—';
       const price = s.price ? '₹' + Number(s.price).toLocaleString('en-IN') : '—';
-      const change = s.prevPrice && s.price
-        ? ((s.price - s.prevPrice) / s.prevPrice * 100).toFixed(2)
-        : null;
+      const change = s.prevPrice && s.price ? ((s.price - s.prevPrice) / s.prevPrice * 100).toFixed(2) : null;
       const changeHTML = change !== null
         ? `<span class="${parseFloat(change) >= 0 ? 'up-text' : 'down-text'}">${parseFloat(change) >= 0 ? '+' : ''}${change}%</span>`
         : '<span class="neutral-text">—</span>';
       const color = s.logoColor || '#6366f1';
       const initials = (s.logoInitials || name.substring(0, 2)).toUpperCase();
-      const founded = s.foundedYear || '—';
-      const size = s.companySize || '—';
       const ipo = s.expectedIpoDate || s.expectedIpoWindow || '—';
-      const risk = s.financialRiskScore ? `${s.financialRiskScore}/10` : '—';
+      const risk = s.financialRiskScore;
+      const riskHTML = risk ? `<span style="color:${risk > 6 ? '#ef4444' : risk > 4 ? '#f59e0b' : 'var(--primary)'}; font-weight:600;">${risk}/10</span>` : '—';
       const slug = s.slug || '';
-
       const badges = [];
       if (s.hot) badges.push('<span class="badge-hot">🔥 Hot</span>');
-      if (s.isNew) badges.push('<span class="badge-new">New</span>');
       if (s.expectedIpoDate) badges.push('<span class="badge-ipo">IPO</span>');
 
       return `<tr onclick="window.location.href='stock.html?symbol=${slug}'">
-        <td>
-          <div class="logo-cell">
-            <div class="logo-pill" style="background:${color}">${initials}</div>
-            <div class="stock-name-cell">
-              <div class="s-name">${name} ${badges.join(' ')}</div>
-            </div>
-          </div>
-        </td>
+        <td><div class="logo-cell"><div class="logo-pill" style="background:${color}">${initials}</div><div class="s-name">${name}${badges.join('')}</div></div></td>
         <td style="color:var(--text-muted)">${sector}</td>
         <td style="font-weight:700">${price}</td>
         <td>${changeHTML}</td>
-        <td style="color:var(--text-muted)">${founded}</td>
-        <td style="color:var(--text-muted)">${size}</td>
+        <td style="color:var(--text-muted)">${s.foundedYear || '—'}</td>
         <td style="color:var(--text-muted)">${ipo}</td>
-        <td>${risk !== '—' ? `<span style="color:${parseFloat(risk) > 5 ? '#ef4444' : 'var(--primary)'}">${risk}</span>` : '—'}</td>
-        <td>
-          <div class="action-btns">
-            <a href="https://wa.me/919354082477?text=Interested%20in%20${encodeURIComponent(name)}" class="action-btn wa" target="_blank" onclick="event.stopPropagation()">Enquire</a>
-            <a href="stock.html?symbol=${slug}" class="action-btn view" onclick="event.stopPropagation()">Details</a>
-          </div>
-        </td>
+        <td>${riskHTML}</td>
+        <td><div class="action-btns">
+          <a href="https://wa.me/919354082477?text=Interested%20in%20${encodeURIComponent(name)}" class="action-btn wa" target="_blank" onclick="event.stopPropagation()">Enquire</a>
+          <a href="stock.html?symbol=${slug}" class="action-btn view" onclick="event.stopPropagation()">Details</a>
+        </div></td>
       </tr>`;
     }).join('');
   }
 
-  // ── Boot: load stock table ───────────────────────────────
-  function bootScreener() {
+  // ── Boot ─────────────────────────────────────────────────
+  function boot() {
     const raw = window.SHARES_DATA || window.sharesData || [];
-    // Filter only actual stock entries (those with a price property)
-    const stocks = raw.filter(function(s) { return s && s.price != null; });
+    const stocks = raw.filter(s => s && s.price != null);
     window._allShares = stocks;
-    renderScreenerTable(stocks);
-    // Update count label
-    const countEl = document.getElementById('screener-count');
-    if (countEl) countEl.textContent = stocks.length;
+    populateSectors();
+    renderTable(stocks);
   }
 
-  // Run as soon as possible — try immediately, then on DOMContentLoaded, then on window load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootScreener);
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    // Already loaded — run after a tiny tick so app.js finishes
-    setTimeout(bootScreener, 50);
+    setTimeout(boot, 50);
   }
-  window.addEventListener('load', function() {
-    // Final fallback — always re-render on full load in case data wasn't ready
-    if (!window._allShares || !window._allShares.length) {
-      bootScreener();
-    }
+  window.addEventListener('load', () => {
+    if (!window._allShares || !window._allShares.length) boot();
   });
+
+  // ESC key closes drawer
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
   </script>
 
 </body>
