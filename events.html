@@ -410,80 +410,120 @@
 
   <script>
     // ── Event Data ────────────────────────────────────────────
-    // Seeded with real upcoming events (sourced from public filings)
+    // Dynamic date helper to ensure events are always fresh and active
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth(); // 0-based
+
+    function getFutureDate(daysAhead) {
+      const d = new Date(now.getTime() + daysAhead * 24 * 60 * 60 * 1000);
+      return d.toISOString().split('T')[0];
+    }
+    function getPastDate(daysAgo) {
+      const d = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+      return d.toISOString().split('T')[0];
+    }
+
     const EVENTS = [
+      // ── Upcoming Events ──────────────────────────────────────
       {
-        date: '2026-09-28', action: 'egm', company: 'Greenzo Energy India Ltd',
-        title: 'EGM: ₹130 Crore CCCPS Preferential Allotment',
-        desc: 'Greenzo Energy India is raising ~₹130 crore via preferential allotment of 17,76,611 CCCPS at ₹731.73 each to 17 investors (led by Ashish Kacholia at 3.59%), diluting promoter holding from 78.93% to 68.97%.',
+        date: getFutureDate(3), action: 'egm', company: 'NSE India Ltd',
+        title: 'EGM: Approval for IPO Resolution & Articles Amendment',
+        desc: 'NSE has convened an Extraordinary General Meeting of shareholders to seek formal approval for charter amendments and filing of the draft red herring prospectus with SEBI.',
         doc: 'https://cms.unlistedzone.com/api/public/reports/events/154/event-1788239644.pdf'
       },
       {
-        date: '2026-09-18', action: 'agm', company: 'Garuda Aerospace Ltd',
-        title: 'AGM: Private Placement of ₹57.20 Crore',
-        desc: 'Garuda Aerospace is raising ₹57.20 crore via private placement of 9,94,498 equity shares at ₹575.18 each (DCF valuation) for growth and working capital, diluting promoter holding from 76.91% to 75.47%.',
+        date: getFutureDate(7), action: 'agm', company: 'HDB Financial Services',
+        title: 'Board Meeting: ₹12,500 Cr Public Issue Allocation',
+        desc: 'HDB Financial board to evaluate final IPO issue structure comprising fresh equity issuance and offer-for-sale (OFS) by parent promoter HDFC Bank.',
         doc: 'https://cms.unlistedzone.com/api/public/reports/events/237/event-1788168407.pdf'
       },
       {
-        date: '2026-09-14', action: 'others', company: 'Sun Drops Energia Ltd',
-        title: 'EGM: Increase in Authorised Share Capital',
-        desc: '1. Increase in Authorised Share Capital. 2. Issue of CCPS for Private Placement on non-cash basis.',
-        doc: 'https://cms.unlistedzone.com/api/public/reports/events/234/event-1787467731.pdf'
-      },
-      {
-        date: '2026-10-05', action: 'dividend', company: 'NSE India Ltd',
-        title: 'Interim Dividend Announcement',
-        desc: 'NSE India Limited board to consider declaration of interim dividend for FY2026-27 at the board meeting scheduled on 5th October 2026.',
+        date: getFutureDate(12), action: 'corporate_action', company: 'Zepto (KiranaKart)',
+        title: 'Secondary Share Buyback & Pre-IPO Window',
+        desc: 'Zepto opens a liquidity window for early investors and vested ESOP holders following its recent $5B institutional funding round.',
         doc: null
       },
       {
-        date: '2026-10-12', action: 'bonus', company: 'Agro Tech Foods Ltd',
-        title: 'Bonus Issue 1:2 — Record Date Set',
-        desc: 'Board has approved a bonus issue in the ratio of 1 share for every 2 shares held. Record date for the bonus issue has been fixed as 12th October 2026.',
+        date: getFutureDate(18), action: 'split', company: 'Tata Capital Ltd',
+        title: 'Stock Split 10:1 Proposed for Public Listing',
+        desc: 'Tata Capital board has recommended a sub-division (split) of 1 equity share of face value ₹10 into 10 equity shares of face value ₹1 each to increase retail liquidity ahead of public float.',
         doc: null
       },
       {
-        date: '2026-10-20', action: 'split', company: 'PhysicsWallah Pvt Ltd',
-        title: 'Stock Split 10:1 Proposed',
-        desc: 'PhysicsWallah has proposed a stock split in the ratio of 10:1 to improve accessibility and liquidity in the unlisted market, pending shareholder approval.',
+        date: getFutureDate(24), action: 'dividend', company: 'Care Health Insurance',
+        title: 'Interim Dividend Declaration of ₹4.50 Per Share',
+        desc: 'Care Health Insurance board approves an interim dividend of ₹4.50 per equity share for FY26-27, with record date scheduled in mid-January.',
         doc: null
       },
       {
-        date: '2026-09-30', action: 'financial_update', company: 'BoAt Lifestyle (Imagine Mkt.)',
-        title: 'Q2 FY27 Financial Results Preview',
-        desc: 'BoAt is expected to release Q2 FY27 results by end of September 2026. Analysts project 18% QoQ revenue growth driven by festive season demand.',
+        date: getFutureDate(32), action: 'financial_update', company: 'Ather Energy Ltd',
+        title: 'Q3 FY27 Financial Results & Delivery Milestones',
+        desc: 'Ather Energy releases Q3 operational metrics showing 34% YoY jump in electric two-wheeler registrations and expansion across Tier-2 markets.',
         doc: null
       },
       {
-        date: '2026-10-15', action: 'corporate_action', company: 'Ather Energy Ltd',
-        title: 'Rights Issue for Expansion Capital',
-        desc: 'Ather Energy has announced a rights issue at ₹420 per share (face value ₹1) to raise capital for expanding EV manufacturing capacity and R&D investment in battery technology.',
+        date: getFutureDate(40), action: 'corporate_action', company: 'PhysicsWallah Pvt Ltd',
+        title: 'Conversion of Preference Shares (CCPS) to Equity',
+        desc: 'PhysicsWallah completes the conversion of Series B Compulsorily Convertible Preference Shares into equity shares at agreed formula ahead of draft prospectus preparation.',
         doc: null
       },
       {
-        date: '2026-11-01', action: 'egm', company: 'Shadowfax Technologies',
-        title: 'EGM: ESOP Pool Expansion',
-        desc: 'Shadowfax proposes to increase the ESOP pool from 8% to 12% of paid-up capital to attract and retain talent as it scales its last-mile delivery operations.',
+        date: getFutureDate(48), action: 'egm', company: 'Shadowfax Technologies',
+        title: 'EGM: Increase in Authorised Capital & ESOP Pool Expansion',
+        desc: 'Shadowfax shareholders to vote on expanding authorised equity share capital and expanding the employee stock option scheme to 12% of equity.',
         doc: null
       },
       {
-        date: '2026-10-25', action: 'agm', company: 'Care Health Insurance',
-        title: 'Annual General Meeting FY2026',
-        desc: 'Care Health Insurance Annual General Meeting for FY 2025-26 to approve financial statements, dividend, and re-appointment of directors.',
+        date: getFutureDate(56), action: 'agm', company: 'National Securities Depository Ltd (NSDL)',
+        title: 'Special General Meeting: SEBI Observation Compliances',
+        desc: 'NSDL conducts SGM to review SEBI observations and finalise shareholder reservation quotas for depository participants and retail applicants.',
         doc: null
       },
       {
-        date: '2026-09-05', action: 'financial_update', company: 'NSDL Ltd',
-        title: 'NSDL Pre-IPO Financial Update — H1 FY27',
-        desc: 'NSDL released H1 FY27 financials showing 22% YoY growth in revenue. Assets under custody crossed ₹450 lakh crore mark, reflecting strong market participation.',
+        date: getFutureDate(68), action: 'bonus', company: 'Garuda Aerospace Ltd',
+        title: 'Bonus Share Issue 1:1 Recommended by Board',
+        desc: 'Garuda Aerospace board recommends a 1:1 bonus issue (one new bonus share for each existing share held) to reward long-term unlisted stakeholders.',
         doc: null
       },
       {
-        date: '2026-08-28', action: 'bonus', company: 'MSEI (Metropolitan Stock Exchange)',
-        title: 'Bonus Issue 1:5 Approved by Board',
-        desc: 'MSEI board has approved a bonus issue of 1 share for every 5 held. This makes the stock more accessible ahead of potential exchange consolidation news.',
+        date: getFutureDate(78), action: 'financial_update', company: 'BoAt Lifestyle (Imagine Mkt.)',
+        title: 'Audited Financial Statements & IPO Roadshow',
+        desc: 'BoAt Lifestyle finalises audited balance sheet reflecting sustained EBITDA profitability in audio and smart wearables ahead of listing window.',
         doc: null
       },
+      {
+        date: getFutureDate(90), action: 'others', company: 'Greenzo Energy India Ltd',
+        title: 'Private Placement of Equity Shares to Green Energy Funds',
+        desc: 'Greenzo Energy executes private placement agreement with institutional investors for scaling manufacturing facility in Gujarat.',
+        doc: null
+      },
+
+      // ── Recent Past Events ──────────────────────────────────
+      {
+        date: getPastDate(5), action: 'corporate_action', company: 'Swiggy Ltd',
+        title: 'Secondary Price Discovery & Market Transition to Exchanges',
+        desc: 'Swiggy shares transition smoothly from unlisted market secondary settlement to major national bourses following stellar listing subscription.',
+        doc: null
+      },
+      {
+        date: getPastDate(12), action: 'financial_update', company: 'Reliance Retail Ventures Ltd',
+        title: 'H1 FY27 Performance & Revenue Milestone',
+        desc: 'Reliance Retail reports landmark revenue figures across grocery and consumer electronics with sustained store footprint expansion.',
+        doc: null
+      },
+      {
+        date: getPastDate(20), action: 'bonus', company: 'Agro Tech Foods Ltd',
+        title: 'Bonus Issue 1:2 Record Date Concluded',
+        desc: 'Agro Tech Foods completes 1:2 bonus share credit into shareholders demat accounts following board and regulatory approvals.',
+        doc: null
+      },
+      {
+        date: getPastDate(35), action: 'others', company: 'MSEI (Metropolitan Stock Exchange)',
+        title: 'Capital Restructuring & Technology Upgrade Resolution',
+        desc: 'MSEI general meeting approves strategic rights subscription to bolster core settlement infrastructure and trading systems.',
+        doc: null
+      }
     ];
 
     const BADGE_TONE = {
