@@ -115,11 +115,13 @@
    * ────────────────────────────────────────────────────────── */
 
   const initMobileMenu = () => {
-    const toggleBtn = document.querySelector('.hamburger, .mobile-menu-btn, [data-mobile-toggle]');
-    const nav = document.querySelector('.nav-links, .mobile-nav, .nav-menu');
+    const toggleBtn = document.querySelector('.nav-toggle, #nav-toggle, .hamburger, .mobile-menu-btn, [data-mobile-toggle]');
+    const nav = document.querySelector('.nav-links, #nav-links, .mobile-nav, .nav-menu');
     if (!toggleBtn || !nav) return;
 
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const isOpen = nav.classList.toggle('active');
       toggleBtn.classList.toggle('active', isOpen);
       toggleBtn.setAttribute('aria-expanded', String(isOpen));
@@ -145,6 +147,16 @@
         !nav.contains(e.target) &&
         !toggleBtn.contains(e.target)
       ) {
+        nav.classList.remove('active');
+        toggleBtn.classList.remove('active');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('active')) {
         nav.classList.remove('active');
         toggleBtn.classList.remove('active');
         toggleBtn.setAttribute('aria-expanded', 'false');

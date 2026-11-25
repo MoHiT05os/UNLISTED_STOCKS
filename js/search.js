@@ -129,8 +129,11 @@
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input type="text" class="search-input" placeholder="Search unlisted shares…" autocomplete="off" spellcheck="false" />
+          <input type="text" class="search-input" placeholder="Search 969+ unlisted shares, sectors..." autocomplete="off" spellcheck="false" />
           <kbd class="search-kbd">ESC</kbd>
+          <button class="search-close-btn" type="button" aria-label="Close search">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
       </div>
       <div class="search-body">
@@ -143,7 +146,7 @@
       </div>
       <div class="search-footer">
         <span><kbd>↑↓</kbd> Navigate</span>
-        <span><kbd>↵</kbd> Open</span>
+        <span><kbd>↵</kbd> View Profile</span>
         <span><kbd>esc</kbd> Close</span>
       </div>
     </div>`;
@@ -259,8 +262,8 @@
     if (!slug) return;
     saveRecent(input?.value || slug);
     closeSearch();
-    // Navigate to the share detail page
-    window.location.href = `shares.html#${slug}`;
+    // Navigate to the company stock research profile page
+    window.location.href = `stock.html?symbol=${encodeURIComponent(slug)}`;
   };
 
   /* ── Event handlers ─────────────────────────────────────── */
@@ -329,6 +332,12 @@
       if (e.target === overlay || e.target.classList.contains('search-overlay')) {
         closeSearch();
       }
+    });
+
+    // Close button click
+    overlay?.querySelector('.search-close-btn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeSearch();
     });
   };
 

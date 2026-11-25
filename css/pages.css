@@ -296,6 +296,11 @@
   overflow-x: auto;
   padding-bottom: 16px;
   margin-bottom: 32px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filter-chips::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-chips::-webkit-scrollbar { height: 4px; }

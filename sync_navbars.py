@@ -12,7 +12,6 @@ NAV_LINKS = [
     ("index.html",    "Home"),
     ("screener.html", "Screener"),
     ("drhp.html",     "DRHP"),
-    ("ipo-gmp.html",  "IPO"),
     ("events.html",   "Events"),
     ("about.html",    "About"),
 ]
@@ -22,7 +21,6 @@ ACTIVE_MAP = {
     "index.html":    "index.html",
     "screener.html": "screener.html",
     "drhp.html":     "drhp.html",
-    "ipo-gmp.html":  "ipo-gmp.html",
     "events.html":   "events.html",
     "about.html":    "about.html",
     "shares.html":   None,
@@ -32,7 +30,7 @@ ACTIVE_MAP = {
 
 # Pages with a nav to update
 FILES_WITH_NAV = [
-    "index.html", "screener.html", "drhp.html", "ipo-gmp.html",
+    "index.html", "screener.html", "drhp.html",
     "events.html", "about.html", "shares.html", "contact.html", "stock.html"
 ]
 
