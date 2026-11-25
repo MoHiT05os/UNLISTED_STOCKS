@@ -1,16 +1,17 @@
 /* ── Stock Ticker Ribbon ──────────────────────────────────── */
 .stock-ticker {
   width: 100%;
-  background: rgba(10, 14, 23, 0.95);
-  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-bottom: 1.5px solid var(--border);
   border-top: 1px solid var(--border);
   padding: 0;
   overflow: hidden;
-  height: 40px;
+  height: 44px;
   display: flex;
   align-items: center;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(14, 41, 30, 0.04);
 }
 
 .ticker-track {
@@ -34,22 +35,35 @@
 .ticker-item {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 24px;
-  border-right: 1px solid rgba(255,255,255,0.05);
-  font-size: 12px;
+  gap: 10px;
+  padding: 0 20px;
+  margin: 0 6px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
   font-weight: 600;
   cursor: default;
-  height: 40px;
+  height: 32px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.ticker-item:hover {
+  border-color: var(--primary);
+  border-left-color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .ticker-name {
-  color: var(--text-muted);
-  letter-spacing: 0.3px;
+  color: var(--text);
+  letter-spacing: 0.2px;
+  font-weight: 600;
 }
 
 .ticker-price {
-  color: var(--text);
+  color: var(--primary-dark);
   font-weight: 700;
 }
 
@@ -61,11 +75,23 @@
 }
 
 .ticker-chg.up {
-  color: var(--primary);
-  background: rgba(var(--primary-rgb), 0.1);
+  color: #0E4233;
+  background: rgba(14, 66, 51, 0.1);
+  border: 1px solid rgba(14, 66, 51, 0.2);
 }
 
 .ticker-chg.down {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+[data-theme='dark'] .ticker-chg.up {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+[data-theme='dark'] .ticker-price {
+  color: var(--primary);
 }
