@@ -23,7 +23,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL',
     "postgresql://postgres.zgctcrizcunvnioxjkyb:ELkb2B4-FGpS6Z3"
     "@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres")
 
-ALPHA_VANTAGE_KEY = os.environ.get('ALPHA_VANTAGE_KEY', '2WLZ4OZBRRY3QT4U')
+ALPHA_VANTAGE_KEY = os.environ.get('ALPHA_VANTAGE_KEY', 'UMR0UQZHRTSEI2ZA')
 
 # Define which stocks we want to auto-update via Alpha Vantage
 # Note: Alpha Vantage mainly tracks listed stocks (NSE/BSE/US). 
