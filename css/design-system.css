@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap');
 
 :root {
-  /* Theme 1: Emerald & Gold */
-  --bg: #092C22;
-  --bg-surface: #0E4233;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --text: #FFFFFF;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --primary-rgb: 212, 175, 55;
-  --primary: #D4AF37; /* Gold */
-  --primary-dark: #B5952F;
-  --primary-glow: rgba(var(--primary-rgb), 0.3);
-  --btn-text: #092C22; /* Dark Emerald text on Gold button */
-  --accent: #E8CA58; /* Lighter Gold */
-  --border: rgba(var(--primary-rgb), 0.15);
-  --glass-bg: rgba(14, 66, 51, 0.85);
-  --glass-border: rgba(var(--primary-rgb), 0.2);
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  /* Theme: Pearl White, Deep Forest Green & Rich Gold (Based on MDB Arthasphere identity) */
+  --bg: #FBFDFB;
+  --bg-surface: #F2F7F4;
+  --bg-card: #FFFFFF;
+  --text: #0E291E;
+  --text-muted: #526E63;
+  --primary-rgb: 197, 155, 39;
+  --primary: #C59B27; /* Rich Gold */
+  --primary-dark: #A98218;
+  --primary-glow: rgba(197, 155, 39, 0.25);
+  --btn-text: #FFFFFF;
+  --accent: #0E4233; /* Deep Forest Green */
+  --border: #D8E5DF;
+  --glass-bg: rgba(251, 253, 251, 0.92);
+  --glass-border: rgba(197, 155, 39, 0.25);
+  --shadow: 0 12px 32px rgba(14, 41, 30, 0.08);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -32,22 +32,22 @@
 }
 
 [data-theme='dark'] {
-  /* Theme 2: Black & Grey/White */
-  --bg: #050505;
-  --bg-surface: #0F0F0F;
-  --bg-card: rgba(255, 255, 255, 0.05);
-  --text: #FFFFFF;
-  --text-muted: #A1A1AA;
-  --primary-rgb: 255, 255, 255;
-  --primary: #FFFFFF; /* White */
-  --primary-dark: #D4D4D8; /* Light Grey */
-  --primary-glow: rgba(255, 255, 255, 0.2);
-  --btn-text: #050505; /* Black text on white buttons */
-  --accent: #F4F4F5;
-  --border: rgba(255, 255, 255, 0.1);
-  --glass-bg: rgba(5, 5, 5, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  /* Theme 2: Deep Emerald Night & Gold */
+  --bg: #071E17;
+  --bg-surface: #0C2E24;
+  --bg-card: #0F382C;
+  --text: #F8FAF9;
+  --text-muted: #9BB8AE;
+  --primary-rgb: 212, 175, 55;
+  --primary: #D4AF37; /* Gold */
+  --primary-dark: #B5952F;
+  --primary-glow: rgba(212, 175, 55, 0.3);
+  --btn-text: #071E17; /* Dark Emerald text on Gold button */
+  --accent: #E8CA58;
+  --border: rgba(212, 175, 55, 0.22);
+  --glass-bg: rgba(7, 30, 23, 0.88);
+  --glass-border: rgba(212, 175, 55, 0.3);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 *, *::before, *::after {
