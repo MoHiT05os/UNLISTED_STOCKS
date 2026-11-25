@@ -32,22 +32,22 @@
 }
 
 [data-theme='dark'] {
-  /* Theme 2: Deep Emerald Night & Gold */
-  --bg: #071E17;
-  --bg-surface: #0C2E24;
-  --bg-card: #0F382C;
-  --text: #F8FAF9;
-  --text-muted: #9BB8AE;
-  --primary-rgb: 212, 175, 55;
-  --primary: #D4AF37; /* Gold */
-  --primary-dark: #B5952F;
-  --primary-glow: rgba(212, 175, 55, 0.3);
-  --btn-text: #071E17; /* Dark Emerald text on Gold button */
-  --accent: #E8CA58;
-  --border: rgba(212, 175, 55, 0.22);
-  --glass-bg: rgba(7, 30, 23, 0.88);
-  --glass-border: rgba(212, 175, 55, 0.3);
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  /* Theme: Dark Creamish with Deep Forest Dark Green */
+  --bg: #061F17; /* Deep Forest Dark Green */
+  --bg-surface: #0B2B20; /* Layered Dark Green surface */
+  --bg-card: #0F3528; /* Rich Dark Green card background */
+  --text: #F4EEDC; /* Primary Dark Creamish text */
+  --text-muted: #C5B69D; /* Soft Dark Cream muted text */
+  --primary-rgb: 220, 188, 126; /* Dark Creamish Gold */
+  --primary: #DCBC7E; /* Warm Cream-Gold */
+  --primary-dark: #C29F5A;
+  --primary-glow: rgba(220, 188, 126, 0.3);
+  --btn-text: #061F17; /* Deep Dark Green text on Cream button */
+  --accent: #E8D9BD; /* Luminous Dark Cream accent */
+  --border: rgba(220, 188, 126, 0.26); /* Dark Creamish border */
+  --glass-bg: rgba(6, 31, 23, 0.92);
+  --glass-border: rgba(220, 188, 126, 0.32);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
 *, *::before, *::after {

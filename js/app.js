@@ -16,8 +16,7 @@
 
   const initDarkMode = () => {
     const html = document.documentElement;
-    // Always default to light mode — clear any stale dark preference
-    const saved = localStorage.getItem(THEME_KEY) === 'dark' ? null : localStorage.getItem(THEME_KEY);
+    const saved = localStorage.getItem(THEME_KEY);
     const theme = saved || 'light';
     html.setAttribute('data-theme', theme);
 
